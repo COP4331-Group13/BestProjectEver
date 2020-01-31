@@ -1,0 +1,47 @@
+body {
+	background-color: #888
+}
+h1 {
+	cursor: default;
+}
+h2 {
+	cursor: inherit;
+}
+#mainbox {
+	text-align: center;
+	margin: 4% 15% 8%;
+}
+#buttonbox {
+	background-color: white;
+	padding-top: 1%;
+	border-left:thick solid black;
+	border-right:thick solid black;
+	border-bottom: thick solid black;
+	border-bottom-left-radius: 25px;
+	border-bottom-right-radius: 25px;
+}
+.button {
+	font-family: sans-serif;
+	font-size: 125%;
+	margin: 8% 25% 8%;
+	padding: 0.05% 0;
+	background-image: linear-gradient(to bottom, magenta , orange);
+	border: thick solid black;
+	border-radius: 100px;
+	cursor: pointer;
+}
+.button:hover {
+	background-image: linear-gradient(to top, magenta , orange);
+}
+.button:active {
+	background: magenta;
+	color: white;
+}
+#welcome {
+	background-color: magenta;
+	font-size: 115%;
+	font-family: impact;
+	border: thick solid black;
+	border-top-right-radius: 25px;
+	border-top-left-radius: 25px;
+}
