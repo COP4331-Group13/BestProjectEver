@@ -24,7 +24,7 @@ This product is for any individual or organization organizing an event who need 
 
 
 - [Product Backlog](https://docs.google.com/spreadsheets/d/1phNVsPp6_2vt1iv2tq8hrPWR2HE3d7rJuQ6jDu9qWuk/edit#gid=1828902938)
-- [Sprint Backlog](https://docs.google.com/spreadsheets/d/1phNVsPp6_2vt1iv2tq8hrPWR2HE3d7rJuQ6jDu9qWuk/edit#gid=489931787)
+- [Sprint Backlog](https://docs.google.com/spreadsheets/d/1phNVsPp6_2vt1iv2tq8hrPWR2HE3d7rJuQ6jDu9qWuk/edit#gid=1651821143)
 - [Requirements](https://docs.google.com/document/d/1oOXMXq-d2LeLyeCmyin1RStzdem5cZK58u2kmWHvfAI/edit#heading=h.xsvq3bqtbq5x)
 - [Trello Board](https://trello.com/b/x52Kgu7Z/cop4331-project)
 - [Burndown Chart](https://docs.google.com/spreadsheets/d/1f9ri6zhRRU25XJbCKjoXpXi993gFTpcdPLP6dUt5IJA/edit?usp=sharing)
