@@ -11,11 +11,14 @@ relating your architecture to your user stories
 # Class Diagram
 - [Class Diagram](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/uml-class.pdf)
 
-description of the major classes
-
-relating your classes to your user stories
-
-describing how your program is storing data both internally and externally
+LocalStorage - Core class, holds the necessary information to allow a user (planner/guest) to access their events.
+User - Has the user data such as contact info.
+Guest - Has all the guests informations such as their preferences (allows them to be seated in a preferred way), what groups they belong to (separated by the event planner), their seating exceptions (along with their preferences, can be chosen where/not to seat by) which can be overrulled by planner exception.
+SaveLoad - Saves and loads information from the LocalStorage to the database.
+Login - Allows a user to login via a password (for planner) or an event pin (for guest).
+Security - Secures the password, pin, in order to validate and/or store on the database.
+PlannerView - Has the items locations, for the planner/guest to be able to see the current event plan.
+SendEmail - Contains the sender email address (planner), requests the email from the guest and sends invitations/updates in email form.
 
 # User Interface
 - [Login Screen](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/Login_Screen.pdf)
