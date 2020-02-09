@@ -5,13 +5,16 @@
 - [Entity Relationship Diagram](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/seatplanner_erd.pdf)
 
 initial architectural description
+
 relating your architecture to your user stories
 
 # Class Diagram
 - [Class Diagram](TBA)
 
 description of the major classes
+
 relating your classes to your user stories
+
 describing how your program is storing data both internally and externally
 
 # User Interface
@@ -22,4 +25,5 @@ describing how your program is storing data both internally and externally
 - [Planner View: Accessing Guest Information](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/Planner_View_2.pdf)
 
 description of your user interface, including how the user will interact with it
+
 relating your user interface components to your user stories
