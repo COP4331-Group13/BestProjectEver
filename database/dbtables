@@ -1,0 +1,54 @@
+CREATE TABLE planner (
+    planner_id INT NOT NULL AUTO_INCREMENT,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    date_added DATE NOT NULL,
+    PRIMARY KEY ( planner_id )
+);
+
+CREATE TABLE preferences (
+    preferences_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    event_id INT NOT NULL
+);
+
+CREATE TABLE event (
+    event_id INT NOT NULL,
+    event_pin INT NOT NULL,
+    event_time DATE NOT NULL,
+    address VARCHAR(200) NOT NULL,
+    max_people INT NOT NULL,
+    planner_id INT NOT NULL,
+    layout_id INT NOT NULL,
+    date_added DATE NOT NULL,
+    PRIMARY KEY ( event_id )
+);
+
+CREATE TABLE preferences_guest (
+    preferences_guest_id INT NOT NULL,
+    preferences_id INT NOT NULL,
+    guest_id INT NOT NULL
+);
+
+CREATE TABLE group (
+    group_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    event_id INT NOT NULL
+);
+
+CREATE TABLE guest (
+    guest_id INT NOT NULL AUTO_INCREMENT,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    event_pin INT NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    phone_number INT NOT NULL,
+    group_id INT NOT NULL,
+    planner_overrides VARCHAR(100) NOT NULL,
+    priority INT NOT NULL,
+    confirmed VARCHAR(5) NOT NULL,
+    plus_one VARCHAR(5) NOT NULL,
+    date_added DATE NOT NULL,
+    PRIMARY KEY ( guest_id )
+);
