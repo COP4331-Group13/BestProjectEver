@@ -9,7 +9,7 @@ initial architectural description
 relating your architecture to your user stories
 
 # Class Diagram
-- [Class Diagram](TBA)
+- [Class Diagram](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/uml_class.pdf)
 
 description of the major classes
 
