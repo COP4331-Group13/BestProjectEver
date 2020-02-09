@@ -14,7 +14,7 @@ CREATE TABLE preferences (
 );
 
 CREATE TABLE event (
-    event_id INT NOT NULL,
+    event_id INT NOT NULL AUTO_INCREMENT,
     event_pin INT NOT NULL,
     event_time DATE NOT NULL,
     address VARCHAR(200) NOT NULL,
