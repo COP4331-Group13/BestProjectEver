@@ -1,7 +1,7 @@
 # Program Organization
-- [Diagram 1](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/Diagram_1.pdf)
-- [Diagram 2](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/Diagram_2.pdf)
-- [Diagram 3](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/Diagram_3.pdf)
+- [Container Diagram](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/Diagram_1.pdf)
+- [Component Diagram](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/Diagram_2.pdf)
+- [Context Diagram](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/Diagram_3.pdf)
 
 The event planner application will be a microkernel architecture, revolving around a local storage component. All of the workflow will come in and out of the local storage, it will make it possible to hold the current user data and be able to have this data available whenever a new instance for the same user is created. Plugins will exist for event selection, the guest view (guest will only have read access to the planner view), the email component (planner will be able to send out invitation emails), the seating chart (takes in the algorithm method), the login controller (validates users access, planner/guest), and a component that handles reading and writing to the database. The data will only be written to the database once the planner has finished the current session, no unecessary connections and access will be made. The database will have tables for planner information, guest information (contains the validation method for a guest access), event information (provides guest access based on each event), guest groups, possible event preferences, and preferences for specific guests (core application functionallity, seats guest based on their preferences).
 
