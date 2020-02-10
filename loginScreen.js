@@ -3,8 +3,8 @@
 const e = React.createElement;
 const renderButton = function(id, location, name) {
   return (
-      e ( 
-        Button, 
+      e (
+        Button,
         {toId: id, toWhere: location, toName: name},
         null
       )
@@ -22,7 +22,7 @@ class LoginBox extends React.Component {
         'div',{className:'login'},
         e (PlannerLogin),
         e (GuestLogin)
-        
+
       )
     );
 
@@ -81,7 +81,7 @@ class GuestLogin extends React.Component {
             ),
           e (
             'input',
-            {type:'submit', className:'button', id:'guest', value:'Continue'},
+            {type:'submit', className:'button', id:'guest', value:'CONTINUE'},
             null)
         )
       )
@@ -119,7 +119,7 @@ class PlannerLogin extends React.Component {
       } else {
         document.getElementById('plannerError').innerHTML="Invalid Username/Password";
       }
-      
+
     }
 
   render () {
@@ -152,7 +152,7 @@ class PlannerLogin extends React.Component {
             ),
           e (
             'input',
-            {type:'submit', className:'button', id:'planner', value:'Login'},
+            {type:'submit', className:'button', id:'planner', value:'LOGIN'},
             null)
         )
       )
