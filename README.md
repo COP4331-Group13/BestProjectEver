@@ -30,4 +30,4 @@ This product is for any individual or organization organizing an event who need 
 - [Burndown Chart](https://docs.google.com/spreadsheets/d/1f9ri6zhRRU25XJbCKjoXpXi993gFTpcdPLP6dUt5IJA/edit?usp=sharing)
 - [Velocity Chart](https://docs.google.com/spreadsheets/d/1phNVsPp6_2vt1iv2tq8hrPWR2HE3d7rJuQ6jDu9qWuk/edit?usp=sharing)
 - [Design Documents](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/README.md)
-- [Demonstration]
+- [Demonstration](https://youtu.be/rJn8y70mCJw)
