@@ -51,7 +51,7 @@ class GuestLogin extends React.Component {
         document.getElementById('guestID').value = '';
         window.location.href = "guest.html";
       } else {
-        document.getElementById('guestError').innerHTML="Invalid Username/Password";
+        document.getElementById('guestError').innerHTML="Invalid GuestID";
       }
     }
 
