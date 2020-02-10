@@ -4,9 +4,7 @@
 - [Diagram 3](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/Diagram_3.pdf)
 - [Entity Relationship Diagram](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/seatplanner_erd.pdf)
 
-initial architectural description
-
-relating your architecture to your user stories
+The event planner application will be a microkernel architecture, revolving around a local storage component. All of the workflow will come in and out of the local storage. Plugins will exist for event selection, the guest view, the email component, the seating chart, the login controller, and a component that handles reading and writing to the database. The database will have tables for planner information, guest information, event information, guest groups, possible event preferences, and preferences for specific guests.
 
 # Class Diagram
 - [Class Diagram](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/uml-class.pdf)
