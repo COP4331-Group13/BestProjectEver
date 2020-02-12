@@ -1,17 +1,6 @@
 'use strict';
 
 const e = React.createElement;
-const renderButton = function(id, location, name) {
-  return (
-      e (
-        Button,
-        {toId: id, toWhere: location, toName: name},
-        null
-      )
-    );
-}
-
-
 
 class LoginBox extends React.Component {
 
@@ -37,23 +26,23 @@ class GuestLogin extends React.Component {
 
       this.changeGID = this.changeGID.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
-    }
+  }
 
-    changeGID(event) {
-      this.setState({gID: event.target.value});
-    }
+  changeGID(event) {
+    this.setState({gID: event.target.value});
+  }
 
-    handleSubmit(event) {
-      event.preventDefault();
-      if (this.state.gID != '') {
-        document.getElementById('email').value = '';
-        document.getElementById('pass').value = '';
-        document.getElementById('guestID').value = '';
-        window.location.href = "guest.html";
-      } else {
-        document.getElementById('guestError').innerHTML="Invalid GuestID";
-      }
+  handleSubmit(event) {
+    event.preventDefault();
+    if (this.state.gID != '') {
+      document.getElementById('email').value = '';
+      document.getElementById('pass').value = '';
+      document.getElementById('guestID').value = '';
+      window.location.href = "guest.html";
+    } else {
+      document.getElementById('guestError').style.color = 'red';
     }
+  }
 
   render () {
 
@@ -77,7 +66,7 @@ class GuestLogin extends React.Component {
             e (
               'div',
               {className:'loginError', id:'guestError'},
-              null)
+              "Invalid Guest ID")
             ),
           e (
             'input',
@@ -93,34 +82,38 @@ class GuestLogin extends React.Component {
 class PlannerLogin extends React.Component {
 
   constructor(props) {
-      super(props);
-      this.state = {user:'', pass:'', clicked: 'false'};
+    super(props);
+    this.state = {user:'', pass:'', clicked: 'false'};
 
-      this.changeUser = this.changeUser.bind(this);
-      this.changePass = this.changePass.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
+    this.changeUser = this.changeUser.bind(this);
+    this.changePass = this.changePass.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  changeUser(event) {
+    this.setState({user: event.target.value});
+  }
+
+  changePass(event) {
+    this.setState({pass: event.target.value});
+  }
+
+  handleRegister(event) {
+    window.location.href = "registerUser.html";
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    if (this.state.user != '' && this.state.pass != '') {
+      document.getElementById('email').value = '';
+      document.getElementById('pass').value = '';
+      document.getElementById('guestID').value = '';
+      window.location.href = "event_planner.html";
+    } else {
+      document.getElementById('plannerError').style.color = 'red';
     }
-
-    changeUser(event) {
-      this.setState({user: event.target.value});
-    }
-
-    changePass(event) {
-      this.setState({pass: event.target.value});
-    }
-
-    handleSubmit(event) {
-      event.preventDefault();
-      if (this.state.user != '' && this.state.pass != '') {
-        document.getElementById('email').value = '';
-        document.getElementById('pass').value = '';
-        document.getElementById('guestID').value = '';
-        window.location.href = "event_planner.html";
-      } else {
-        document.getElementById('plannerError').innerHTML="Invalid Username/Password";
-      }
-
-    }
+  }
 
   render () {
 
@@ -148,8 +141,12 @@ class PlannerLogin extends React.Component {
             e (
               'div',
               {className:'loginError', id:'plannerError'},
-              null)
+              "Invalid Username/Password")            
             ),
+          e (
+              'div',
+              {id:'newRegister', onClick: this.handleRegister},
+               'New User? Click Here to Register'),
           e (
             'input',
             {type:'submit', className:'button', id:'planner', value:'LOGIN'},
