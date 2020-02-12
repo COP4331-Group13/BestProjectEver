@@ -1,27 +1,35 @@
+const e = React.createElement;
+const renderButton = function(id, location, name) {
+	return (
+		e (
+			Button,
+			{toId: id, toWhere: location, toName: name},
+			null
+		)
+	);
+}
+
 class CreateGuest extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {isToggleOn:true};
+		this.state = {clicked: 'false'};
 
 		this.handleCLick = this.handleCLick.bind(this);
 	}
 
-	handleClick() {
-		this.setState(state => ({
-			isToggleOn: !state.isToggleOn
-		}));
+	handleClick(event) {
+		
 	}
 
 	render() {
 		return (
-			<button onClick={this.handleClick}>
-				{this.state.isToggleOn ? 'ON' : 'OFF'}
-			</button>
+			e (
+				'input',
+				{type:'submit', className:'button', id:'add_guest', value'Add Guest'},
+				null)
 		);
 	}
 }
 
-ReactDOM.render(
-	<CreateGuest />,
-	document.getElementById('buttonbox')
-);
+const domContainer = document.querySelector(#buttonbox);
+ReactDOM.render(e(CreateGuest), domContainer);
