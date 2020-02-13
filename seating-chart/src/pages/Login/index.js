@@ -42,7 +42,7 @@ class GuestLogin extends React.Component {
             document.getElementById('email').value = '';
             document.getElementById('pass').value = '';
             document.getElementById('guestID').value = '';
-            window.location.href = "guest";
+            window.location.href = "/guest";
         } else {
             document.getElementById('guestError').style.color = 'red';
         }
@@ -91,7 +91,7 @@ class PlannerLogin extends React.Component {
 
     handleRegister(event) {
         event.preventDefault();
-        window.location.href = "register";
+        window.location.href = "/register";
     }
 
     handleSubmit(event) {
@@ -100,7 +100,7 @@ class PlannerLogin extends React.Component {
             document.getElementById('email').value = '';
             document.getElementById('pass').value = '';
             document.getElementById('guestID').value = '';
-            window.location.href = "planner";
+            window.location.href = "/planner";
         } else {
             document.getElementById('plannerError').style.color = 'red';
         }
