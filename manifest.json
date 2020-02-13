@@ -1,0 +1,8 @@
+{
+  "short_name": "Best Fit",
+  "name": "Best Fit Seating",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
