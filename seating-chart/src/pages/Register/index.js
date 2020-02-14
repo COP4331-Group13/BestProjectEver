@@ -1,15 +1,26 @@
 import React from 'react';
 import '../../SeatPlanner.css';
+import {withRouter} from "react-router-dom"
 
 
 class RegisterBox extends React.Component {
 
+	constructor(props) {
+		super(props);
+
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleSubmit(event) {
+		event.preventDefault();
+		this.props.history.push('/planner');
+	}
 
 	render() {
 
 		return (
 			<div className='userMain' id = 'wrapperbox'>
-				<form id='registerBox'>
+				<form id='registerBox' onSubmit={this.handleSubmit}>
         			<h1 id='registerTitle'>Account Information</h1>
         			<div id='inputs'>
           				<input type='text' className='textBox' id='firstName' placeholder='First Name' />
@@ -26,6 +37,4 @@ class RegisterBox extends React.Component {
 	}
 }
 
-export default function Register() {
-	return <RegisterBox />
-}
+export default withRouter(RegisterBox);

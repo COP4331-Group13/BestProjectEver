@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../SeatPlanner.css';
+import {withRouter} from "react-router-dom"
 
 
 class LoginBox extends React.Component {
@@ -13,8 +14,8 @@ class LoginBox extends React.Component {
                     <h1>Are you here as an Event Planner or as a Guest?</h1>
                 </div>
                 <div id = "loginbox">
-                    <PlannerLogin />
-                    <GuestLogin />
+                    <PlannerLogin history = {this.props.history}/>
+                    <GuestLogin history = {this.props.history}/>
                 </div>
             </div>
         );
@@ -42,7 +43,7 @@ class GuestLogin extends React.Component {
             document.getElementById('email').value = '';
             document.getElementById('pass').value = '';
             document.getElementById('guestID').value = '';
-            window.location.href = "/guest";
+            this.props.history.push('/guest');
         } else {
             document.getElementById('guestError').style.color = 'red';
         }
@@ -73,7 +74,7 @@ class PlannerLogin extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {user:'', pass:'', clicked: 'false'};
+        this.state = {user:'', pass:'', clicked: 'false', redirect:false};
 
         this.changeUser = this.changeUser.bind(this);
         this.changePass = this.changePass.bind(this);
@@ -91,7 +92,7 @@ class PlannerLogin extends React.Component {
 
     handleRegister(event) {
         event.preventDefault();
-        window.location.href = "/register";
+        this.props.history.push('/register');
     }
 
     handleSubmit(event) {
@@ -100,7 +101,7 @@ class PlannerLogin extends React.Component {
             document.getElementById('email').value = '';
             document.getElementById('pass').value = '';
             document.getElementById('guestID').value = '';
-            window.location.href = "/planner";
+            this.props.history.push('/planner');
         } else {
             document.getElementById('plannerError').style.color = 'red';
         }
@@ -132,6 +133,4 @@ class PlannerLogin extends React.Component {
     }
 }
 
-export default function Login() {
-    return <LoginBox />
-}
+export default withRouter(LoginBox);
