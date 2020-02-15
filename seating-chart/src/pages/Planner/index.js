@@ -16,15 +16,11 @@ class CreateGuest extends React.Component {
 	}
 
 	openDialog() {
-		this.setState({
-			visible: true
-		});
+		this.setState({visible: true});
 	}
 
 	closeDialog() {
-		this.setState({
-			visible: false
-		});
+		this.setState({visible: false});
 	}
 
 	changeName(event) {
