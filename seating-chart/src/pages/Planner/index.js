@@ -4,9 +4,15 @@ import '../../SeatPlanner.css';
 class CreateGuest extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {clicked: 'false'};
+		this.state = {clicked: 'false', name: '', email: '', phone: '', address: ''};
 
-		
+
+		this.openDialog = this.openDialog.bind(this);
+		this.closeDialog = this.closeDialog.bind(this);
+		this.changeName = this.changeName.bind(this);
+		this.changeEmail = this.changeEmail.bind(this);
+		this.changeAddress = this.changeAddress.bind(this);
+		this.changePhone = this.changePhone.bind(this);
 	}
 
 	openDialog() {
@@ -19,6 +25,22 @@ class CreateGuest extends React.Component {
 		this.setState({
 			visible: false
 		});
+	}
+
+	changeName(event) {
+		this.setState({name: event.target.value});
+	}
+
+	changeEmail(event) {
+		this.setState({email: event.target.value});
+	}
+
+	changeAddress(event) {
+		this.setState({address: event.target.value});
+	}
+
+	changePhone(event) {
+		this.setState({phone: event.target.value});
 	}
 
 	render() {
@@ -37,10 +59,14 @@ class CreateGuest extends React.Component {
 				<dialog open>
 					<h1>Add a Guest</h1>
 					<form>
-						<input placeholder="Name" />
-						<input placeholder="E-mail" />
-						<input placeholder="Phone Number" />
-						<input placeholder="Address" />
+						<input type="text" className="textBox" id="name" 
+							placeholder="Name" onChange={this.changeName}/>
+						<input type="text" className="textBox" id="email" 
+							placeholder="E-mail" onChange={this.changeEmail}/>
+						<input type="text" className="textBox" id="phone" 
+							placeholder="Phone Number" onChange={this.changePhone}/>
+						<input type="text" className="textBox" id="address" 
+							placeholder="Address" onChange={this.changeAddress}/>
 					<a href="javascript:void(0);" onClick={() => this.closeDialog()}>Close</a>
 					</form>
 				</dialog>
