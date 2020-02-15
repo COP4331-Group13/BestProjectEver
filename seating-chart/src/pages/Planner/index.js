@@ -36,7 +36,13 @@ class CreateGuest extends React.Component {
 			<div id="dialogbox">
 				<dialog open>
 					<h1>Add a Guest</h1>
+					<form>
+						<input placeholder="Name" />
+						<input placeholder="E-mail" />
+						<input placeholder="Phone Number" />
+						<input placeholder="Address" />
 					<a href="javascript:void(0);" onClick={() => this.closeDialog()}>Close</a>
+					</form>
 				</dialog>
 			</div>
 		);
