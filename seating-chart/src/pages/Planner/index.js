@@ -6,11 +6,19 @@ class CreateGuest extends React.Component {
 		super(props);
 		this.state = {clicked: 'false'};
 
-		this.handleClick = this.handleClick.bind(this);
+		
 	}
 
-	handleClick(event) {
-		
+	openDialog() {
+		this.setState({
+			visible: true
+		});
+	}
+
+	closeDialog() {
+		this.setState({
+			visible: false
+		});
 	}
 
 	render() {
@@ -21,9 +29,22 @@ class CreateGuest extends React.Component {
 					<h1>We are currently working on this page...</h1>
 				</div>
 				<div id = "buttonbox">
-					<input type='submit' className='button' id='add_guest' value='Add Guest' />
+					<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openDialog()}/>
 				</div>
 			</div>
+
+			<Modal
+				visible={this.state.visible}
+				width="400"
+				height="300"
+				effect="fadeInUp"
+				onClickAway = {() => this.closeDialog() }
+			>
+				<div>
+					<h1>Add a Guest</h1>
+					<a href="javascript:void(0);" onClick={() => this.closeDialog()}>Close</a>
+				</div>
+			</Modal>
 		);
 
 	}
