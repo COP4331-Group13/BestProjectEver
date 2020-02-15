@@ -33,18 +33,18 @@ class CreateGuest extends React.Component {
 				</div>
 			</div>
 
-			<Modal
+			<div id="dialogbox">
 				visible={this.state.visible}
 				width="400"
 				height="300"
 				effect="fadeInUp"
-				onClickAway = {() => this.closeDialog() }
+				onClickAway = {() => this.closeDialog()}
 			>
 				<div>
 					<h1>Add a Guest</h1>
 					<a href="javascript:void(0);" onClick={() => this.closeDialog()}>Close</a>
 				</div>
-			</Modal>
+			</div>
 		);
 
 	}
