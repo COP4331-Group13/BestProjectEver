@@ -49,7 +49,7 @@ This product is for any individual or organization organizing an event who need 
 
 
 - [Requirements](https://docs.google.com/spreadsheets/d/1phNVsPp6_2vt1iv2tq8hrPWR2HE3d7rJuQ6jDu9qWuk/edit#gid=1916049692)
-- [responsibilities]
+- [Responsibilities](https://docs.google.com/spreadsheets/d/1phNVsPp6_2vt1iv2tq8hrPWR2HE3d7rJuQ6jDu9qWuk/edit#gid=331540421)
 - [Trello Board](https://trello.com/b/x52Kgu7Z/cop4331-project)
 - [Burndown Chart](https://docs.google.com/spreadsheets/d/1f9ri6zhRRU25XJbCKjoXpXi993gFTpcdPLP6dUt5IJA/edit#gid=197578060)
 - [Velocity Chart](https://docs.google.com/spreadsheets/d/1phNVsPp6_2vt1iv2tq8hrPWR2HE3d7rJuQ6jDu9qWuk/edit?usp=sharing)
