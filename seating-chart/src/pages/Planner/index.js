@@ -16,11 +16,11 @@ class CreateGuest extends React.Component {
 	}
 
 	openDialog() {
-		this.setState({visible: true});
+		document.getElementById('dialogbox').style.display = 'block';
 	}
 
 	closeDialog() {
-		this.setState({visible: false});
+		document.getElementById('dialogbox').style.display = 'none';
 	}
 
 	changeName(event) {
@@ -49,23 +49,24 @@ class CreateGuest extends React.Component {
 				<div id = "buttonbox">
 					<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openDialog()}/>
 				</div>
-			</div>
 
-			<div id="dialogbox">
-				<dialog open>
-					<h1>Add a Guest</h1>
-					<form>
-						<input type="text" className="textBox" id="name" 
-							placeholder="Name" onChange={this.changeName}/>
-						<input type="text" className="textBox" id="email" 
-							placeholder="E-mail" onChange={this.changeEmail}/>
-						<input type="text" className="textBox" id="phone" 
-							placeholder="Phone Number" onChange={this.changePhone}/>
-						<input type="text" className="textBox" id="address" 
-							placeholder="Address" onChange={this.changeAddress}/>
-					<a href="javascript:void(0);" onClick={() => this.closeDialog()}>Close</a>
-					</form>
-				</dialog>
+
+				<div id="dialogbox">
+					<dialog open>
+						<h1>Add a Guest</h1>
+						<form>
+							<input type="text" className="textBox" id="name"
+								placeholder="Name" onChange={this.changeName}/>
+							<input type="text" className="textBox" id="email"
+								placeholder="E-mail" onChange={this.changeEmail}/>
+							<input type="text" className="textBox" id="phone"
+								placeholder="Phone Number" onChange={this.changePhone}/>
+							<input type="text" className="textBox" id="address"
+								placeholder="Address" onChange={this.changeAddress}/>
+						<a href="javascript:void(0);" onClick={() => this.closeDialog()}>Close</a>
+						</form>
+					</dialog>
+				</div>
 			</div>
 		);
 

@@ -1,9 +1,10 @@
 import React from 'react';
 import '../../SeatPlanner.css';
-import {withRouter} from "react-router-dom"
+import {withRouter} from "react-router-dom";
+import {validatePlanner, validateGuest} from "../../services/Validator";
 
 
-class LoginBox extends React.Component {
+export class LoginBox extends React.Component {
 
     render() {
 
@@ -23,11 +24,11 @@ class LoginBox extends React.Component {
     }
 }
 
-class GuestLogin extends React.Component {
+export class GuestLogin extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {gID: '', clicked: 'false'};
+        this.state = {gID: '', error: "guestError"};
 
         this.changeGID = this.changeGID.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,13 +40,10 @@ class GuestLogin extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if (this.state.gID !== '') {
-            document.getElementById('email').value = '';
-            document.getElementById('pass').value = '';
-            document.getElementById('guestID').value = '';
+        if (validateGuest(this.state.gID)) {
             this.props.history.push('/guest');
         } else {
-            document.getElementById('guestError').style.color = 'red';
+            this.setState({error: 'loginError'});
         }
     }
 
@@ -57,8 +55,8 @@ class GuestLogin extends React.Component {
                 <form onSubmit= {this.handleSubmit}>
                     <div className='infoBox'>
                         <input type= 'text' className='textBox' id='guestID'
-                               placeholder='Unique Guest ID' onChange={this.changeGID} />
-                        <div className='loginError' id='guestError'>
+                               placeholder='Unique Guest ID' value={this.state.gID} onChange={this.changeGID} />
+                        <div className='loginError' id={this.state.error}>
                             Invalid Guest ID
                         </div>
                     </div>
@@ -70,11 +68,11 @@ class GuestLogin extends React.Component {
     }
 }
 
-class PlannerLogin extends React.Component {
+export class PlannerLogin extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {user:'', pass:'', clicked: 'false', redirect:false};
+        this.state = {user:'', pass:'', error:'plannerError'};
 
         this.changeUser = this.changeUser.bind(this);
         this.changePass = this.changePass.bind(this);
@@ -97,13 +95,10 @@ class PlannerLogin extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if (this.state.user !== '' && this.state.pass !== '') {
-            document.getElementById('email').value = '';
-            document.getElementById('pass').value = '';
-            document.getElementById('guestID').value = '';
+        if (validatePlanner(this.state.user, this.state.pass)) {
             this.props.history.push('/planner');
         } else {
-            document.getElementById('plannerError').style.color = 'red';
+            this.setState({error: 'loginError'});
         }
     }
 
@@ -112,13 +107,13 @@ class PlannerLogin extends React.Component {
         return (
             <div className= 'box' id= 'plannerLogin'>
                 <h2>Login as Planner</h2>
-                <form onSubmit={this.handleSubmit}>
+                <form data-testid="plannerLoginForm" onSubmit={this.handleSubmit}>
                     <div className='infoBox'>
-                        <input type='text' className='textBox' id='email'
-                               placeholder='E-mail' onChange={ this.changeUser} />
-                        <input type='password' className='textBox' id='pass'
-                               placeholder='Password' onChange={this.changePass} />
-                        <div className='loginError' id='plannerError'>
+                        <input data-testid={this.state.user} type='text' className='textBox' id='email'
+                               placeholder='E-mail' value={this.state.user} onChange={ this.changeUser} />
+                        <input data-testid={this.state.pass} type='password' className='textBox' id='pass'
+                               placeholder='Password' value ={this.state.pass} onChange={this.changePass} />
+                        <div className='loginError' id={this.state.error}>
                             Invalid Username/Password
                         </div>
                     </div>
