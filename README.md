@@ -55,5 +55,5 @@ This product is for any individual or organization organizing an event who need 
 - [Velocity Chart](https://docs.google.com/spreadsheets/d/1phNVsPp6_2vt1iv2tq8hrPWR2HE3d7rJuQ6jDu9qWuk/edit?usp=sharing)
 - [Design Documents](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/README.md)
 - [Source Code](https://github.com/COP4331-Group13/BestProjectEver/tree/master/seating-chart)
-- [Tests]
+- [Tests](https://github.com/COP4331-Group13/BestProjectEver/tree/master/seating-chart/src/_tests_)
 - [Demonstration](https://youtu.be/rJn8y70mCJw)
