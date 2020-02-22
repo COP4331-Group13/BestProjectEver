@@ -2,6 +2,7 @@ import React from 'react';
 import '../../SeatPlanner.css';
 import {withRouter} from "react-router-dom";
 import {validatePlanner, validateGuest} from "../../services/Validator";
+import {User} from "../../services/User";
 
 
 export class LoginBox extends React.Component {
@@ -15,8 +16,8 @@ export class LoginBox extends React.Component {
                     <h1>Are you here as an Event Planner or as a Guest?</h1>
                 </div>
                 <div id = "loginbox">
-                    <PlannerLogin history = {this.props.history}/>
-                    <GuestLogin history = {this.props.history}/>
+                    <PlannerLogin history = {this.props.history} storage = {this.props.storage}/>
+                    <GuestLogin history = {this.props.history} storage = {this.props.storage}/>
                 </div>
             </div>
         );
@@ -35,7 +36,11 @@ export class GuestLogin extends React.Component {
     }
 
     changeGID(event) {
-        this.setState({gID: event.target.value});
+        if (event.target.value.length > 10) {
+            this.setState({gID: event.target.value.substr(0,10)});
+        } else {
+            this.setState({gID: event.target.value});
+        }
     }
 
     handleSubmit(event) {
@@ -96,7 +101,12 @@ export class PlannerLogin extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         if (validatePlanner(this.state.user, this.state.pass)) {
-            this.props.history.push('/planner');
+            let user = new User(this.state.user);
+            if (this.props.storage.setUser(user)) {
+                this.props.history.push('/planner');
+            } else {
+                alert("Cannot set " + this.state.user + " as Current User");
+            }
         } else {
             this.setState({error: 'loginError'});
         }
