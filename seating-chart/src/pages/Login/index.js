@@ -2,10 +2,14 @@ import React from 'react';
 import '../../SeatPlanner.css';
 import {withRouter} from "react-router-dom";
 import {validatePlanner, validateGuest} from "../../services/Validator";
-import {User} from "../../services/User";
 
 
 export class LoginBox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.props.storage.clear();
+
+    }
 
     render() {
 
@@ -100,13 +104,8 @@ export class PlannerLogin extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if (validatePlanner(this.state.user, this.state.pass)) {
-            let user = new User(this.state.user);
-            if (this.props.storage.setUser(user)) {
-                this.props.history.push('/planner');
-            } else {
-                alert("Cannot set " + this.state.user + " as Current User");
-            }
+        if (validatePlanner(this.state.user, this.state.pass, this.props.storage)) {
+            this.props.history.push('/planner');
         } else {
             this.setState({error: 'loginError'});
         }

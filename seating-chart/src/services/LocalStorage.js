@@ -26,4 +26,19 @@ export class LocalStorage {
     addGuest() {
 
     }
+
+    clear() {
+        this.curUser = undefined;
+        ls('curUser', this.curUser);
+        this.curEvent = undefined;
+        ls('curEvent', this.curEvent);
+        this.guestList = [];
+        ls('guestList', this.guestList);
+        this.itemList = [];
+        ls('itemList', this.itemList);
+        this.eventList = [];
+        ls('eventList', this.eventList);
+
+    }
+
 }
