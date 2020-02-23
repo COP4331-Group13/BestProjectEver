@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Planner from '../pages/Planner';
@@ -10,6 +10,7 @@ import {LocalStorage} from '../services/LocalStorage'
 export default function Routes() {
     let storage = new LocalStorage();
     return (
+      <BrowserRouter>
         <Switch>
             <Route path="/" exact
                    render = {(props) =><Login{...props} history = {Routes.history} storage = {storage}/>}
@@ -28,5 +29,6 @@ export default function Routes() {
                 render = {(props) =><Login{...props} history = {Routes.history} storage = {storage}/>}
             />
         </Switch>
+       </BrowserRouter>
     );
 }

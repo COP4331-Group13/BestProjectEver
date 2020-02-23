@@ -53,11 +53,20 @@ h2 {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 100%;
 	border: none;
-	border-bottom: 2px solid #d9d9d9;
-  	width: 50%;
+	border-bottom: 2px solid rgba(105, 105, 105, 0.3);
+	transition: 1s;
+  width: 50%;
  	height: 50px;
-  	background: transparent;
-  	padding-left: 5%;
+  background: transparent;
+	animation-name: fadeInRight;
+  padding-left: 5%;
+}
+.textBox:hover {
+	border-bottom: 2px solid rgba(105, 105, 105, 0.8);
+}
+.textBox:focus {
+	border-bottom: 2px solid rgba(105, 105, 105, 0.8);
+	outline: none;
 }
 .login {
 	width: 100%;

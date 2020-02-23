@@ -5,3 +5,11 @@ export function validateGuest(gID) {
 export function validatePlanner(user, pass) {
     return user !== "" && pass !== "";
 }
+
+export function registerPlanner(name, user, pass, repass) {
+    if (pass !== repass) {
+      return false
+    } else {
+        return name !== "" && user !== "" && pass !== "" && repass !== "";
+      }
+}
