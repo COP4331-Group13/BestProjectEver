@@ -28,6 +28,7 @@ SendEmail - Contains the sender email address (planner), requests the email from
 - [Entity Relationship Diagram](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/seatplanner_erd.pdf)
 
 # Business Rules
+Guests informations should only be available as long as their current participating event is active and/or not deleted. Keeping the guest users data manageable and up to date with their respective events should be taken into consideration when an event is created/deleted, and when a guest is created/deleted.
 
 # User Interface Design
 - [Login Screen](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/Login_Screen.pdf)
@@ -45,30 +46,43 @@ An event planner, after login, will be taken to an event selection screen. Here 
 User stories 000 and 003 are satisfied by having the separate guest and planner views. User stories 001 and 002 are satisfied within the guest view -- a guest will be able to see and update their own information. User stories 004, 005, and 006 are satisfied by the planner being able to see and access their guest list, and are given options to add or remove guests as needed. User stories 007 - 016 all deal with the seating chart itself. An event organizer will be able to drag and drop items from the bottom bar to place in their seating chart and determine the room layout. They will be able to add, move, and remove the seating chart items. As the seating chart exists, this satisfies user story 018. 
 
 # Resource Management
+Database connections are made once per many requests when sending/receving requests from a local storage or login/registration validators. Memory management is to be handled on a server at the Google Cloud service, which can be manipulated as needed.
 
 # Security
 Users are authenticated based on their roles, planners will have a separate account from the guest and are able to edit their passwords at any given time, passwords will be encrypted when writing to the database; guests will have an account automatically created once in the event planner's list, a unique pin code will be generated along with the current event pin, which will then give the guests access to the event view. Only planners will have access to the seating chart in order to modify and change preferences. Guests will only have view access to the chart.
 
 # Performance
+Performance goals are not mandatory as of this moment, since there is not preoccupation with budget/speed.
 
 # Scalability
+This system is not expected to grow, hence scalability is not an issue.
+Although, if needed server management should not be a problem with Google services.
 
 # Interoperability
 
 # Internationalization/Localization
+This program won't be used commercially, nor be supported in multiple locales, which it won't need to be translated to various languages.
 
 # Input/Output
+The program will be taking various inputs from the user, login/registration forms, managing local storage data to move objects, create instances, add/delete/edit informations. And would output the information to an interface where the user can manage the program resources.
 
 # Error Processing
+Error detection is active, for example accessing an invalid webpage, it would process the initial webpage that is accessible independently of user; as well asor the validation criteria for user inputs on a registration form. Once the program detects the error, it will be prompted to the user, indicating what has caused it, or the error will be recognized by the system and will proceed to its previous state.
 
 # Fault Tolerance
+As an initial state of development fault tolerance isn't implemented to assist with error handling. However its expected as the system grows towards more complicated cases of detecting errors and how to recover from them.
 
 # Architectural Feasibility
+As there are no perfomances targets, architectural feasibility is not a concern at the moment.
 
 # Overengineering
+All classes are adequate, and features will only be added as necessary, without being over-kill.
 
 # Build-vs-Buy Decisions
+Our component that is definetely off market is the algorithm we will have in the application. It will take preferences from both the planner and the guests at a specified event, and seat them accordingly.
 
 # Reuse
 
+
 # Change Strategy
+The current architecture is flexible enough to accomodate changes.
