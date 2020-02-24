@@ -43,13 +43,9 @@ class CreateGuest extends React.Component {
 		return (
 			<div id="wrapperbox">
 				<div id = "welcome">
-					<h1>Welcome to the Planner Page</h1>
-					<h1>We are currently working on this page...</h1>
-				</div>
-				<div id = "buttonbox">
+					<h1>Event Title</h1>
 					<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openDialog()}/>
 				</div>
-
 
 				<div id="dialogbox">
 					<dialog open>
@@ -63,8 +59,10 @@ class CreateGuest extends React.Component {
 								placeholder="Phone Number" onChange={this.changePhone}/>
 							<input type="text" className="textBox" id="address"
 								placeholder="Address" onChange={this.changeAddress}/>
-						<a href="javascript:void(0);" onClick={() => this.closeDialog()}>Close</a>
 						</form>
+						<div id="buttonbox">
+							<input type='submit' className='button' id='add_guest' value='Submit' onClick={() => this.closeDialog()}/>
+						</div>
 					</dialog>
 				</div>
 			</div>
