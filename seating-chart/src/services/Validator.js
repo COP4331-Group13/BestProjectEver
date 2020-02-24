@@ -4,9 +4,9 @@ export function validateGuest(gID) {
     return gID !== "" && gID.length === 10;
 }
 
-export function validatePlanner(user, pass, storage) {
-    if (user !== "" && pass !== "") {
-        let newUser = new User(user);
+export function validatePlanner(state, storage) {
+    if (state.user !== "" && state.pass !== "") {
+        let newUser = new User(state.user);
         storage.setUser(newUser);
         return true;
     } else {
@@ -14,14 +14,14 @@ export function validatePlanner(user, pass, storage) {
     }
 }
 
-export function registerPlanner(name, user, pass, repass, storage) {
-    if (pass !== repass) {
-      return false
-    } else if (name !== "" && user !== "" && pass !== "" && repass !== ""){
-        let newUser = new User(user);
+export function registerPlanner(state, storage) {
+    if (state.pass !== state.repass) {
+      return [false, 'Passwords do not Match']
+    } else if (state.name !== "" && state.user !== "" && state.pass !== "" && state.repass !== ""){
+        let newUser = new User(state.user);
         storage.setUser(newUser);
-        return true;
+        return [true];
     } else {
-        return false
+        return [false, 'Please fill in all fields']
     }
 }

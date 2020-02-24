@@ -8,7 +8,7 @@ class RegisterBox extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {name: '', user:'', pass:'', repass:'', error:'plannerError'};
+		this.state = {name: '', user:'', pass:'', repass:'', error:'plannerError', errorMessage:"Invalid Registration"};
 
 		this.changeName = this.changeName.bind(this);
 		this.changeUser = this.changeUser.bind(this);
@@ -36,11 +36,14 @@ class RegisterBox extends React.Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
-		if (registerPlanner(this.state.name, this.state.user, this.state.pass, this.state.repass, this.props.storage)) {
+		let registered = registerPlanner(this.state, this.props.storage);
+		if (registered[0]) {
 			this.props.history.push('/planner');
 		} else {
 			this.setState({error: 'loginError'});
+			this.setState({errorMessage: registered[1]});
 		}
+		console.log(registered[0]);
 	}
 
 	render() {
@@ -58,8 +61,8 @@ class RegisterBox extends React.Component {
 												 value ={this.state.pass} onChange={this.changePass}/>
           				<input type='password' className='textBox' id='re_password' placeholder='Re-Enter Password'
 												value ={this.state.repass} onChange={this.changeRepass}/>
-									<div className='loginError' id={this.state.error}>
-										Invalid Registration
+									<div className='loginError' id={this.state.error} >
+										{this.state.errorMessage}
 									</div>
 					</div>
         			<input type='submit' className='button' id='newUser' value='Create Account' />
