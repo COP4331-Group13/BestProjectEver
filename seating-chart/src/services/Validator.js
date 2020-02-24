@@ -15,7 +15,7 @@ export function validatePlanner(state, storage) {
 }
 
 export function registerPlanner(state, storage) {
-    var emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,24})+$/;
     var passFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
 
     if (state.pass !== state.repass) {
