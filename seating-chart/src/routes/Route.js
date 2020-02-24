@@ -1,39 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Route, Redirect} from "react-router-dom";
+import {LocalStorage} from "../services/LocalStorage";
 
 export default function RouteWrapper({
-    component: Component,
     isPrivate,
+    storage,
     ...rest
     }) {
-    const signed = false;
 
     /**
      * Redirect user to SignIn page if he tries to access a private route
      * without authentication.
      */
-    if (isPrivate && !signed) {
+    if (isPrivate && !storage.hasUser()) {
         return <Redirect to="/" />;
-    }
-
-    /**
-     * Redirect user to Main page if he tries to access a non private route
-     * (SignIn or SignUp) after being authenticated.
-     */
-    if (!isPrivate && signed) {
-        return <Redirect to="/planner" />;
     }
 
     /**
      * If not included on both previous cases, redirect user to the desired route.
      */
-    return <Route {...rest} component={Component} />;
+    return <Route {...rest} />;
 }
 
 RouteWrapper.propTypes = {
     isPrivate: PropTypes.bool,
-    component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired
+    storage: PropTypes.instanceOf(LocalStorage).isRequired
 };
 
 RouteWrapper.defaultProps = {

@@ -2,7 +2,6 @@ import React from 'react';
 import '../../SeatPlanner.css';
 import {withRouter} from "react-router-dom"
 import {registerPlanner} from "../../services/Validator";
-import {User} from "../../services/User";
 
 class RegisterBox extends React.Component {
 
@@ -37,15 +36,10 @@ class RegisterBox extends React.Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
-		if (registerPlanner(this.state.name, this.state.user, this.state.pass, this.state.repass)) {
-			let user = new User(this.state.user);
-			if (this.props.storage.setUser(user)) {
-				this.props.history.push('/planner');
-			} else {
-					alert("Cannot set " + this.state.user + " as Current User");
-			}
+		if (registerPlanner(this.state.name, this.state.user, this.state.pass, this.state.repass, this.props.storage)) {
+			this.props.history.push('/planner');
 		} else {
-				this.setState({error: 'passError'});
+			this.setState({error: 'loginError'});
 		}
 	}
 

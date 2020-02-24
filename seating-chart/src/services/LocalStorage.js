@@ -41,4 +41,7 @@ export class LocalStorage {
 
     }
 
+    hasUser() {
+        return this.curUser !== undefined;
+    }
 }

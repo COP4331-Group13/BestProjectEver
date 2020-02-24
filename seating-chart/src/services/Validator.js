@@ -14,10 +14,14 @@ export function validatePlanner(user, pass, storage) {
     }
 }
 
-export function registerPlanner(name, user, pass, repass) {
+export function registerPlanner(name, user, pass, repass, storage) {
     if (pass !== repass) {
       return false
+    } else if (name !== "" && user !== "" && pass !== "" && repass !== ""){
+        let newUser = new User(user);
+        storage.setUser(newUser);
+        return true;
     } else {
-        return name !== "" && user !== "" && pass !== "" && repass !== "";
-      }
+        return false
+    }
 }
