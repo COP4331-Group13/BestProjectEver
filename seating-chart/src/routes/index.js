@@ -1,10 +1,9 @@
 import React from "react";
-import { BrowserRouter, Switch } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Planner from '../pages/Planner';
 import Guest from '../pages/Guest';
-import Route from './Route';
 import {LocalStorage} from '../services/LocalStorage'
 
 export default function Routes() {

@@ -52,37 +52,39 @@ Database connections are made once per many requests when sending/receving reque
 Users are authenticated based on their roles, planners will have a separate account from the guest and are able to edit their passwords at any given time, passwords will be encrypted when writing to the database; guests will have an account automatically created once in the event planner's list, a unique pin code will be generated along with the current event pin, which will then give the guests access to the event view. Only planners will have access to the seating chart in order to modify and change preferences. Guests will only have view access to the chart.
 
 # Performance
-Performance goals are not mandatory as of this moment, since there is not preoccupation with budget/speed.
+Performance goals are not mandatory as of this moment, since there is not preoccupation with budget/speed. That being said, we intend for operation of the system to feel fluid with few interruptions, and as such database calls are only made upon User request (Saving their Layout, Registering a new account, etc.).
 
 # Scalability
 This system is not expected to grow, hence scalability is not an issue.
 Although, if needed server management should not be a problem with Google services.
 
 # Interoperability
+The system is designed to be wholly self contained with exception to the web server, which is hosted on Google Cloud.
 
 # Internationalization/Localization
 This program won't be used commercially, nor be supported in multiple locales, which it won't need to be translated to various languages.
 
 # Input/Output
-The program will be taking various inputs from the user, login/registration forms, managing local storage data to move objects, create instances, add/delete/edit informations. And would output the information to an interface where the user can manage the program resources.
+The program will be taking various inputs from the user, login/registration forms, managing local storage data to move objects, create instances, add/delete/edit information. It would also output this information to an interface where the user can manage the program resources.
 
 # Error Processing
-Error detection is active, for example accessing an invalid webpage, it would process the initial webpage that is accessible independently of user; as well asor the validation criteria for user inputs on a registration form. Once the program detects the error, it will be prompted to the user, indicating what has caused it, or the error will be recognized by the system and will proceed to its previous state.
+Error detection is active, for example accessing an invalid webpage, it would process the initial webpage that is accessible independently of user; as well as the validation criteria for user inputs on a registration form. Once the program detects the error, it will be prompted to the user, indicating what has caused it, or the error will be recognized by the system and will proceed to its previous state.
 
 # Fault Tolerance
-As an initial state of development fault tolerance isn't implemented to assist with error handling. However its expected as the system grows towards more complicated cases of detecting errors and how to recover from them.
+As an initial state of development fault tolerance isn't implemented to assist with error handling. However it's expected as the system grows towards more complicated cases of detecting errors and how to recover from them.
 
 # Architectural Feasibility
 As there are no perfomances targets, architectural feasibility is not a concern at the moment.
 
 # Overengineering
-All classes are adequate, and features will only be added as necessary, without being over-kill.
-
+In general, we will err away from Overengineering. While situations such as security will be approached with care, most cases where system operations fall outside expected parameters will simply fail to execute, allowing things to remain simple.
 # Build-vs-Buy Decisions
-Our component that is definetely off market is the algorithm we will have in the application. It will take preferences from both the planner and the guests at a specified event, and seat them accordingly.
+As it is the main selling point our our product over our competitors, our seating algorithm will be developed in-house.  
+Our front-end is largely built using the React JavaScript Libraries while our back-end is built largely with Node.js.  
+Our Local Storage is implemented as a wrapper for the popular local-storage library, adapting it to be more specific to our needs.
 
 # Reuse
-
+No parts of our system were brought in from prior projects. With exception to the Google Server which our program is hosted on and the existing JavaScript libraries we are utilising, all parts of this system are being developed with only this system in mind.
 
 # Change Strategy
-The current architecture is flexible enough to accomodate changes.
+Our main application is built with the storage and information as a kernel with various page views accessible through a Router, serving as our mechanism to handle the various "plugins". Should additional requirements be added, we can simply add a new page and should features no longer be required, we can simply remove the pages from the Router.
