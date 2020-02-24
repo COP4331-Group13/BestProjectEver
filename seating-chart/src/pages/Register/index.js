@@ -53,13 +53,13 @@ class RegisterBox extends React.Component {
 				<form id='registerBox' onSubmit={this.handleSubmit}>
         			<h1 id='registerTitle'>Account Information</h1>
         			<div id='inputs'>
-          				<input type='text' className='textBox' id='firstName' placeholder='Full Name'
-												 value ={this.state.name} onChange={this.changeName} />
-          				<input type='text' className='textBox' id='e-mail' placeholder='E-mail Address'
+          				<input type='text' className='textBox' id='firstName' required placeholder='Full Name'
+												 value ={this.state.name} onChange={this.changeName}/>
+          				<input type='text' className='textBox' id='e-mail' required placeholder='E-mail Address'
 												 value={this.state.user} onChange={ this.changeUser}/>
-          				<input type='password' className='textBox' id='password' placeholder='Password'
+          				<input type='password' className='textBox' id='password' required placeholder='Password'
 												 value ={this.state.pass} onChange={this.changePass}/>
-          				<input type='password' className='textBox' id='re_password' placeholder='Re-Enter Password'
+          				<input type='password' className='textBox' id='re_password' required placeholder='Re-Enter Password'
 												value ={this.state.repass} onChange={this.changeRepass}/>
 									<div className='loginError' id={this.state.error} >
 										{this.state.errorMessage}
