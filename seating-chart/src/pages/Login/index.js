@@ -105,7 +105,7 @@ export class PlannerLogin extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         if (validatePlanner(this.state, this.props.storage)) {
-            this.props.history.push('/planner');
+            this.props.history.push('/events');
         } else {
             this.setState({error: 'loginError'});
         }

@@ -23,8 +23,23 @@ export class LocalStorage {
             return false;
         }
     }
+    getUser() {
+        return this.curUser.userName;
+    }
     addGuest() {
 
+    }
+    addEvent(newEvent) {
+        this.eventList.push(newEvent);
+        ls('eventList', this.eventList);
+
+    }
+    setEvent(newEvent) {
+        this.curEvent = newEvent;
+        ls('curEvent', this.curEvent);
+    }
+    getEvents() {
+        return ls('eventList');
     }
 
     clear() {

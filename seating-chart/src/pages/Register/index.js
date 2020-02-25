@@ -38,7 +38,7 @@ class RegisterBox extends React.Component {
 		event.preventDefault();
 		let registered = registerPlanner(this.state, this.props.storage);
 		if (registered[0]) {
-			this.props.history.push('/planner');
+			this.props.history.push('/events');
 		} else {
 			this.setState({error: 'loginError'});
 			this.setState({errorMessage: registered[1]});
