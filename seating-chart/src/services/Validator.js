@@ -2,7 +2,7 @@ import {User} from "./User";
 
 function callAuthenticate(state) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/login", false);
+  xhr.open("POST", "http://localhost:5000/api/login", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("email="+state.user+"&password="+state.pass);
   var code = xhr.status;
@@ -11,7 +11,7 @@ function callAuthenticate(state) {
 
 function callRegister(state) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/register", false);
+  xhr.open("POST", "http://localhost:5000/api/register", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("full_name="+state.name+"&email="+state.user+"&password="+state.pass);
   var code = xhr.status;
@@ -59,9 +59,11 @@ export function registerPlanner(state, storage) {
               let newUser = new User(state.user);
               storage.setUser(newUser);
               return [true];
-            } else { // // error sending query 400
+            } else { // error sending query 400
                   return [false, 'Error has occurred']
             }
+        } else { // error sending query 400
+           return [false, 'Error has occurred']
         }
     } else {
         return [false, 'Please fill in all fields']
