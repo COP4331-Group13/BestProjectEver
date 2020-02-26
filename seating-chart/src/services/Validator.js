@@ -29,7 +29,7 @@ export function validatePlanner(state, storage) {
           let newUser = new User(state.user);
           storage.setUser(newUser);
           return [true];
-        } else if (authCode === 204) { // email or password are wrong
+        } else if (authCode === 204 || authCode === 205) { // email or password are wrong
           return [false, 'Invalid email or password']
         } else { // error sending query 400
           return [false, 'Error has occured']
