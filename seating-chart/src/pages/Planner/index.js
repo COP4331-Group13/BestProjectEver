@@ -4,8 +4,7 @@ import '../../SeatPlanner.css';
 class CreateGuest extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {clicked: 'false', name: '', email: '', phone: '', address: ''};
-
+		this.state = {clicked: 'false', name: '', email: '', phone: '', address: '', search: ''};
 
 		this.openDialog = this.openDialog.bind(this);
 		this.closeDialog = this.closeDialog.bind(this);
@@ -13,6 +12,7 @@ class CreateGuest extends React.Component {
 		this.changeEmail = this.changeEmail.bind(this);
 		this.changeAddress = this.changeAddress.bind(this);
 		this.changePhone = this.changePhone.bind(this);
+		this.changeSearch = this.changeSearch.bind(this);
 	}
 
 	openDialog() {
@@ -39,14 +39,25 @@ class CreateGuest extends React.Component {
 		this.setState({phone: event.target.value});
 	}
 
+	changeSearch(event) {
+		this.setState({search: event.target.value});
+	}
+
 	render() {
 		return (
 			<div id="wrapperbox">
 				<div id = "welcome">
 					<h1>Event Title</h1>
 				</div>
-
-				<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openDialog()}/>
+				<div id="sidebar">
+					<div id="search">
+						<form>
+							<input type="text" className="textBox" id="search" 
+								placeholder="Search..." onChange={this.changeSearch}/>
+						</form>
+					</div>
+					<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openDialog()}/>
+				</div>
 
 				<div id="dialogbox">
 					<dialog open>
