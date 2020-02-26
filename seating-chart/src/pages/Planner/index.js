@@ -44,8 +44,9 @@ class CreateGuest extends React.Component {
 			<div id="wrapperbox">
 				<div id = "welcome">
 					<h1>Event Title</h1>
-					<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openDialog()}/>
 				</div>
+
+				<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openDialog()}/>
 
 				<div id="dialogbox">
 					<dialog open>

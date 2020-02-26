@@ -10,8 +10,7 @@ export class LoginBox extends React.Component {
         return (
             <div id = "wrapperbox">
                 <div id = "welcome">
-                    <h1>Welcome to Best Fit Seating</h1>
-                    <h1>Are you here as an Event Planner or as a Guest?</h1>
+                    <h1>Welcome to Best Fit Seating<br/>Are you here as an Event Planner or as a Guest?</h1>
                 </div>
                 <div id = "loginbox">
                     <PlannerLogin history = {this.props.history} storage = {this.props.storage}/>
