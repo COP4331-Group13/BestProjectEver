@@ -5,12 +5,6 @@ import {validatePlanner, validateGuest} from "../../services/Validator";
 
 
 export class LoginBox extends React.Component {
-    constructor(props) {
-        super(props);
-        this.props.storage.clear();
-
-    }
-
     render() {
 
         return (
@@ -104,10 +98,12 @@ export class PlannerLogin extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if (validatePlanner(this.state, this.props.storage)) {
-            this.props.history.push('/planner');
-        } else {
+        let validated = validatePlanner(this.state, this.props.storage);
+        if (validated[0]) {
+    			this.props.history.push('/events');
+    		} else {
             this.setState({error: 'loginError'});
+            this.setState({errorMessage: validated[1]});
         }
     }
 
@@ -118,12 +114,12 @@ export class PlannerLogin extends React.Component {
                 <h2>Login as Planner</h2>
                 <form data-testid="plannerLoginForm" onSubmit={this.handleSubmit}>
                     <div className='infoBox'>
-                        <input data-testid={this.state.user} type='text' className='textBox' id='email'
+                        <input data-testid={this.state.user} type='text' className='textBox' id='email' required
                                placeholder='E-mail' value={this.state.user} onChange={ this.changeUser} />
-                        <input data-testid={this.state.pass} type='password' className='textBox' id='pass'
+                        <input data-testid={this.state.pass} type='password' className='textBox' id='pass' required
                                placeholder='Password' value ={this.state.pass} onChange={this.changePass} />
                         <div className='loginError' id={this.state.error}>
-                            Invalid Username/Password
+                            {this.state.errorMessage}
                         </div>
                     </div>
                     <div id='newRegister' onClick={this.handleRegister}>

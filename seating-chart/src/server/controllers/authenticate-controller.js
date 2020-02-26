@@ -9,28 +9,20 @@ module.exports.authenticate = function(req,res) {
   connection.query('SELECT * FROM planner WHERE email = ?',[email], function (error, results, fields) {
   if (error) {
     console.log("error ocurred",error);
-    res.send({
-      "code": 400,
-      "failed":"error ocurred"
-    })
+    res.status(400); // error occured
+    res.send();
   } else {
     if(results.length > 0) {
       if(bcrypt.compareSync(password, results[0].password)) {
-        res.send({
-          "code": 200,
-          "success": "login sucessfull"
-        });
+        res.status(200); // login successful
+        res.send();
       } else {
-	        res.send ({
-	          "code": 204,
-	          "success": "email/password don't exist"
-	        });
+          res.status(204); // wrong password
+          res.send();
       }
     } else {
-	      res.send({
-	        "code": 204,
-	        "success": "email doesn't exist"
-	      });
+        res.status(205); // email doesnt exist
+        res.send();
     	}
   	}
   });
