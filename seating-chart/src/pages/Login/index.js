@@ -121,12 +121,12 @@ export class PlannerLogin extends React.Component {
                 <h2>Login as Planner</h2>
                 <form data-testid="plannerLoginForm" onSubmit={this.handleSubmit}>
                     <div className='infoBox'>
-                        <input data-testid={this.state.user} type='text' className='textBox' id='email'
+                        <input data-testid={this.state.user} type='text' className='textBox' id='email' required
                                placeholder='E-mail' value={this.state.user} onChange={ this.changeUser} />
-                        <input data-testid={this.state.pass} type='password' className='textBox' id='pass'
+                        <input data-testid={this.state.pass} type='password' className='textBox' id='pass' required
                                placeholder='Password' value ={this.state.pass} onChange={this.changePass} />
                         <div className='loginError' id={this.state.error}>
-                            Invalid Username/Password
+                            {this.state.errorMessage}
                         </div>
                     </div>
                     <div id='newRegister' onClick={this.handleRegister}>
