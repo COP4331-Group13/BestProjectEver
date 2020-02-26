@@ -182,7 +182,7 @@ dialog {
 .eventItem:active {
 	border: thick solid black;
 }
-#logout,#plannerSettings {
+#logout {
 	width:10%;
 	height:10%;
 	position: relative;
