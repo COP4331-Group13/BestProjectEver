@@ -13,7 +13,7 @@ export default function RouteWrapper({
      * Redirect user to SignIn page if he tries to access a private route
      * without authentication.
      */
-    if (isPrivate && !storage.hasUser()) {
+    if (isPrivate && !storage.isSigned()) {
         return <Redirect to="/" />;
     }
 

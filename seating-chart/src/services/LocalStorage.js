@@ -3,60 +3,58 @@ import {Guest, User} from "./User";
 
 export class LocalStorage {
     constructor() {
-        const guestList = [];
-        ls('guestList', guestList);
-        const itemList = [];
-        ls('itemList', itemList);
-        const eventList = [];
-        ls('eventList', eventList);
-        let curUser;
-        let curEvent;
-
+        if (ls('guestList') === null)
+            ls('guestList', []);
+        if (ls('itemList') === null)
+            ls('itemList', []);
+        if (ls('eventList') === null)
+            ls('eventList', []);
+        if (ls('curUser') === null)
+            ls('curUser', undefined);
+        if (ls('curEvent') == null)
+            ls('curEvent', undefined);
+        if (ls('signed') === null)
+            ls('signed', false);
     }
 
     setUser(newUser) {
         if (newUser instanceof User) {
-            this.curUser = newUser;
-            ls('curUser', this.curUser);
+            ls('curUser', newUser);
+            ls('signed', true);
             return true;
         } else {
             return false;
         }
     }
     getUser() {
-        return this.curUser.userName;
+        return ls('curUser').userName;
     }
     addGuest() {
 
     }
     addEvent(newEvent) {
-        this.eventList.push(newEvent);
-        ls('eventList', this.eventList);
+        let eventList = ls('eventList');
+        eventList.push(newEvent);
+        ls('eventList', eventList);
 
     }
     setEvent(newEvent) {
-        this.curEvent = newEvent;
-        ls('curEvent', this.curEvent);
+        ls('curEvent', newEvent);
     }
     getEvents() {
         return ls('eventList');
     }
 
     clear() {
-        this.curUser = undefined;
-        ls('curUser', this.curUser);
-        this.curEvent = undefined;
-        ls('curEvent', this.curEvent);
-        this.guestList = [];
-        ls('guestList', this.guestList);
-        this.itemList = [];
-        ls('itemList', this.itemList);
-        this.eventList = [];
-        ls('eventList', this.eventList);
-
+        ls('curUser', undefined);
+        ls('curEvent', undefined);
+        ls('guestList', []);
+        ls('itemList', []);
+        ls('eventList', []);
+        ls('signed', false);
     }
 
-    hasUser() {
-        return this.curUser !== undefined;
+    isSigned() {
+        return ls('signed');
     }
 }

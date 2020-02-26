@@ -181,3 +181,9 @@ dialog {
 .eventItem:active {
 	border: thick solid black;
 }
+#logout {
+	width:5%;
+	margin:0 0 1% 0;
+	padding:1% 2% 1% 1%;
+
+}

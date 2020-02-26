@@ -18,6 +18,7 @@ export class EventList extends React.Component {
         }
         this.props.storage.setEvent(undefined);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
 
     }
 
@@ -37,15 +38,27 @@ export class EventList extends React.Component {
         }));
     }
 
+    handleLogout(event) {
+        event.preventDefault();
+        this.props.storage.clear();
+        this.props.history.push("/");
+    }
+
     render() {
         return (
-            <div id="wrapperbox">
-                <div id = "welcome">
-                    <h1>Welcome, {this.props.storage.getUser()}!</h1>
-                </div>
-                <div id="listWrapper">
-                    <ul id="eventList">{this.state.listItems}</ul>
-                    <input type='submit' className='button' id='add_event' value='Add Event' onClick={this.handleSubmit}/>
+            <div id="logoutBox">
+
+                <div id="wrapperbox">
+                    <div id = "welcome">
+                        <div className='button' id='logout' onClick={this.handleLogout}>
+                            Logout
+                        </div>
+                        <h1>Welcome, {this.props.storage.getUser()}!</h1>
+                    </div>
+                    <div id="listWrapper">
+                        <ul id="eventList">{this.state.listItems}</ul>
+                        <input type='submit' className='button' id='add_event' value='Add Event' onClick={this.handleSubmit}/>
+                    </div>
                 </div>
             </div>
         );

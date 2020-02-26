@@ -5,12 +5,6 @@ import {validatePlanner, validateGuest} from "../../services/Validator";
 
 
 export class LoginBox extends React.Component {
-    constructor(props) {
-        super(props);
-        this.props.storage.clear();
-
-    }
-
     render() {
 
         return (
@@ -108,10 +102,9 @@ export class PlannerLogin extends React.Component {
         if (validated[0]) {
     			this.props.history.push('/events');
     		} else {
-    			this.setState({error: 'loginError'});
-    			this.setState({errorMessage: validated[1]});
-    		}
-    		console.log(validated[0]);
+            this.setState({error: 'loginError'});
+            this.setState({errorMessage: validated[1]});
+        }
     }
 
     render () {
