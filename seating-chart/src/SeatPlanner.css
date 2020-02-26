@@ -134,7 +134,7 @@ h2 {
 	background-image: linear-gradient(to right, orange , magenta);
 	font-family: 'Montserrat', sans-serif;
 	font-weight: bold;
-	font-size: 115%;
+	font-size: 100%;
 	color: #333333;
 	justify-content:space-around;
 }
@@ -182,9 +182,10 @@ dialog {
 .eventItem:active {
 	border: thick solid black;
 }
-#logout {
+#logout,#plannerSettings {
 	width:10%;
 	height:10%;
 	position: relative;
+	margin: 1em;
 	padding:1% 1% 1% 1%;
 }
