@@ -15,15 +15,11 @@ module.exports.register = function(req,res) {
 
   connection.query('INSERT INTO planner SET ?',users, function (error, results, fields) {
   if (error) {
-    res.send({
-      "code": 400,
-      "failed": "error ocurred"
-    })
+		res.status(400);
+    res.send();
   } else {
-	    res.send({
-	      "code": 200,
-	      "success": "registration successful"
-	    });
+			res.status(200);
+	    res.send();
   	}
   });
 }
