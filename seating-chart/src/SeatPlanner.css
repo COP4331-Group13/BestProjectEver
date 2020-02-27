@@ -172,6 +172,7 @@ dialog {
 	font-weight: bold;
 }
 #closeButton:focus {
+	font-weight: bold;
 	outline: none;
 }
 #listWrapper {
