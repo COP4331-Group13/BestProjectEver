@@ -171,7 +171,7 @@ DROP TABLE IF EXISTS `preferences_guest`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `preferences_guest` (
-  `preferences_guest_id` int(11) NOT NULL,
+  `preferences_guest_id` int(11) NOT NULL AUTO_INCREMENT,
   `preferences_id` int(11) NOT NULL,
   `guest_id` int(11) NOT NULL,
   KEY `guest_id` (`guest_id`),
