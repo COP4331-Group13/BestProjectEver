@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `event`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `event` (
   `event_id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_pin` int(11) NOT NULL,
+  `event_pin` varchar(11) NOT NULL,
   `event_name` varchar(200) NOT NULL,
   `event_time` date NOT NULL,
   `address` varchar(200) NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE `guest` (
   `guest_id` int(11) NOT NULL AUTO_INCREMENT,
   `full_name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `event_pin` int(11) NOT NULL,
+  `event_pin` varchar(11) NOT NULL,
   `address` varchar(100) NOT NULL,
   `phone_number` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
