@@ -18,6 +18,15 @@ function callRegister(state) {
   return code;
 }
 
+function callEvent(state, curUser) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://35.243.169.229:5000/api/add-event", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("planner"+curUser+"&event_name="+state.name+"&event_time="+state.time+"&address="+state.address+"&max_people"+state.max_people);
+  var code = xhr.status;
+  return code;
+}
+
 export function validateGuest(gID) {
     return gID !== "" && gID.length === 10;
 }
@@ -68,4 +77,16 @@ export function registerPlanner(state, storage) {
     } else {
         return [false, 'Please fill in all fields']
     }
+}
+
+export function addEvent(state, storage) {
+  // need from state: state.name, state.time, state.address, state.max_people
+  var curUser; // = get user from storage;
+  var addEventCode = callEvent(state, curUser);
+  if (addEventCode === 200) { // event added successfully
+
+    return [true];
+  } else {
+    return [false, 'Error has occured'];
+  }
 }
