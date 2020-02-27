@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `event` (
-  `event_id` int(11) NOT NULL,
-  `event_pin` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_pin` varchar(11) NOT NULL,
   `event_name` varchar(200) NOT NULL,
   `event_time` date NOT NULL,
   `address` varchar(200) NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE `guest` (
   `guest_id` int(11) NOT NULL AUTO_INCREMENT,
   `full_name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `event_pin` int(11) NOT NULL,
+  `event_pin` varchar(11) NOT NULL,
   `address` varchar(100) NOT NULL,
   `phone_number` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
@@ -171,9 +171,10 @@ DROP TABLE IF EXISTS `preferences_guest`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `preferences_guest` (
-  `preferences_guest_id` int(11) NOT NULL,
+  `preferences_guest_id` int(11) NOT NULL AUTO_INCREMENT,
   `preferences_id` int(11) NOT NULL,
   `guest_id` int(11) NOT NULL,
+  PRIMARY KEY (`preferences_guest_id`),
   KEY `guest_id` (`guest_id`),
   KEY `preferences_id` (`preferences_id`),
   CONSTRAINT `preferences_guest_ibfk_1` FOREIGN KEY (`guest_id`) REFERENCES `guest` (`guest_id`),
