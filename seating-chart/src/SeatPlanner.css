@@ -146,6 +146,7 @@ h2 {
 	display: none;
 }
 dialog {
+	z-index: 10;
 	background: white;
 	width: 50%;
 	border: 0;
@@ -155,6 +156,23 @@ dialog {
 	left: 50%;
   transform: translate(-50%, -50%);
 	box-shadow: 0px 13px 37px -8px rgba(0,0,0,0.6);
+}
+#closeWindow {
+	position: absolute;
+	margin: 1% 0 0 1%;
+}
+#closeButton {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 100%;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+}
+#closeButton:hover {
+	font-weight: bold;
+}
+#closeButton:focus {
+	outline: none;
 }
 #listWrapper {
 	width:100%;

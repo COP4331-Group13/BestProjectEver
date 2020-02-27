@@ -6,6 +6,8 @@ function callAuthenticate(state) {
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("email="+state.user+"&password="+state.pass);
   var code = xhr.status;
+  var text = xhr.responseText;
+  console.log(text);
   return code;
 }
 

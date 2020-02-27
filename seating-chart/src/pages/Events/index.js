@@ -10,7 +10,7 @@ export class EventList extends React.Component {
         for (let i = 0; i < this.state.eventList.length; i++) {
             this.state.listItems.push(
                 <EventItem
-                    Key={i}
+                    key={i}
                     Event={this.state.eventList[i]}
                     storage = {this.props.storage}
                     history = {this.props.history}
@@ -30,7 +30,7 @@ export class EventList extends React.Component {
         this.setState({eventList: this.props.storage.getEvents()});
         this.setState(prevState => ({
             listItems: [...prevState.listItems, <EventItem
-                Key={listLength}
+                key={listLength}
                 Event = {'Event' + listLength}
                 storage = {this.props.storage}
                 history = {this.props.history}
