@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
   `event_id` int(11) NOT NULL,
   `event_pin` int(11) NOT NULL,
+  `event_name` varchar(200) NOT NULL,
   `event_time` date NOT NULL,
   `address` varchar(200) NOT NULL,
   `max_people` int(11) NOT NULL,
