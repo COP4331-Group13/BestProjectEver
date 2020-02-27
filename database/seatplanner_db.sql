@@ -174,6 +174,7 @@ CREATE TABLE `preferences_guest` (
   `preferences_guest_id` int(11) NOT NULL AUTO_INCREMENT,
   `preferences_id` int(11) NOT NULL,
   `guest_id` int(11) NOT NULL,
+  PRIMARY KEY (`preferences_guest_id`),
   KEY `guest_id` (`guest_id`),
   KEY `preferences_id` (`preferences_id`),
   CONSTRAINT `preferences_guest_ibfk_1` FOREIGN KEY (`guest_id`) REFERENCES `guest` (`guest_id`),
