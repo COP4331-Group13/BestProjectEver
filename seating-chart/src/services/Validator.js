@@ -22,7 +22,16 @@ function callEvent(state, curUser) {
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "http://35.243.169.229:5000/api/add-event", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send("planner"+curUser+"&event_name="+state.name+"&event_time="+state.time+"&address="+state.address+"&max_people"+state.max_people);
+  xhr.send("planner="+curUser+"&event_name="+state.name+"&event_time="+state.time+"&address="+state.address+"&max_people"+state.max_people);
+  var code = xhr.status;
+  return code;
+}
+
+function callGuest(state, curEventPin) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://35.243.169.229:5000/api/add-guest", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("full_name="+state.name+"&email="+state.email+"&address="+state.address+"&phone_number="+state.phone_number+"&event_pin="+state.event_pin);
   var code = xhr.status;
   return code;
 }
@@ -84,7 +93,19 @@ export function addEvent(state, storage) {
   var curUser; // = get user from storage;
   var addEventCode = callEvent(state, curUser);
   if (addEventCode === 200) { // event added successfully
+    // do stuff to add to storage
+    return [true];
+  } else {
+    return [false, 'Error has occured'];
+  }
+}
 
+export function addGuest(state, storage) {
+  // need from state: state.name, state.email, state.address, state.phone_number
+  var curEventPin; // = get event_pin from storage;
+  var addGuestCode = callGuest(state, curEventPin);
+  if (addGuestCode === 200) { // event added successfully
+    // do stuff to add to storage
     return [true];
   } else {
     return [false, 'Error has occured'];

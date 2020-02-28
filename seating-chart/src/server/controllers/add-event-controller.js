@@ -28,8 +28,27 @@ module.exports.addEvent = function(req,res) {
 					res.status(400);
 			    res.send();
 			  } else {
-						res.status(200);
-				    res.send();
+						connection.query('SELECT * FROM event WHERE event_pin = ?',[pin], function (error, results, fields) {
+							if (error) {
+								res.status(400);
+						    res.send();
+						  } else {
+									var event_id = results[0].event_id;
+									var groups = {
+										"name": "default",
+										"event_id": event_id
+									}
+									connection.query('INSERT INTO groups SET ?',groups, function (error, results, fields) {
+										if (error) {
+											res.status(400);
+									    res.send();
+									  } else {
+											res.status(200);
+											res.send();
+										}
+									});
+							}
+						});
 			  	}
 			  });
 		}
