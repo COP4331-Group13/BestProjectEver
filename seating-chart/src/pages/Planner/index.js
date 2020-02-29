@@ -1,5 +1,7 @@
 import React from 'react';
 import '../../SeatPlanner.css';
+import {withRouter} from "react-router-dom";
+
 
 class CreateGuest extends React.Component {
 	constructor(props) {
@@ -47,6 +49,9 @@ class CreateGuest extends React.Component {
 		return (
 			<div id="wrapperbox">
 				<div id = "welcome">
+				<div className='button' id='navigation' >
+						Events
+				</div>
 					<h1>Event Title</h1>
 				</div>
 				<div id="sidebar">
@@ -86,6 +91,4 @@ class CreateGuest extends React.Component {
 	}
 }
 
-export default function Planner() {
-	return <CreateGuest />
-}
+export default withRouter(CreateGuest);
