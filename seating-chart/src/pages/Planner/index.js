@@ -52,7 +52,7 @@ class CreateGuest extends React.Component {
 				<div id="sidebar">
 					<div id="search">
 						<form>
-							<input type="text" className="textBox" id="search" 
+							<input type="text" className="textBox" id="search"
 								placeholder="Search..." onChange={this.changeSearch}/>
 						</form>
 					</div>
@@ -61,6 +61,9 @@ class CreateGuest extends React.Component {
 
 				<div id="dialogbox">
 					<dialog open>
+						<div id="closeWindow">
+							<input type='submit' id="closeButton" value='X' onClick={() => this.closeDialog()}/>
+						</div>
 						<h1>Add a Guest</h1>
 						<form>
 							<input type="text" className="textBox" id="name"
