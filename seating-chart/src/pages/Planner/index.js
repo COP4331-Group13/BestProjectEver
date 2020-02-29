@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../SeatPlanner.css';
 import {withRouter} from "react-router-dom";
+import {navigation} from '../../services/navigation.js';
 
 
 class CreateGuest extends React.Component {
@@ -49,9 +50,11 @@ class CreateGuest extends React.Component {
 		return (
 			<div id="wrapperbox">
 				<div id = "welcome">
-				<div className='button' id='navigation' >
+				<div className='button' id="navigation" onClick={this.handleEventPage}>
+				<navigation history={this.props.history} toWhere={"/events"} text={"Events"} />
 						Events
 				</div>
+
 					<h1>Event Title</h1>
 				</div>
 				<div id="sidebar">
