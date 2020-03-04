@@ -1,12 +1,13 @@
 import {withRouter} from "react-router-dom";
 import '../../SeatPlanner.css';
 import React from "react";
+import {addEvent} from "../../services/Validator";
 
 export class EventList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {eventList:this.props.storage.getEvents(), listItems:[]};
+        this.state = {eventList:this.props.storage.getEvents(), listItems:[], name: '', date:'', address:'', max:''};
         for (let i = 0; i < this.state.eventList.length; i++) {
             this.state.listItems.push(
                 <EventItem
@@ -19,23 +20,59 @@ export class EventList extends React.Component {
         this.props.storage.setEvent(undefined);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
-
+        this.openDialog = this.openDialog.bind(this);
+    		this.closeDialog = this.closeDialog.bind(this);
+        this.changeName = this.changeName.bind(this);
+    		this.changeDate = this.changeDate.bind(this);
+    		this.changeAddress = this.changeAddress.bind(this);
+    		this.changeMax = this.changeMax.bind(this);
     }
 
+    openDialog() {
+  		document.getElementById('dialogbox').style.display = 'block';
+  	}
+
+  	closeDialog() {
+  		document.getElementById('dialogbox').style.display = 'none';
+  	}
+
+    changeName(event) {
+  		this.setState({name: event.target.value});
+  	}
+
+  	changeDate(event) {
+  		this.setState({date: event.target.value});
+  	}
+
+  	changeAddress(event) {
+  		this.setState({address: event.target.value});
+  	}
+
+  	changeMax(event) {
+  		this.setState({max: event.target.value});
+  	}
 
     handleSubmit(event) {
         event.preventDefault();
-        let listLength = this.state.eventList.length;
-        this.props.storage.addEvent('Event' + (this.state.eventList.length));
-        this.setState({eventList: this.props.storage.getEvents()});
-        this.setState(prevState => ({
-            listItems: [...prevState.listItems, <EventItem
-                Key={listLength}
-                Event = {'Event' + listLength}
-                storage = {this.props.storage}
-                history = {this.props.history}
-            />]
-        }));
+        let added = addEvent(this.state, this.props.storage);
+        if (added[0]) {
+          alert('Event was successfuly added');
+          this.closeDialog();
+          let listLength = this.state.eventList.length;
+          this.props.storage.addEvent('Event' + (this.state.eventList.length));
+          this.setState({eventList: this.props.storage.getEvents()});
+          this.setState(prevState => ({
+              listItems: [...prevState.listItems, <EventItem
+                  Key={listLength}
+                  Event = {'Event' + listLength}
+                  storage = {this.props.storage}
+                  history = {this.props.history}
+              />]
+          }));
+    		} else {
+            this.setState({error: 'eventError'});
+            this.setState({errorMessage: added[1]});
+        }
     }
 
     handleLogout(event) {
@@ -57,8 +94,32 @@ export class EventList extends React.Component {
                     </div>
                     <div id="listWrapper">
                         <ul id="eventList">{this.state.listItems}</ul>
-                        <input type='submit' className='button' id='add_event' value='Add Event' onClick={this.handleSubmit}/>
+                        <input type='submit' className='button' id='add_event' value='Add Event' onClick={() => this.openDialog()}/>
                     </div>
+                    <div id="dialogbox">
+            					<dialog open>
+            						<div id="closeWindow">
+            							<input type='submit' id="closeButton" value='X' onClick={() => this.closeDialog()}/>
+            						</div>
+            						<h1>Add an Event</h1>
+            						<form onSubmit={this.handleSubmit}>
+            							<input type="text" className="textBox" id="name"
+            								placeholder="Event Name" value ={this.state.name} onChange={this.changeName} required/>
+            							<input type="datetime-local" className="textBox" id="date"
+            								placeholder="Date/Time" value ={this.state.date} onChange={this.changeDate} required/>
+                          <input type="text" className="textBox" id="address"
+              							placeholder="Address" value ={this.state.address} onChange={this.changeAddress} required/>
+            							<input type="number" className="textBox" id="max"
+            								placeholder="Max # of Guests" value ={this.state.max} onChange={this.changeMax} required/>
+                          <div className='eventError' id={this.state.error} >
+          									{this.state.errorMessage}
+          								</div>
+                          <div id="buttonbox">
+                					  <input type='submit' className='button' id='add_event' value='Submit'/>
+                				  </div>
+            						</form>
+            					</dialog>
+            				</div>
                 </div>
             </div>
         );
