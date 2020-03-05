@@ -23,7 +23,7 @@ function callEvent(state, curUser, pin) {
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "http://35.243.169.229:5000/api/add-event", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send("planner="+curUser+"&pin"+pin+"&event_name="+state.name+"&event_time="+state.date+"&address="+state.address+"&max_people="+state.max);
+  xhr.send("planner="+curUser+"&pin="+pin+"&event_name="+state.name+"&event_time="+state.date+"&address="+state.address+"&max_people="+state.max);
   return xhr.status;
 }
 
