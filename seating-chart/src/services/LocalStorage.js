@@ -1,5 +1,6 @@
 import ls from 'local-storage';
 import {Guest, User} from "./User";
+import {addEvent} from "./Validator";
 
 export class LocalStorage {
     constructor() {
@@ -32,14 +33,20 @@ export class LocalStorage {
     addGuest() {
 
     }
-    addEvent(newEvent) {
+    addEvent(state) {
         let eventList = ls('eventList');
-        eventList.push(newEvent);
-        ls('eventList', eventList);
-
+        let added = addEvent(state, this.getUser());
+        if (added[0]) {
+            eventList.push(added[1]);
+            ls('eventList', eventList);
+        }
+        return added;
     }
     setEvent(newEvent) {
         ls('curEvent', newEvent);
+    }
+    getEvent() {
+        return ls('curEvent');
     }
     getEvents() {
         return ls('eventList');

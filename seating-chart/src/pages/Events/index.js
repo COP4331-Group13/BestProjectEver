@@ -1,7 +1,6 @@
 import {withRouter} from "react-router-dom";
 import '../../SeatPlanner.css';
 import React from "react";
-import {addEvent} from "../../services/Validator";
 
 export class EventList extends React.Component {
 
@@ -54,17 +53,15 @@ export class EventList extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        let added = addEvent(this.state, this.props.storage);
+        let added = this.props.storage.addEvent(this.state);
         if (added[0]) {
-          alert('Event was successfuly added');
           this.closeDialog();
           let listLength = this.state.eventList.length;
-          this.props.storage.addEvent('Event' + (this.state.eventList.length));
           this.setState({eventList: this.props.storage.getEvents()});
           this.setState(prevState => ({
               listItems: [...prevState.listItems, <EventItem
                   Key={listLength}
-                  Event = {'Event' + listLength}
+                  Event = {added[1]}
                   storage = {this.props.storage}
                   history = {this.props.history}
               />]
@@ -97,29 +94,37 @@ export class EventList extends React.Component {
                         <input type='submit' className='button' id='add_event' value='Add Event' onClick={() => this.openDialog()}/>
                     </div>
                     <div id="dialogbox">
-            					<dialog open>
-            						<div id="closeWindow">
-            							<input type='submit' id="closeButton" value='X' onClick={() => this.closeDialog()}/>
-            						</div>
-            						<h1>Add an Event</h1>
-            						<form onSubmit={this.handleSubmit}>
-            							<input type="text" className="textBox" id="name"
-            								placeholder="Event Name" value ={this.state.name} onChange={this.changeName} required/>
-            							<input type="datetime-local" className="textBox" id="date"
-            								placeholder="Date/Time" value ={this.state.date} onChange={this.changeDate} required/>
-                          <input type="text" className="textBox" id="address"
-              							placeholder="Address" value ={this.state.address} onChange={this.changeAddress} required/>
-            							<input type="number" className="textBox" id="max"
-            								placeholder="Max # of Guests" value ={this.state.max} onChange={this.changeMax} required/>
-                          <div className='eventError' id={this.state.error} >
-          									{this.state.errorMessage}
-          								</div>
-                          <div id="buttonbox">
-                					  <input type='submit' className='button' id='add_event' value='Submit'/>
-                				  </div>
-            						</form>
-            					</dialog>
-            				</div>
+                        <dialog open>
+                            <div id="closeWindow">
+                                <input type='submit' id="closeButton" value='X' onClick={() => this.closeDialog()}/>
+                            </div>
+                            <h1>Add an Event</h1>
+                            <form onSubmit={this.handleSubmit}>
+                                <input type="text" className="textBox"
+                                        id="name" placeholder="Event Name"
+                                        value ={this.state.name}
+                                        onChange={this.changeName} required />
+                                <input type="datetime-local" className="textBox"
+                                       id="date" placeholder="Date/Time"
+                                       value ={this.state.date}
+                                       onChange={this.changeDate} required />
+                                <input type="text" className="textBox"
+                                        id="address" placeholder="Address"
+                                        value ={this.state.address}
+                                        onChange={this.changeAddress} required/>
+                                <input type="number" className="textBox"
+                                        id="max" placeholder="Max # of Guests"
+                                        value ={this.state.max}
+                                        onChange={this.changeMax} required/>
+                                <div className='eventError' id={this.state.error} >
+                                    {this.state.errorMessage}
+                                </div>
+                                <div id="buttonbox">
+                                    <input type='submit' className='button' id='add_event' value='Submit'/>
+                                </div>
+                            </form>
+                        </dialog>
+                    </div>
                 </div>
             </div>
         );
@@ -140,7 +145,7 @@ class EventItem extends React.Component {
 
     render() {
         return (
-            <li key={this.props.Key} className='eventItem' onClick={this.goToEvent}>{this.props.Event}</li>
+            <li key={this.props.Key} className='eventItem' onClick={this.goToEvent}>{this.props.Event.name}</li>
         );
     }
 }

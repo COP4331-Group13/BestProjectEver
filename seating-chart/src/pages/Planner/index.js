@@ -1,13 +1,14 @@
 import React from 'react';
 import '../../SeatPlanner.css';
 import {withRouter} from "react-router-dom";
-import {navigation} from '../../services/navigation.js';
+import {Navigation} from '../../services/navigation.js';
 
 
 class CreateGuest extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {clicked: 'false', name: '', email: '', phone: '', address: '', search: ''};
+		this.state = {clicked: 'false', name: '', email: '',
+			phone: '', address: '', search: '', curEvent:this.props.storage.getEvent()};
 
 		this.openDialog = this.openDialog.bind(this);
 		this.closeDialog = this.closeDialog.bind(this);
@@ -50,12 +51,8 @@ class CreateGuest extends React.Component {
 		return (
 			<div id="wrapperbox">
 				<div id = "welcome">
-				<div className='button' id="navigation" onClick={this.handleEventPage}>
-				<navigation history={this.props.history} toWhere={"/events"} text={"Events"} />
-						Events
-				</div>
-
-					<h1>Event Title</h1>
+				<Navigation history={this.props.history} towhere={"/events"} text={"Events"} />
+				<h1>{this.state.curEvent.name}</h1>
 				</div>
 				<div id="sidebar">
 					<div id="search">
