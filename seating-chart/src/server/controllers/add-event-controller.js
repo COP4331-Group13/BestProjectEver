@@ -28,7 +28,7 @@ module.exports.addEvent = function(req,res) {
 					res.status(400);
 			    res.send();
 			  } else {
-						connection.query('SELECT * FROM event WHERE event_pin = ?',[pin], function (error, results, fields) {
+						connection.query('SELECT * FROM event WHERE event_pin = ?',[req.body.pin], function (error, results, fields) {
 							if (error) {
 								res.status(400);
 						    res.send();
