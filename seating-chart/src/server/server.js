@@ -4,6 +4,7 @@ var authenticateController = require('./controllers/authenticate-controller');
 var registerController = require('./controllers/register-controller');
 var addEventController = require('./controllers/add-event-controller');
 var addGuestController = require('./controllers/add-guest-controller');
+var getEventListController = require('./controllers/get-eventList-controller');
 
 var express = require('express');
 var app = express();
@@ -23,6 +24,7 @@ router.post('/api/register', registerController.register);
 router.post('/api/login', authenticateController.authenticate);
 router.post('/api/add-event', addEventController.addEvent);
 router.post('/api/add-guest', addGuestController.addGuest);
+router.get('/api/get-event-list', getEventListController.getEventList);
 
 const PORT = 5000;
 

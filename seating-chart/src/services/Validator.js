@@ -35,6 +35,14 @@ function callGuest(state, curEventPin) {
   return xhr.status;
 }
 
+function callEventList(curUser) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", "http://35.243.169.229:5000/api/get-event-list", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("planner="+curUser);
+  return [xhr.status, xhr.responseText];
+}
+
 export function validateGuest(gID) {
     return gID !== "" && gID.length === 10;
 }
@@ -106,6 +114,23 @@ export function addGuest(state, storage) {
     // do stuff to add to storage
     return [true];
   } else {
-    return [false, 'Error has occured'];
+    return [false, 'Error has occurred'];
+  }
+}
+
+export function getEventList(curUser) {
+  let eventListCode = callEventList(curUser);
+  if (eventListCode[0] === 200) {
+    var data = JSON.parse(eventListCode[1]);
+    // number of results: data.length
+    /* format to get data: data.results[i].event_pin);
+                           data.results[i].event_name);
+                           data.results[i].event_time);
+                           data.results[i].address);
+                           data.results[i].max_people);
+       and put it into eventList
+    */
+  } else {
+     // error occurred
   }
 }
