@@ -224,3 +224,16 @@ dialog {
 	right: 0;
 	overflow-x: hidden;
 }
+#seatingChart {
+	margin-top: 4%;
+	float:left;
+	width:49.5%;
+	height:100%;
+	border-right:thin solid grey;
+}
+#guestInfo {
+	margin-top: 4%;
+	float:left;
+	width:49.5%;
+	height:100%;
+}
