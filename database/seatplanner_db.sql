@@ -26,27 +26,20 @@ CREATE TABLE `event` (
   `event_id` int(11) NOT NULL AUTO_INCREMENT,
   `event_pin` varchar(11) NOT NULL,
   `event_name` varchar(200) NOT NULL,
-  `event_time` date NOT NULL,
+  `event_time` varchar(200) NOT NULL,
   `address` varchar(200) NOT NULL,
   `max_people` int(11) NOT NULL,
   `planner_id` int(11) NOT NULL,
   `layout_id` int(11) NOT NULL,
-  `date_added` date NOT NULL,
+  `length` int(11) NOT NULL DEFAULT '900',
+  `width` int(11) NOT NULL DEFAULT '700',
+  `date_added` datetime NOT NULL,
   PRIMARY KEY (`event_id`),
   KEY `planner_id` (`planner_id`),
   KEY `idx_event_pin` (`event_pin`),
   CONSTRAINT `event_ibfk_1` FOREIGN KEY (`planner_id`) REFERENCES `planner` (`planner_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `event`
---
-
-LOCK TABLES `event` WRITE;
-/*!40000 ALTER TABLE `event` DISABLE KEYS */;
-/*!40000 ALTER TABLE `event` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `groups`
@@ -62,17 +55,8 @@ CREATE TABLE `groups` (
   PRIMARY KEY (`group_id`),
   KEY `event_id` (`event_id`),
   CONSTRAINT `groups_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `groups`
---
-
-LOCK TABLES `groups` WRITE;
-/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `guest`
@@ -85,6 +69,7 @@ CREATE TABLE `guest` (
   `guest_id` int(11) NOT NULL AUTO_INCREMENT,
   `full_name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
+  `guest_pin` varchar(22) NOT NULL,
   `event_pin` varchar(11) NOT NULL,
   `address` varchar(100) NOT NULL,
   `phone_number` int(11) NOT NULL,
@@ -103,15 +88,6 @@ CREATE TABLE `guest` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `guest`
---
-
-LOCK TABLES `guest` WRITE;
-/*!40000 ALTER TABLE `guest` DISABLE KEYS */;
-/*!40000 ALTER TABLE `guest` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `planner`
 --
 
@@ -125,17 +101,8 @@ CREATE TABLE `planner` (
   `password` varchar(100) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`planner_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `planner`
---
-
-LOCK TABLES `planner` WRITE;
-/*!40000 ALTER TABLE `planner` DISABLE KEYS */;
-/*!40000 ALTER TABLE `planner` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `preferences`
@@ -155,15 +122,6 @@ CREATE TABLE `preferences` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `preferences`
---
-
-LOCK TABLES `preferences` WRITE;
-/*!40000 ALTER TABLE `preferences` DISABLE KEYS */;
-/*!40000 ALTER TABLE `preferences` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `preferences_guest`
 --
 
@@ -181,15 +139,6 @@ CREATE TABLE `preferences_guest` (
   CONSTRAINT `preferences_guest_ibfk_2` FOREIGN KEY (`preferences_id`) REFERENCES `preferences` (`preferences_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `preferences_guest`
---
-
-LOCK TABLES `preferences_guest` WRITE;
-/*!40000 ALTER TABLE `preferences_guest` DISABLE KEYS */;
-/*!40000 ALTER TABLE `preferences_guest` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -200,4 +149,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-19 16:12:08
+-- Dump completed on 2020-03-07  0:59:30
