@@ -1,14 +1,14 @@
-var connection = require('./config');
-var bodyParser = require('body-parser');
-var authenticateController = require('./controllers/authenticate-controller');
-var registerController = require('./controllers/register-controller');
-var addEventController = require('./controllers/add-event-controller');
-var addGuestController = require('./controllers/add-guest-controller');
-var getEventListController = require('./controllers/get-eventList-controller');
+const connection = require('./config');
+const bodyParser = require('body-parser');
+const authenticateController = require('./controllers/authenticate-controller');
+const registerController = require('./controllers/register-controller');
+const addEventController = require('./controllers/add-event-controller');
+const addGuestController = require('./controllers/add-guest-controller');
+const getEventListController = require('./controllers/get-eventList-controller');
 
-var express = require('express');
-var app = express();
-var router = express.Router();
+const express = require('express');
+const app = express();
+const router = express.Router();
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());

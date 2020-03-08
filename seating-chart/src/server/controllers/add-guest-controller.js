@@ -17,7 +17,7 @@ module.exports.addGuest = function(req,res) {
 					} else {
 							var group_id = results[0].group_id;
 							var event_pin = req.body.event_pin;
-							var guest_pin = event_pin + randomize('Aa0', 5);
+							var guest_pin = req.body.guest_pin;
 							var today = new Date();
 							var guest = {
 								"full_name": req.body.full_name,

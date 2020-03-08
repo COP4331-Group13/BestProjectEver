@@ -1,4 +1,4 @@
-import {User} from "./User";
+import {User, Guest} from "./User";
 import {Event} from "./event";
 
 const randomize = require("randomatic");
@@ -27,19 +27,21 @@ function callEvent(state, curUser, pin) {
   return xhr.status;
 }
 
-function callGuest(state, curEventPin) {
+function callGuest(state, curEventPin, guestPin) {
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "http://35.243.169.229:5000/api/add-guest", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send("full_name="+state.name+"&email="+state.email+"&address="+state.address+"&phone_number="+state.phone_number+"&event_pin="+state.event_pin);
+  xhr.send("full_name="+state.name+"&email="+state.email+"&address="
+      +state.address+"&phone_number="+state.phone_number+"&event_pin="+curEventPin+"&guest_pin"+guestPin);
   return xhr.status;
 }
 
 function callEventList(curUser) {
   const xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://35.243.169.229:5000/api/get-event-list", false);
+  xhr.open("GET", "http://35.243.169.229:5000/api/get-event-list", true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("planner="+curUser);
+  console.log(xhr.status);
   return [xhr.status, xhr.responseText];
 }
 
@@ -106,13 +108,13 @@ export function addEvent(state, curUser) {
   }
 }
 
-export function addGuest(state, storage) {
+export function addGuest(state, curEventPin) {
   // need from state: state.name, state.email, state.address, state.phone_number
-  let curEventPin; // = get event_pin from storage;
-  let addGuestCode = callGuest(state, curEventPin);
+  let guestPin = curEventPin + randomize('Aa0', 5);
+  let addGuestCode = callGuest(state, curEventPin, guestPin);
   if (addGuestCode === 200) { // event added successfully
     // do stuff to add to storage
-    return [true];
+    return [true, new Guest(state.email, state.name, state.address, state.phone_number, guestPin)];
   } else {
     return [false, 'Error has occurred'];
   }
@@ -121,16 +123,16 @@ export function addGuest(state, storage) {
 export function getEventList(curUser) {
   let eventListCode = callEventList(curUser);
   if (eventListCode[0] === 200) {
-    var data = JSON.parse(eventListCode[1]);
-    // number of results: data.length
-    /* format to get data: data.results[i].event_pin);
-                           data.results[i].event_name);
-                           data.results[i].event_time);
-                           data.results[i].address);
-                           data.results[i].max_people);
-       and put it into eventList
-    */
+    let data = JSON.parse(eventListCode[1]);
+    console.log(data);
+    let events = [];
+      for (let i = 0; i < data.length; i++) {
+          events.push(new Event(data.results[i].event_name, data.results[i].event_pin,
+              data.results[i].address, data.results[i].event_time, data.results[i].max_people));
+      }
+
+    return [true, events];
   } else {
-     // error occurred
+      return [false, 'Error has occurred'];
   }
 }

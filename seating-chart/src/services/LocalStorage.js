@@ -1,6 +1,6 @@
 import ls from 'local-storage';
 import {Guest, User} from "./User";
-import {addEvent} from "./Validator";
+import {addEvent, addGuest, getEventList} from "./Validator";
 
 export class LocalStorage {
     constructor() {
@@ -30,8 +30,19 @@ export class LocalStorage {
     getUser() {
         return ls('curUser').userName;
     }
-    addGuest() {
-
+    addGuest(state) {
+        if (ls('curEvent') !== undefined) {
+            let guests = ls('guestList');
+            let added = addGuest(state, ls('curEvent').pin);
+            if (added[0]) {
+                guests.push(added[1]);
+                ls('guestList', guests);
+                return [true];
+            } else {
+                return added;
+            }
+        }
+        return [false];
     }
     addEvent(state) {
         let eventList = ls('eventList');
@@ -49,7 +60,21 @@ export class LocalStorage {
         return ls('curEvent');
     }
     getEvents() {
-        return ls('eventList');
+
+        if (ls('eventList').length !== 0) {
+            return [true, ls('eventList')];
+        } else {
+            if (ls('curUser') !== undefined) {
+
+                let added = getEventList(ls('curUser'));
+                if (added[0]) {
+                    ls('eventList', added[1]);
+                }
+                return added
+            }
+
+            return [false, "No Current User"];
+        }
     }
 
     clear() {

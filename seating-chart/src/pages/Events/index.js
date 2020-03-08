@@ -6,25 +6,47 @@ export class EventList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {eventList:this.props.storage.getEvents(), listItems:[], name: '', date:'', address:'', max:''};
-        for (let i = 0; i < this.state.eventList.length; i++) {
-            this.state.listItems.push(
-                <EventItem
-                    Key={i}
-                    Event={this.state.eventList[i]}
-                    storage = {this.props.storage}
-                    history = {this.props.history}
-                />);
+        let gotEvents = this.props.storage.getEvents();
+        if (gotEvents[0]) {
+            this.state = {
+                eventList: gotEvents[1],
+                listItems: [],
+                name: '',
+                date: '',
+                address: '',
+                max: ''
+            };
+
+            for (let i = 0; i < this.state.eventList.length; i++) {
+                this.state.listItems.push(
+                    <EventItem
+                        Key={this.state.eventList[i].pin}
+                        Event={this.state.eventList[i]}
+                        eventName={this.state.eventList[i].name}
+                        storage={this.props.storage}
+                        history={this.props.history}
+                    />);
+            }
+        } else {
+            this.state = {
+                eventList: [],
+                listItems: [],
+                name: '',
+                date: '',
+                address: '',
+                max: ''
+            };
         }
+
         this.props.storage.setEvent(undefined);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.openDialog = this.openDialog.bind(this);
-    		this.closeDialog = this.closeDialog.bind(this);
+        this.closeDialog = this.closeDialog.bind(this);
         this.changeName = this.changeName.bind(this);
-    		this.changeDate = this.changeDate.bind(this);
-    		this.changeAddress = this.changeAddress.bind(this);
-    		this.changeMax = this.changeMax.bind(this);
+        this.changeDate = this.changeDate.bind(this);
+        this.changeAddress = this.changeAddress.bind(this);
+        this.changeMax = this.changeMax.bind(this);
     }
 
     openDialog() {
@@ -62,6 +84,7 @@ export class EventList extends React.Component {
               listItems: [...prevState.listItems, <EventItem
                   Key={listLength}
                   Event = {added[1]}
+                  eventName = {added[1].name}
                   storage = {this.props.storage}
                   history = {this.props.history}
               />]
@@ -145,7 +168,7 @@ class EventItem extends React.Component {
 
     render() {
         return (
-            <li key={this.props.Key} className='eventItem' onClick={this.goToEvent}>{this.props.Event.name}</li>
+            <li key={this.props.Key} className='eventItem' onClick={this.goToEvent} value={this.props.eventName}>{this.props.eventName}</li>
         );
     }
 }
