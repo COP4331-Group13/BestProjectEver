@@ -31,17 +31,15 @@ function callGuest(state, curEventPin, guestPin) {
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "http://35.243.169.229:5000/api/add-guest", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send("full_name="+state.name+"&email="+state.email+"&address="
-      +state.address+"&phone_number="+state.phone_number+"&event_pin="+curEventPin+"&guest_pin"+guestPin);
+  xhr.send("full_name="+state.name+"&email="+state.email+"&address="+state.address+"&phone_number="+state.phone_number+"&event_pin="+curEventPin+"&guest_pin"+guestPin);
   return xhr.status;
 }
 
 function callEventList(curUser) {
   const xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://35.243.169.229:5000/api/get-event-list", true);
+  xhr.open("POST", "http://35.243.169.229:5000/api/get-event-list", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("planner="+curUser);
-  console.log(xhr.status);
   return [xhr.status, xhr.responseText];
 }
 
@@ -121,10 +119,9 @@ export function addGuest(state, curEventPin) {
 }
 
 export function getEventList(curUser) {
-  let eventListCode = callEventList(curUser);
+  let eventListCode = callEventList(curUser.userName);
   if (eventListCode[0] === 200) {
     let data = JSON.parse(eventListCode[1]);
-    console.log(data);
     let events = [];
       for (let i = 0; i < data.length; i++) {
           events.push(new Event(data.results[i].event_name, data.results[i].event_pin,

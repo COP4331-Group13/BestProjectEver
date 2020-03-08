@@ -24,7 +24,7 @@ router.post('/api/register', registerController.register);
 router.post('/api/login', authenticateController.authenticate);
 router.post('/api/add-event', addEventController.addEvent);
 router.post('/api/add-guest', addGuestController.addGuest);
-router.get('/api/get-event-list', getEventListController.getEventList);
+router.post('/api/get-event-list', getEventListController.getEventList);
 
 const PORT = 5000;
 
