@@ -11,6 +11,7 @@ class CreateGuest extends React.Component {
 			phone: '', address: '', search: '', curEvent:this.props.storage.getEvent()};
 
 		this.openDialog = this.openDialog.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 		this.closeDialog = this.closeDialog.bind(this);
 		this.changeName = this.changeName.bind(this);
 		this.changeEmail = this.changeEmail.bind(this);
@@ -47,6 +48,18 @@ class CreateGuest extends React.Component {
 		this.setState({search: event.target.value});
 	}
 
+	handleSubmit(event) {
+			event.preventDefault();
+			let added = this.props.storage.addGuest(this.state);
+			if (added[0]) {
+				this.closeDialog();
+				alert("Guest was successfully added!");
+			} else {
+					this.setState({error: 'guestError'});
+					this.setState({errorMessage: added[1]});
+			}
+	}
+
 	render() {
 		return (
 			<div id="wrapperbox">
@@ -70,19 +83,22 @@ class CreateGuest extends React.Component {
 							<input type='submit' id="closeButton" value='X' onClick={() => this.closeDialog()}/>
 						</div>
 						<h1>Add a Guest</h1>
-						<form>
+						<form onSubmit={this.handleSubmit}>
 							<input type="text" className="textBox" id="name"
-								placeholder="Name" onChange={this.changeName}/>
-							<input type="text" className="textBox" id="email"
-								placeholder="E-mail" onChange={this.changeEmail}/>
+								placeholder="Name" value ={this.state.name} onChange={this.changeName} required/>
+							<input type="email" className="textBox" id="email"
+								placeholder="E-mail" value ={this.state.email} onChange={this.changeEmail} required/>
 							<input type="text" className="textBox" id="phone"
-								placeholder="Phone Number" onChange={this.changePhone}/>
+								placeholder="Phone Number" value ={this.state.phone_number} onChange={this.changePhone} required/>
 							<input type="text" className="textBox" id="address"
-								placeholder="Address" onChange={this.changeAddress}/>
+								placeholder="Address" value ={this.state.address} onChange={this.changeAddress} required/>
+							<div className='eventError' id={this.state.error} >
+								{this.state.errorMessage}
+							</div>
+							<div id="buttonbox">
+								<input type='submit' className='button' id='add_guest' value='Submit'/>
+							</div>
 						</form>
-						<div id="buttonbox">
-							<input type='submit' className='button' id='add_guest' value='Submit' onClick={() => this.closeDialog()}/>
-						</div>
 					</dialog>
 				</div>
 			</div>
