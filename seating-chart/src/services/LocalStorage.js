@@ -30,6 +30,15 @@ export class LocalStorage {
     getUser() {
         return ls('curUser').userName;
     }
+    setGuest(newGuest) {
+      if (newGuest instanceof Guest) {
+          ls('curGuest', newGuest);
+          ls('signed', true);
+          return true;
+      } else {
+          return false;
+      }
+    }
     addGuest(state) {
         if (ls('curEvent') !== undefined) {
             let guests = ls('guestList');

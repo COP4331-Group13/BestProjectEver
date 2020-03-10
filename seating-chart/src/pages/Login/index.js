@@ -42,10 +42,12 @@ export class GuestLogin extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if (validateGuest(this.state.gID)) {
-            this.props.history.push('/guest');
-        } else {
+        let validated = validateGuest(this.state, this.props.storage);
+        if (validated[0]) {
+    			this.props.history.push('/guest');
+    		} else {
             this.setState({error: 'loginError'});
+            this.setState({errorMessage: validated[1]});
         }
     }
 
@@ -59,7 +61,7 @@ export class GuestLogin extends React.Component {
                         <input type= 'text' className='textBox' id='guestID'
                                placeholder='Unique Guest ID' value={this.state.gID} onChange={this.changeGID} />
                         <div className='loginError' id={this.state.error}>
-                            Invalid Guest ID
+                            {this.state.errorMessage}
                         </div>
                     </div>
                     <input type='submit' className='button' id='guest' value='CONTINUE' />

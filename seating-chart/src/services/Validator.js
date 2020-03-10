@@ -11,6 +11,14 @@ function callAuthenticate(state) {
   return xhr.status;
 }
 
+function callGuestAuthenticate(gID) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://35.243.169.229:5000/api/guest-login", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("guest_pin="+gID);
+  return [xhr.status, xhr.responseText];
+}
+
 function callRegister(state) {
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "http://35.243.169.229:5000/api/register", false);
@@ -43,8 +51,12 @@ function callEventList(curUser) {
   return [xhr.status, xhr.responseText];
 }
 
-export function validateGuest(gID) {
-    return gID !== "" && gID.length === 10;
+function callGuestList(curEventPin) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://35.243.169.229:5000/api/get-guest-list", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("event_pin="+curEventPin);
+  return [xhr.status, xhr.responseText];
 }
 
 export function validatePlanner(state, storage) {
@@ -61,6 +73,25 @@ export function validatePlanner(state, storage) {
         }
     } else {
         return [false, 'Please fill in all fields'];
+    }
+}
+
+export function validateGuest(state, storage) {
+    if (state.gID !== "" && state.gID.length === 10) {
+        let guestAuthCode = callGuestAuthenticate(state.gID);
+        let data = JSON.parse(guestAuthCode[1]);
+        if (guestAuthCode[0] === 200) { // guest account exists
+          let newGuest = new Guest(data.results[0].email, data.results[0].full_name, data.results[0].address,
+            data.results[0].phone_number, data.results[0].guest_pin);
+          storage.setGuest(newGuest);
+          return [true];
+        } else if (guestAuthCode === 205) { // wrong guest pin
+          return [false, 'Invalid Guest ID']
+        } else { // error sending query 400
+          return [false, 'Error has occured']
+        }
+    } else {
+        return [false, 'Invalid Guest ID'];
     }
 }
 
@@ -128,6 +159,21 @@ export function getEventList(curUser) {
       }
 
     return [true, events];
+  } else {
+      return [false, 'Error has occurred'];
+  }
+}
+
+export function getGuestList(curEventPin) {
+  let guestListCode = callGuestList(curEventPin);
+  if (guestListCode[0] === 200) {
+    let data = JSON.parse(guestListCode[1]);
+    let guests = [];
+    for (let i = 0; i < data.length; i++) {
+      guests.push(new Guest(data.results[i].email, data.results[i].full_name, data.results[i].address,
+        data.results[i].phone_number, data.results[i].guest_pin));
+    }
+    return [true, guests];
   } else {
       return [false, 'Error has occurred'];
   }

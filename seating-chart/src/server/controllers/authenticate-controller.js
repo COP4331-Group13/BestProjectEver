@@ -27,3 +27,21 @@ module.exports.authenticate = function(req,res) {
   	}
   });
 }
+
+module.exports.authenticateGuest = function(req,res) {
+
+  connection.query('SELECT * FROM guest WHERE guest_pin = ?',[req.body.guest_pin], function (error, results, fields) {
+    if (error) {
+      res.status(400); // error occured
+      res.send(error);
+    } else {
+      if(results.length > 0) {
+        res.status(200); // login successful
+        res.send({results: results});
+      } else {
+         res.status(205); // pin doesnt exist
+         res.send();
+      }
+    }
+  });
+}
