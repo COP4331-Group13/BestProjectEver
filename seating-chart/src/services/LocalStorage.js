@@ -23,21 +23,16 @@ export class LocalStorage {
             ls('curUser', newUser);
             ls('signed', true);
             return true;
+        } else if (newUser instanceof Guest) {
+             ls('curUser', newUser);
+             ls('signed', true);
+             return true;
         } else {
             return false;
         }
     }
     getUser() {
         return ls('curUser').userName;
-    }
-    setGuest(newGuest) {
-      if (newGuest instanceof Guest) {
-          ls('curGuest', newGuest);
-          ls('signed', true);
-          return true;
-      } else {
-          return false;
-      }
     }
     addGuest(state) {
         if (ls('curEvent') !== undefined) {

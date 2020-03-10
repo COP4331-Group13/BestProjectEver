@@ -3,25 +3,33 @@ import '../../SeatPlanner.css';
 import {withRouter} from "react-router-dom";
 import {Navigation} from '../../services/navigation.js';
 
-export default function Guest() {
-    return <GuestView />
-}
+export class GuestView extends React.Component {
 
-class GuestView extends React.Component {
+    constructor(props) {
+      super(props);
+      this.handleLogout = this.handleLogout.bind(this);
+    }
+
+    handleLogout(event) {
+        event.preventDefault();
+        this.props.storage.clear();
+        this.props.history.push("/");
+    }
 
     render() {
         return(
             <div id = "wrapperbox">
                 <div id = "welcome">
-                    <Navigation history={this.props.history} towhere={"/Login"} text={"Home"} />
-                    <h1>Welcome to the Guest Page</h1>
-                    <h1>We are currently working on this page...</h1>
+                  <div className='button' id='logout' onClick={this.handleLogout}>
+                      Logout
+                  </div>
+                  <h1>Welcome Guest, {this.props.storage.getUser()}!</h1>
                 </div>
             </div>
 
         );
     }
-
+    /*
     render () {
         return (
             <div className='box' id= 'seatingChart'>
@@ -37,4 +45,7 @@ class GuestView extends React.Component {
             </div>
         );
     }
+    */
 }
+
+export default withRouter(GuestView);

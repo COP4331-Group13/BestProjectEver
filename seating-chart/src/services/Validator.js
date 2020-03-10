@@ -83,7 +83,7 @@ export function validateGuest(state, storage) {
         if (guestAuthCode[0] === 200) { // guest account exists
           let newGuest = new Guest(data.results[0].email, data.results[0].full_name, data.results[0].address,
             data.results[0].phone_number, data.results[0].guest_pin);
-          storage.setGuest(newGuest);
+          storage.setUser(newGuest);
           return [true];
         } else if (guestAuthCode === 205) { // wrong guest pin
           return [false, 'Invalid Guest ID']
