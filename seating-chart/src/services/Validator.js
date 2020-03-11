@@ -39,7 +39,7 @@ function callGuest(state, curEventPin, guestPin) {
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "http://35.243.169.229:5000/api/add-guest", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send("full_name="+state.name+"&email="+state.email+"&address="+state.address+"&phone_number="+state.phone_number+"&event_pin="+curEventPin+"&guest_pin="+guestPin);
+  xhr.send("full_name="+state.name+"&email="+state.email+"&address="+state.address+"&phone_number="+state.phone+"&event_pin="+curEventPin+"&guest_pin="+guestPin);
   return xhr.status;
 }
 
@@ -141,8 +141,8 @@ export function addGuest(state, curEventPin) {
   let guestPin = curEventPin + randomize('Aa0', 5);
   let addGuestCode = callGuest(state, curEventPin, guestPin);
   if (addGuestCode === 200) { // event added successfully
-    // do stuff to add to storage
-    return [true, new Guest(state.email, state.name, state.address, state.phone_number, guestPin)];
+    let newGuest = new Guest(state.email, state.name, state.address, state.phone, guestPin);
+    return [true, newGuest];
   } else {
     return [false, 'Error has occurred'];
   }
