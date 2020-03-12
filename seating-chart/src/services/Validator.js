@@ -5,7 +5,7 @@ const randomize = require("randomatic");
 
 function callAuthenticate(state) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:5000/api/login", false);
+  xhr.open("POST", "http://35.243.169.229:5000/api/login", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("email="+state.user+"&password="+state.pass);
   return xhr.status;
@@ -13,7 +13,7 @@ function callAuthenticate(state) {
 
 function callGuestAuthenticate(gID) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:5000/api/guest-login", false);
+  xhr.open("POST", "http://35.243.169.229:5000/api/guest-login", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("guest_pin="+gID);
   return [xhr.status, xhr.responseText];
@@ -29,7 +29,7 @@ function callRegister(state) {
 
 function callEvent(state, curUser, pin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:5000/api/add-event", false);
+  xhr.open("POST", "http://35.243.169.229:5000/api/add-event", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("planner="+curUser+"&pin="+pin+"&event_name="+state.name+"&event_time="+state.date+"&address="+state.address+"&max_people="+state.max);
   return xhr.status;
@@ -37,7 +37,7 @@ function callEvent(state, curUser, pin) {
 
 function callGuest(state, curEventPin, guestPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:5000/api/add-guest", false);
+  xhr.open("POST", "http://35.243.169.229:5000/api/add-guest", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("full_name="+state.name+"&email="+state.email+"&address="+state.address+"&phone_number="+state.phone+"&event_pin="+curEventPin+"&guest_pin="+guestPin);
   return xhr.status;
@@ -45,7 +45,7 @@ function callGuest(state, curEventPin, guestPin) {
 
 function callDeleteGuest(guestPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:5000/api/delete-guest", false);
+  xhr.open("POST", "http://35.243.169.229:5000/api/delete-guest", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("guest_pin="+guestPin);
   return xhr.status;
@@ -53,7 +53,7 @@ function callDeleteGuest(guestPin) {
 
 function callUpdateGuest(state, guestPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:5000/api/update-guest", false);
+  xhr.open("POST", "http://35.243.169.229:5000/api/update-guest", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("full_name="+state.name+"&email="+state.email+"&phone_number="+state.phone+"&address="+state.address+"&guest_pin="+guestPin);
   return xhr.status;
@@ -61,7 +61,7 @@ function callUpdateGuest(state, guestPin) {
 
 function callEventList(curUser) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:5000/api/get-event-list", false);
+  xhr.open("POST", "http://35.243.169.229:5000/api/get-event-list", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("planner="+curUser);
   return [xhr.status, xhr.responseText];
@@ -69,7 +69,7 @@ function callEventList(curUser) {
 
 function callGuestList(curEventPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:5000/api/get-guest-list", false);
+  xhr.open("POST", "http://35.243.169.229:5000/api/get-guest-list", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("event_pin="+curEventPin);
   return [xhr.status, xhr.responseText];
