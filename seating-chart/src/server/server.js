@@ -2,8 +2,8 @@ const connection = require('./config');
 const bodyParser = require('body-parser');
 const authenticateController = require('./controllers/authenticate-controller');
 const registerController = require('./controllers/register-controller');
-const addEventController = require('./controllers/add-event-controller');
-const addGuestController = require('./controllers/add-guest-controller');
+const eventController = require('./controllers/event-controller');
+const guestController = require('./controllers/guest-controller');
 const getEventListController = require('./controllers/get-eventList-controller');
 const getGuestListController = require('./controllers/get-guestList-controller');
 
@@ -24,8 +24,10 @@ app.use('/', router);
 router.post('/api/register', registerController.register);
 router.post('/api/login', authenticateController.authenticate);
 router.post('/api/guest-login', authenticateController.authenticateGuest);
-router.post('/api/add-event', addEventController.addEvent);
-router.post('/api/add-guest', addGuestController.addGuest);
+router.post('/api/add-event', eventController.addEvent);
+router.post('/api/add-guest', guestController.addGuest);
+router.post('/api/delete-guest', guestController.deleteGuest);
+router.post('/api/update-guest', guestController.updateGuest);
 router.post('/api/get-event-list', getEventListController.getEventList);
 router.post('/api/get-guest-list', getGuestListController.getGuestList);
 

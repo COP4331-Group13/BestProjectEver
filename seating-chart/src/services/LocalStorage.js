@@ -1,6 +1,6 @@
 import ls from 'local-storage';
 import {Guest, User} from "./User";
-import {addEvent, addGuest, getEventList, getGuestList} from "./Validator";
+import {addEvent, addGuest, deleteGuest, updateGuest, getEventList, getGuestList} from "./Validator";
 
 export class LocalStorage {
     constructor() {
@@ -52,6 +52,40 @@ export class LocalStorage {
     }
     setGuest(newGuest) {
       ls('curGuest', newGuest)
+    }
+    deleteGuest() {
+      if (ls('curGuest') !== undefined) {
+        let guests = ls('guestList');
+        let deleted = deleteGuest(ls('curGuest').guestId);
+        if (deleted[0]) {
+          let filtered = guests.filter(function(value, index, arr) {
+            return value.guestId !== ls('curGuest').guestId;
+          });
+          ls('guestList', filtered);
+          return true;
+        }
+      }
+      return false;
+    }
+    updateGuest(state) {
+      if (ls('curGuest') !== undefined) {
+        let guests = ls('guestList');
+        let updated = updateGuest(state, ls('curGuest').guestId);
+        if (updated[0]) {
+          for (let i in guests) {
+            if (guests[i].guestId == ls('curGuest').guestId) {
+              guests[i].userName = state.email;
+              guests[i].name = state.name;
+              guests[i].phoneNumber = state.phone;
+              guests[i].address = state.address;
+              break; // found it
+            }
+          }
+          ls('guestList', guests);
+          return true;
+        }
+      }
+      return false;
     }
     getGuest() {
       return ls('curGuest');

@@ -49,7 +49,7 @@ h2 {
 	color: #333333;
   	background: transparent;
 }
-.textBox {
+.textBox,.textFormBox{
 	font-family: 'Montserrat', sans-serif;
 	font-size: 100%;
 	border: none;
@@ -61,10 +61,10 @@ h2 {
 	animation-name: fadeInRight;
   padding-left: 5%;
 }
-.textBox:hover {
+.textBox:hover,.textFormBox:hover {
 	border-bottom: 2px solid rgba(105, 105, 105, 0.8);
 }
-.textBox:focus {
+.textBox:focus,.textFormBox:focus {
 	border-bottom: 2px solid rgba(105, 105, 105, 0.8);
 	outline: none;
 }
@@ -129,9 +129,10 @@ h2 {
 	background-image: linear-gradient(to right, orange , magenta);
 	border: 1px solid black;
 }
-#guestButtons {
-	width: 40%;
-	font-size: 80%;
+#guestButtons,#formGuest #guestButtons {
+	float: left;
+	width: 17%;
+	font-size: 70%;
 }
 #guestBoxInfo {
 	float: left;
@@ -142,12 +143,14 @@ h2 {
 	margin-top: 30%;
 }
 #formGuest label {
+	font-weight: bold;
 	display: block;
 	float: left;
-	margin-left: 25%;
+	margin-left: 17%;
 	margin-right: 40%;
 }
 #formGuest input {
+	width: 70%;
 	margin-right: 1%;
 }
 .guestItem {

@@ -97,7 +97,7 @@ class CreateGuest extends React.Component {
 				this.setState({guestList: this.props.storage.getGuests()});
 				this.setState(prevState => ({
 						listItems: [...prevState.listItems, <GuestItem
-							Key={this.state.guestList.guestId}
+							Key={added[1].guestId}
 							Guest={added[1]}
 							guestName={added[1].name}
 							guestEmail={added[1].userName}
@@ -108,6 +108,7 @@ class CreateGuest extends React.Component {
 							history={this.props.history}
 						/>]
 				}));
+
 			} else {
 					this.setState({error: 'guestError'});
 					this.setState({errorMessage: added[1]});
@@ -170,9 +171,41 @@ class GuestItem extends React.Component {
     constructor(props) {
         super(props);
 
+				this.state = {
+						name: this.props.guestName,
+						email: this.props.guestEmail,
+						phone: this.props.guestPhone,
+						address: this.props.guestAddress
+				};
+
+				this.changeName = this.changeName.bind(this);
+				this.changeEmail = this.changeEmail.bind(this);
+				this.changeAddress = this.changeAddress.bind(this);
+				this.changePhone = this.changePhone.bind(this);
+				this.handleSubmit = this.handleSubmit.bind(this);
 				this.openDialog = this.openDialog.bind(this);
 				this.closeDialog = this.closeDialog.bind(this);
+				this.disableForm = this.disableForm.bind(this);
+				this.enableForm = this.enableForm.bind(this);
+				this.deleteForm = this.deleteForm.bind(this);
+				this.cancelForm = this.cancelForm.bind(this);
     }
+
+		changeName(event) {
+			this.setState({name: event.target.value});
+		}
+
+		changeEmail(event) {
+			this.setState({email: event.target.value});
+		}
+
+		changeAddress(event) {
+			this.setState({address: event.target.value});
+		}
+
+		changePhone(event) {
+			this.setState({phone: event.target.value});
+		}
 
 		openDialog() {
 			this.props.storage.setGuest(this.props.Guest);
@@ -180,8 +213,63 @@ class GuestItem extends React.Component {
 		}
 
 		closeDialog() {
+			this.disableForm();
+			this.cancelForm();
 			this.props.storage.resetGuest();
 			document.getElementById(this.props.Key).style.display = 'none';
+		}
+
+		deleteForm() {
+			let curGuest = this.props.storage.getGuest();
+			if (window.confirm("Are you sure you want to delete the guest: " + curGuest.guestId + " ?") === true) {
+					let deleted = this.props.storage.deleteGuest();
+					if (deleted) {
+				   	alert("Guest deleted!");
+						this.closeDialog();
+						window.location.reload(); // for now pages reload after deleting so that it updates the guest list.
+					} else {
+							alert("Error deleting guest");
+					}
+			} else {
+				// do nothing
+			}
+		}
+
+		cancelForm() {
+			this.disableForm();
+			this.setState({name: this.props.guestName});
+			this.setState({email: this.props.guestEmail});
+			this.setState({phone: this.props.guestPhone});
+			this.setState({address: this.props.guestAddress});
+		}
+
+		disableForm() {
+			var inputForm = document.getElementsByClassName('textFormBox')
+			for (var i = 0; i < inputForm.length; i++) {
+    		inputForm[i].disabled = true;
+			}
+		}
+
+		enableForm() {
+			var inputForm = document.getElementsByClassName('textFormBox')
+			for (var i = 0; i < inputForm.length; i++) {
+    		inputForm[i].disabled = false;
+			}
+		}
+
+		handleSubmit(event) {
+			event.preventDefault();
+			let curGuest = this.props.storage.getGuest();
+			if (window.confirm("Do you want to save changes?") === true) {
+					let updated = this.props.storage.updateGuest(this.state);
+					if (updated) {
+						alert("Guest info updated!");
+						this.closeDialog();
+						window.location.reload(); // for now page reloads to get the updated info.
+					}
+			} else {
+				// do nothing
+			}
 		}
 
     render() {
@@ -196,33 +284,38 @@ class GuestItem extends React.Component {
 
 						<div className="dialogbox2" id={this.props.Key}>
 							<dialog open>
+									<div id="closeWindow">
+										<input type='submit' id="closeButton" value='X' onClick={() => this.closeDialog()}/>
+									</div>
 									<div id='guestBoxInfo'>
 										<h1>{this.props.guestName}</h1>
 										<label><b>Guest ID:</b> {this.props.guestId}</label>
-										<form id="formGuest" onSubmit={() => this.closeDialog()}>
+										<form id="formGuest" onSubmit={this.handleSubmit}>
 											<p>
 												<label>Name</label>
-												<input type="text" className="textBox" id="name"
-													placeholder={this.props.guestName} />
+												<input type="text" className="textFormBox"
+													value={this.state.name} onChange={this.changeName} disabled/>
 											</p>
 											<p>
 												<label>Email</label>
-												<input type="email" className="textBox" id="email"
-												placeholder={this.props.guestEmail} />
+												<input type="email" className="textFormBox"
+													value={this.state.email} onChange={this.changeEmail} disabled/>
 											</p>
 											<p>
 												<label>Phone</label>
-												<input type="text" className="textBox" id="phone"
-												placeholder={this.props.guestPhone} />
+												<input type="text" className="textFormBox"
+													value={this.state.phone} onChange={this.changePhone} disabled/>
 											</p>
 											<p>
 												<label>Address</label>
-												<input type="text" className="textBox" id="address"
-												placeholder={this.props.guestAddress}/>
+												<input type="text" className="textFormBox"
+													value={this.state.address} onChange={this.changeAddress} disabled/>
 											</p>
+											<input type='submit' className='button' id='guestButtons' value='Save'/>
 										</form>
-										<input type='submit' className='button' id='guestButtons' value='Save'/>
-										<input type='submit' className='button' id='guestButtons' value='Cancel' onClick={() => this.closeDialog()}/>
+										<input type='submit' className='button' id='guestButtons' value='Edit' onClick={() => this.enableForm()}/>
+										<input type='submit' className='button' id='guestButtons' value='Delete'onClick={() => this.deleteForm()}/>
+										<input type='submit' className='button' id='guestButtons' value='Cancel' onClick={() => this.cancelForm()}/>
 									</div>
 
 									<div id='guestBoxPreferences'>
