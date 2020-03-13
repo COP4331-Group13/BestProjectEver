@@ -332,4 +332,44 @@ class GuestItem extends React.Component {
     }
 }
 
+class ChartItem extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: this.props.name,
+			xCoordinate: this.props.xCoordinate,
+			yCoordinate: this.props.yCoordinate,
+			size: this.props.size
+		};
+		
+		this.changeLocation = this.changeLocation.bind(this);
+		this.chooseItem = this.chooseItem.bind(this);
+		this.chooseSize = this.chooseSize.bind(this);
+	}
+
+	changeLocation() {
+	}
+
+	chooseItem() {
+	}
+
+	chooseSize() {
+	}
+}
+
+class Table extends ChartItem {
+	constructor(props) {
+		super(props);
+		this.state = {
+			seats: this.props.seats,
+			guests: this.props.guests
+		};
+
+		this.seatGuest = this.seatGuest.bind(this);
+	}
+
+	seatGuest() {
+	}
+}
+
 export default withRouter(CreateGuest);
