@@ -1,6 +1,6 @@
 import ls from 'local-storage';
 import {Guest, User} from "./User";
-import {addEvent, addGuest, deleteGuest, updateGuest, getEventList, getGuestList, getSingleEvent} from "./Validator";
+import {addEvent, addGuest, deleteGuest, updateGuest, getEventList, getGuestList, getSingleEvent, getGuestGroup} from "./Validator";
 
 export class LocalStorage {
     constructor() {
@@ -16,6 +16,8 @@ export class LocalStorage {
             ls('curGuest', undefined);
         if (ls('curEvent') == null)
             ls('curEvent', undefined);
+        if (ls('curGroup') == null)
+            ls('curGroup', undefined);
         if (ls('signed') === null)
             ls('signed', false);
     }
@@ -148,11 +150,24 @@ export class LocalStorage {
             return [false, "No Current User"];
         }
     }
-
+    getGuestGroup() {
+      if (ls('curUser') !== undefined) {
+        let group = getGuestGroup(ls('curUser').guestId);
+        if (group[0]) {
+          ls('curGroup', group[1]);
+          return [true, group[1]];
+        } else {
+            return [false, "No Group"]
+        }
+      } else {
+          return [false, "No Current User"];
+      }
+    }
     clear() {
         ls('curUser', undefined);
         ls('curGuest', undefined);
         ls('curEvent', undefined);
+        ls('curGroup', undefined);
         ls('guestList', []);
         ls('itemList', []);
         ls('eventList', []);

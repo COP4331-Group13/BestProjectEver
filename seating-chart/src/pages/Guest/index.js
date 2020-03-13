@@ -12,7 +12,8 @@ export class GuestView extends React.Component {
 
       this.state = {
         curUser: this.props.storage.getUser(),
-        curEvent: this.props.storage.getEvent()
+        curEvent: this.props.storage.getEvent(),
+        curGroup: this.props.storage.getGuestGroup()
       };
 
       this.handleLogout = this.handleLogout.bind(this);
@@ -58,7 +59,7 @@ export class GuestView extends React.Component {
                   <div className='box' id= 'groupsBox'>
                     <h3>Groups</h3>
                     <div id='guestGroups'>
-                      <p><b>Your Group:</b> ........ </p>
+                      <p><b>Your Event Group: </b>{this.state.curGroup[1]}</p>
                     </div>
                   </div>
                   <div className='box' id='eventBox'>

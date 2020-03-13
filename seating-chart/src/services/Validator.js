@@ -83,7 +83,18 @@ function callEventList(curUser) {
   return [xhr.status, xhr.responseText];
 }
 
-// post calls ^^^^^^^^^^
+function callGuestGroup(guestPin) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://35.243.169.229:5000/api/get-guest-group", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("guest_pin="+guestPin);
+  return [xhr.status, xhr.responseText];
+}
+
+// post calls ^^^^^^^^^^ --> for testing you need to change:
+// 35.243.169.229 to localhost in order to get from the test db (all calls)
+// remember to change it back when pushing
+
 // functions to ls vvvvvvvvv
 
 export function validatePlanner(state, storage) {
@@ -233,5 +244,16 @@ export function getEventList(curUser) {
     return [true, events];
   } else {
       return [false, 'Error has occurred'];
+  }
+}
+
+export function getGuestGroup(guestPin) {
+  let groupCode = callGuestGroup(guestPin);
+  if (groupCode[0] === 200) {
+    let data = JSON.parse(groupCode[1]);
+    let group = data.group_name;
+    return [true, group];
+  } else {
+      return [false];
   }
 }

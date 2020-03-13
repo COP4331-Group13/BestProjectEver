@@ -6,6 +6,7 @@ const guestController = require('./controllers/guest-controller');
 const getGuestListController = require('./controllers/get-guestList-controller');
 const eventController = require('./controllers/event-controller');
 const getEventListController = require('./controllers/get-eventList-controller');
+const groupController = require('./controllers/group-controller');
 
 const express = require('express');
 const app = express();
@@ -31,6 +32,7 @@ router.post('/api/get-guest-list', getGuestListController.getGuestList);
 router.post('/api/add-event', eventController.addEvent);
 router.post('/api/get-event', eventController.getEvent);
 router.post('/api/get-event-list', getEventListController.getEventList);
+router.post('/api/get-guest-group', groupController.getGuestGroup);
 
 const PORT = 5000;
 
