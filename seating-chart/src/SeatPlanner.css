@@ -9,10 +9,19 @@ body {
 	overflow: hidden;
 }
 h1 {
+	font-family: 'Montserrat', sans-serif;
 	cursor: default;
 	font-size: 2em;
 }
 h2 {
+	cursor: inherit;
+}
+h3 {
+	background-image: linear-gradient(to right, magenta , orange);
+	font-family: 'Montserrat', sans-serif;
+	color: white;
+	line-height: 1.5em;
+	font-size: 1em;
 	cursor: inherit;
 }
 #mainbox {
@@ -314,15 +323,36 @@ dialog {
 	border-radius: 0;
 }
 #seatingChart {
-	margin-top: 4%;
-	float:left;
-	width:49.5%;
+	float: left;
+	width:69.9%;
 	height:100%;
 	border-right:thin solid grey;
 }
 #guestInfo {
-	margin-top: 4%;
-	float:left;
-	width:49.5%;
+	float: left;
+	display: flex;
+	flex-direction: column;
+	width:30%;
 	height:100%;
+}
+#guestBox {
+	margin-top: -4.5%;
+	height: 24%;
+}
+#preferencesBox {
+	height: 34%;
+}
+#groupsBox {
+	height: 11%;
+}
+#guestInformation, #eventInformation {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 0.8em;
+	text-align: justify;
+	margin-left: 10%;
+	line-height: 0.6em;
+}
+#guestGroups {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 0.8em;
 }

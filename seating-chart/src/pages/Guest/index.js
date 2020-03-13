@@ -7,6 +7,14 @@ export class GuestView extends React.Component {
 
     constructor(props) {
       super(props);
+
+      this.props.storage.getSingleEvent();
+
+      this.state = {
+        curUser: this.props.storage.getUser(),
+        curEvent: this.props.storage.getEvent()
+      };
+
       this.handleLogout = this.handleLogout.bind(this);
     }
 
@@ -23,29 +31,49 @@ export class GuestView extends React.Component {
                   <div className='button' id='logout' onClick={this.handleLogout}>
                       Logout
                   </div>
-                  <h1>Welcome Guest, {this.props.storage.getUser()}!</h1>
+                  <h1>Welcome, {this.state.curUser.name}!</h1>
+                </div>
+
+                <div id= 'seatingChart'>
+                  <h1>Pretend this is a seating chart...</h1>
+                </div>
+
+                <div id= 'guestInfo'>
+                  <div className='box' id='guestBox'>
+                    <h3>Account Information</h3>
+                    <div id= 'guestInformation'>
+                      <p><b>Guest ID: </b>{this.state.curUser.guestId}</p>
+                      <p><b>Name: </b>{this.state.curUser.name}</p>
+                      <p><b>Email: </b>{this.state.curUser.userName}</p>
+                      <p><b>Phone Number: </b>{this.state.curUser.phoneNumber}</p>
+                      <p><b>Address: </b>{this.state.curUser.address}</p>
+                    </div>
+                  </div>
+                  <div className='box' id= 'preferencesBox'>
+                    <h3>Preferences</h3>
+                    <div id='guestPreferences'>
+                      <p> here goes guest preferences </p>
+                    </div>
+                  </div>
+                  <div className='box' id= 'groupsBox'>
+                    <h3>Groups</h3>
+                    <div id='guestGroups'>
+                      <p><b>Your Group:</b> ........ </p>
+                    </div>
+                  </div>
+                  <div className='box' id='eventBox'>
+                    <h3>Event Information</h3>
+                    <div id= 'eventInformation'>
+                      <p><b>Event Name: </b>{this.state.curEvent.name}</p>
+                      <p><b>Event Address: </b>{this.state.curEvent.address}</p>
+                      <p><b>Event Date/Time: </b>{this.state.curEvent.eventDate}</p>
+                    </div>
+                  </div>
                 </div>
             </div>
 
         );
     }
-    /*
-    render () {
-        return (
-            <div className='box' id= 'seatingChart'>
-                <h2>Pretend this is a seating chart...</h2>
-            </div>
-        );
-    }
-
-    render () {
-        return (
-            <div className='box' id= 'guestInfo'>
-                <h2>Pretend this is information about you, the guest...</h2>
-            </div>
-        );
-    }
-    */
 }
 
 export default withRouter(GuestView);

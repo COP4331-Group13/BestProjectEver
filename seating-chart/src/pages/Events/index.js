@@ -111,7 +111,7 @@ export class EventList extends React.Component {
                         <div className='button' id='logout' onClick={this.handleLogout}>
                             Logout
                         </div>
-                        <h1>Welcome, {this.props.storage.getUser()}!</h1>
+                        <h1>Welcome, {this.props.storage.getUser().userName}!</h1>
                     </div>
                     <div id="listWrapper">
                         <ul id="eventList">{this.state.listItems}</ul>

@@ -54,3 +54,23 @@ module.exports.addEvent = function(req,res) {
 		}
 	});
 }
+
+module.exports.getEvent = function(req,res) {
+
+	connection.query('SELECT * FROM event WHERE event_pin = ?', [req.body.event_pin], function (error, results, fields) {
+		if (error) {
+			res.status(400);
+			res.send();
+		} else {
+				if (results.length > 0) {
+					res.status(200);
+					res.send({
+						results: results
+					})
+				} else {
+					res.status(205); // no event found
+					res.send();
+				}
+		}
+	});
+}

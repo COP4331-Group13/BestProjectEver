@@ -1,6 +1,6 @@
 import ls from 'local-storage';
 import {Guest, User} from "./User";
-import {addEvent, addGuest, deleteGuest, updateGuest, getEventList, getGuestList} from "./Validator";
+import {addEvent, addGuest, deleteGuest, updateGuest, getEventList, getGuestList, getSingleEvent} from "./Validator";
 
 export class LocalStorage {
     constructor() {
@@ -34,7 +34,7 @@ export class LocalStorage {
         }
     }
     getUser() {
-        return ls('curUser').userName;
+        return ls('curUser');
     }
     addGuest(state) {
         if (ls('curEvent') !== undefined) {
@@ -73,7 +73,7 @@ export class LocalStorage {
         let updated = updateGuest(state, ls('curGuest').guestId);
         if (updated[0]) {
           for (let i in guests) {
-            if (guests[i].guestId == ls('curGuest').guestId) {
+            if (guests[i].guestId === ls('curGuest').guestId) {
               guests[i].userName = state.email;
               guests[i].name = state.name;
               guests[i].phoneNumber = state.phone;
@@ -121,6 +121,12 @@ export class LocalStorage {
     }
     setEvent(newEvent) {
         ls('curEvent', newEvent);
+    }
+    getSingleEvent() {
+        let newEvent = getSingleEvent(ls('curUser').eventPin);
+        if (newEvent[0]) {
+          ls('curEvent', newEvent[1]);
+        }
     }
     getEvent() {
         return ls('curEvent');
