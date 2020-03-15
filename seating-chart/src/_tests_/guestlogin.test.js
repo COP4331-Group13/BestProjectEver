@@ -4,3 +4,9 @@ import {cleanup} from '@testing-library/react';
 import '../services/LocalStorage';
 import App from '../App';
 import {fireEvent} from "@testing-library/dom';
+
+// test correct guest code
+
+// test incorrect guest code (wrong number of characters, code not in db, etc)
+
+// test blank guest code
