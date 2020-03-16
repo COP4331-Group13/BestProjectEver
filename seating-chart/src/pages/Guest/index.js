@@ -35,7 +35,7 @@ export class GuestView extends React.Component {
                   <h1>Welcome, {this.state.curUser.name}!</h1>
                 </div>
 
-                <div id= 'seatingChart'>
+                <div id= 'chartGuest'>
                   <h1>Pretend this is a seating chart...</h1>
                 </div>
 

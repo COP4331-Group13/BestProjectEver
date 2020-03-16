@@ -187,10 +187,12 @@ h3 {
 	outline: none;
 }
 #guestList {
+	display: flex;
 	font-family: 'Montserrat', sans-serif;
 	padding: 0;
 	list-style-type: none;
 	margin: 0;
+	flex-direction: column;
 }
 #welcome {
 	display: flex;
@@ -283,8 +285,8 @@ dialog {
 	padding:1% 1% 1% 1%;
 }
 #sidebar {
-	height: 60%;
-	width: 250px;
+	height: 100%;
+	width: 22%;
 	float: right;
 	position: relative;
 	overflow: hidden;
@@ -304,7 +306,7 @@ dialog {
 }
 #sidebar #list {
 	width: 100%;
-	height: 100%;
+	height: 70%;
 	padding: 0;
 	list-style-type: none;
 	margin: 0;
@@ -322,11 +324,29 @@ dialog {
 	padding-bottom: 8%;
 	border-radius: 0;
 }
-#seatingChart {
+#sidebar #properties {
+	height: 50%;
+	border-left: 1px solid black;
+}
+#chartPlanner {
+	width: 78%;
+	float: left;
+	display: flex;
+	flex-direction: column;
+}
+#chartGuest {
 	float: left;
 	width:69.9%;
 	height:100%;
 	border-right:thin solid grey;
+}
+#seatingChart {
+	height: 384px;
+	border-bottom:thin solid grey;
+}
+#chartItems {
+	height: 30%;
+	overflow-y: hidden;
 }
 #guestInfo {
 	float: left;

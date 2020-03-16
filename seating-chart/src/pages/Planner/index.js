@@ -122,6 +122,16 @@ class CreateGuest extends React.Component {
 				<Navigation history={this.props.history} towhere={"/events"} text={"Events"} />
 				<h1>{this.state.curEvent.name}</h1>
 				</div>
+
+				<div id="chartPlanner">
+					<div id="seatingChart">
+						<h1>seating chart here</h1>
+					</div>
+					<div id="chartItems">
+						<h1>items here</h1>
+					</div>
+				</div>
+
 				<div id="sidebar">
 					<div id="search">
 						<form>
@@ -134,6 +144,10 @@ class CreateGuest extends React.Component {
 					</div>
 					<div id="add">
 						<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openDialog()}/>
+					</div>
+					<div id="properties">
+						<p><label>Item properties</label></p>
+						<p><label>Room properties</label></p>
 					</div>
 				</div>
 
@@ -274,7 +288,7 @@ class GuestItem extends React.Component {
 
     render() {
         return (
-					<div id="sidebar">
+					<div>
 						<div id="guestListItem">
             	<li
 								key={this.props.Key} className='guestItem' value={this.props.guestName}>{this.props.guestName}
@@ -341,7 +355,7 @@ class ChartItem extends React.Component {
 			yCoordinate: this.props.yCoordinate,
 			size: this.props.size
 		};
-		
+
 		this.changeLocation = this.changeLocation.bind(this);
 		this.chooseItem = this.chooseItem.bind(this);
 		this.chooseSize = this.chooseSize.bind(this);
