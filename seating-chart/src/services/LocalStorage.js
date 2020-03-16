@@ -114,7 +114,7 @@ export class LocalStorage {
     }
     addEvent(state) {
         let eventList = ls('eventList');
-        let added = addEvent(state, this.getUser());
+        let added = addEvent(state, this.getUser().userName);
         if (added[0]) {
             eventList.push(added[1]);
             ls('eventList', eventList);
