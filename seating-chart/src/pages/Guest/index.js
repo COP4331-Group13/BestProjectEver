@@ -11,12 +11,23 @@ export class GuestView extends React.Component {
       this.props.storage.getSingleEvent();
 
       this.state = {
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
         curUser: this.props.storage.getUser(),
         curEvent: this.props.storage.getEvent(),
         curGroup: this.props.storage.getGuestGroup()
       };
 
       this.handleLogout = this.handleLogout.bind(this);
+      this.changeName = this.changeName.bind(this);
+      this.changeEmail = this.changeEmail.bind(this);
+      this.changeAddress = this.changeAddress.bind(this);
+      this.changePhone = this.changePhone.bind(this);
+      this.openDialog = this.openDialog.bind(this);
+      this.closeDialog = this.closeDialog.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleLogout(event) {
@@ -24,6 +35,50 @@ export class GuestView extends React.Component {
         this.props.storage.clear();
         this.props.history.push("/");
     }
+
+    changeName(event) {
+			this.setState({name: event.target.value});
+		}
+
+		changeEmail(event) {
+			this.setState({email: event.target.value});
+		}
+
+		changeAddress(event) {
+			this.setState({address: event.target.value});
+		}
+
+		changePhone(event) {
+			this.setState({phone: event.target.value});
+		}
+
+		openDialog() {
+      this.setState({
+        name: this.state.curUser.name,
+        email: this.state.curUser.userName,
+        phone: this.state.curUser.phoneNumber,
+        address: this.state.curUser.address
+      });
+			document.getElementById("edit_guest").style.display = 'block';
+		}
+
+		closeDialog() {
+			document.getElementById("edit_guest").style.display = 'none';
+		}
+
+    handleSubmit(event) {
+			event.preventDefault();
+			if (window.confirm("Do you want to save changes?") === true) {
+					let updated = this.props.storage.updateGuestUser(this.state);
+					if (updated) {
+						alert("Account info updated!");
+						this.closeDialog();
+						window.location.reload(true); // for now page reloads to get the updated info.
+					}
+			} else {
+				// do nothing
+			}
+		}
 
     render() {
         return(
@@ -43,7 +98,10 @@ export class GuestView extends React.Component {
                   <div className='box' id='guestBox'>
                     <h3>Account Information</h3>
                     <div id= 'guestInformation'>
-                      <p><b>Guest ID: </b>{this.state.curUser.guestId}</p>
+                      <p>
+                        <b>Guest ID: </b>{this.state.curUser.guestId}
+                        <input type='submit' className='button2' id='edit' value='EDIT' onClick={() => this.openDialog()}/>
+                      </p>
                       <p><b>Name: </b>{this.state.curUser.name}</p>
                       <p><b>Email: </b>{this.state.curUser.userName}</p>
                       <p><b>Phone Number: </b>{this.state.curUser.phoneNumber}</p>
@@ -71,6 +129,38 @@ export class GuestView extends React.Component {
                     </div>
                   </div>
                 </div>
+
+                <div className="dialogbox2" id="edit_guest">
+    							<dialog open>
+    									<div id="closeWindow">
+    										<input type='submit' className= "button2" id="closeButton" value='X' onClick={() => this.closeDialog()}/>
+    									</div>
+    										<h1>Edit Account Information:</h1>
+    										<form id="formGuest" onSubmit={this.handleSubmit}>
+                          <p>
+                            <label>Name</label>
+                            <input type="text" className="textFormBox"
+                              value={this.state.name} onChange={this.changeName}/>
+                          </p>
+                          <p>
+                            <label>Email</label>
+                            <input type="email" className="textFormBox"
+                              value={this.state.email} onChange={this.changeEmail}/>
+                          </p>
+                          <p>
+                            <label>Phone</label>
+                            <input type="text" className="textFormBox"
+                              value={this.state.phone} onChange={this.changePhone}/>
+                          </p>
+                          <p>
+                            <label>Address</label>
+                            <input type="text" className="textFormBox"
+                              value={this.state.address} onChange={this.changeAddress}/>
+                          </p>
+                          <input type='submit' className='button' id='button' value='Save'/>
+    										</form>
+    							</dialog>
+    						</div>
             </div>
 
         );

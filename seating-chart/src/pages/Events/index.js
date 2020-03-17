@@ -120,7 +120,7 @@ export class EventList extends React.Component {
                     <div id="dialogbox">
                         <dialog open>
                             <div id="closeWindow">
-                                <input type='submit' id="closeButton" value='X' onClick={() => this.closeDialog()}/>
+                                <input type='submit' className='button2' id="closeButton" value='X' onClick={() => this.closeDialog()}/>
                             </div>
                             <h1>Add an Event</h1>
                             <form onSubmit={this.handleSubmit}>

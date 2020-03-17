@@ -89,6 +89,17 @@ export class LocalStorage {
       }
       return false;
     }
+    updateGuestUser(state) {
+      if (ls('curUser') !== undefined) {
+        let updated = updateGuest(state, ls('curUser').guestId);
+        if (updated[0]) {
+          let newUser = new Guest(state.email, state.name, state.address, state.phone, ls('curUser').guestId, ls('curUser').eventPin);
+          ls('curUser', newUser);
+          return true;
+        }
+      }
+      return false;
+    }
     getGuest() {
       return ls('curGuest');
     }

@@ -154,7 +154,7 @@ class CreateGuest extends React.Component {
 				<div id="dialogbox">
 					<dialog open>
 						<div id="closeWindow">
-							<input type='submit' id="closeButton" value='X' onClick={() => this.closeDialog()}/>
+							<input type='submit' className="button2" id="closeButton" value='X' onClick={() => this.closeDialog()}/>
 						</div>
 						<h1>Add a Guest</h1>
 						<form onSubmit={this.handleSubmit}>
@@ -299,7 +299,7 @@ class GuestItem extends React.Component {
 						<div className="dialogbox2" id={this.props.Key}>
 							<dialog open>
 									<div id="closeWindow">
-										<input type='submit' id="closeButton" value='X' onClick={() => this.closeDialog()}/>
+										<input type='submit' className= "button2" id="closeButton" value='X' onClick={() => this.closeDialog()}/>
 									</div>
 									<div id='guestBoxInfo'>
 										<h1>{this.props.guestName}</h1>

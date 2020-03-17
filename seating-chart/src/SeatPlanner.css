@@ -230,17 +230,17 @@ dialog {
 	position: absolute;
 	margin: 1% 0 0 1%;
 }
-#closeButton {
+.button2 {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 100%;
 	cursor: pointer;
 	background: transparent;
 	border: none;
 }
-#closeButton:hover {
+.button2:hover {
 	font-weight: bold;
 }
-#closeButton:focus {
+.button2:focus {
 	font-weight: bold;
 	outline: none;
 }
@@ -375,4 +375,11 @@ dialog {
 #guestGroups {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 0.8em;
+}
+#edit.button2{
+	float: right;
+	border: none;
+	margin: 0 10% 0 0;
+	padding: 0;
+	line-height: 0.8em;
 }
