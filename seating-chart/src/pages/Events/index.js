@@ -104,8 +104,6 @@ export class EventList extends React.Component {
 
     render() {
         return (
-            <div id="logoutBox">
-
                 <div id="wrapperbox">
                     <div id = "welcome">
                         <div className='button' id='logout' onClick={this.handleLogout}>
@@ -150,7 +148,6 @@ export class EventList extends React.Component {
                         </dialog>
                     </div>
                 </div>
-            </div>
         );
     }
 }
