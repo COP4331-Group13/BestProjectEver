@@ -31,7 +31,7 @@ router.post('/api/update-guest', guestController.updateGuest);
 router.post('/api/get-guest-list', getGuestListController.getGuestList);
 router.post('/api/add-event', eventController.addEvent);
 router.post('/api/get-event', eventController.getEvent);
-router.get('/api/get-event-list', getEventListController.getEventList);
+router.post('/api/get-event-list', getEventListController.getEventList);
 router.post('/api/get-guest-group', groupController.getGuestGroup);
 
 const PORT = 5000;
