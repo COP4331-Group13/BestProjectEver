@@ -17,7 +17,9 @@ export class GuestView extends React.Component {
         address: '',
         curUser: this.props.storage.getUser(),
         curEvent: this.props.storage.getEvent(),
-        curGroup: this.props.storage.getGuestGroup()
+        curGroup: this.props.storage.getGuestGroup(),
+        layoutWidth: 900,
+        layoutHeight: 750
       };
 
       this.handleLogout = this.handleLogout.bind(this);
@@ -91,7 +93,9 @@ export class GuestView extends React.Component {
                 </div>
 
                 <div id= 'chartGuest'>
-                  <h1>Pretend this is a seating chart...</h1>
+                  <div id="seatingChart">
+        						<Layout height={this.state.layoutHeight} width={this.state.layoutWidth}/>
+        					</div>
                 </div>
 
                 <div id= 'guestInfo'>
@@ -165,6 +169,41 @@ export class GuestView extends React.Component {
 
         );
     }
+}
+
+class Layout extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			height: this.props.height / 50,
+			width: this.props.width / 50
+		};
+		this.createTable = this.createTable.bind(this);
+	}
+
+	createTable(height, width) {
+		let table = [];
+
+		// Outer loop to create parent
+		for (let i = 0; i < height; i++) {
+			let children = [];
+			//Inner loop to create children
+			for (let j = 0; j < width; j++) {
+				children.push(<td className="layoutSquare"/>);
+			}
+			//Create the parent and add the children
+			table.push(<tr className="layoutRow">{children}</tr>);
+		}
+		return table
+	}
+
+	render() {
+		return (
+			<table id="Layout" cellSpacing="0" style={{width: this.props.width, height:this.props.height}}>
+				{this.createTable(this.state.height, this.state.width)}
+			</table>
+		);
+	}
 }
 
 export default withRouter(GuestView);
