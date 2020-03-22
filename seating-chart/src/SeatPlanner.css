@@ -70,10 +70,10 @@ h3 {
 	animation-name: fadeInRight;
   padding-left: 5%;
 }
-.textBox:hover,.textFormBox:hover {
+.textBox:hover,.textFormBox:hover,.dimBox:hover {
 	border-bottom: 2px solid rgba(105, 105, 105, 0.8);
 }
-.textBox:focus,.textFormBox:focus {
+.textBox:focus,.textFormBox:focus,.dimBox:focus {
 	border-bottom: 2px solid rgba(105, 105, 105, 0.8);
 	outline: none;
 }
@@ -92,7 +92,8 @@ h3 {
 }
 #widthHead {
 	float:left;
-	width:60%;
+	width:30%;
+	margin-left: 18%;
 }
 #Layout {
 	margin-left:5%;
@@ -112,7 +113,8 @@ h3 {
 }
 #lengthHead {
 	float:left;
-
+	width:30%;
+	margin-left: 5%;
 }
 .login {
 	width: 100%;
