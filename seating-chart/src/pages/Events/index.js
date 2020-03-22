@@ -15,7 +15,9 @@ export class EventList extends React.Component {
                 name: '',
                 date: '',
                 address: '',
-                max: ''
+                max: '',
+                width: '',
+                length: ''
             };
 
             for (let i = 0; i < this.state.eventList.length; i++) {
@@ -48,6 +50,8 @@ export class EventList extends React.Component {
         this.changeDate = this.changeDate.bind(this);
         this.changeAddress = this.changeAddress.bind(this);
         this.changeMax = this.changeMax.bind(this);
+        this.changeWidth = this.changeWidth.bind(this);
+        this.changeLength = this.changeLength.bind(this);
     }
 
     openDialog() {
@@ -55,6 +59,14 @@ export class EventList extends React.Component {
   	}
 
   	closeDialog() {
+        this.setState({
+            name: '',
+            date: '',
+            address: '',
+            max: '',
+            width: '',
+            length: ''
+        });
   		document.getElementById('dialogbox').style.display = 'none';
   	}
 
@@ -73,6 +85,14 @@ export class EventList extends React.Component {
   	changeMax(event) {
   		this.setState({max: event.target.value});
   	}
+
+  	changeWidth(event) {
+        this.setState({width: event.target.value});
+    }
+
+    changeLength(event) {
+        this.setState({length: event.target.value});
+    }
 
     handleSubmit(event) {
         event.preventDefault();
@@ -138,6 +158,15 @@ export class EventList extends React.Component {
                                         id="max" placeholder="Max # of Guests"
                                         value ={this.state.max}
                                         onChange={this.changeMax} required/>
+                                <h2>Venue Dimensions</h2>
+                                <h3 id="widthHead">Width</h3>
+                                <h3 id="lengthHead">Length</h3>
+                                <input type="number" className="dimBox"
+                                       id="width" value ={this.state.width}
+                                       onChange={this.changeWidth} required/>ft.
+                                <input type="number" className="dimBox"
+                                       id="width" value ={this.state.length}
+                                       onChange={this.changeLength} required/>ft.
                                 <div className='eventError' id={this.state.error} >
                                     {this.state.errorMessage}
                                 </div>

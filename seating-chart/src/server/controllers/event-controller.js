@@ -14,14 +14,16 @@ module.exports.addEvent = function(req,res) {
 
 			  let today = new Date();
 			  let events = {
-					"event_pin": req.body.pin,
+			  	"event_pin": req.body.pin,
 			    "event_name": req.body.event_name,
 			    "event_time": req.body.event_time,
 			    "address": req.body.address,
-					"max_people": req.body.max_people,
-					"planner_id": planner_id,
-			    "date_added": today
-			  }
+				"max_people": req.body.max_people,
+				"planner_id": planner_id,
+			    "date_added": today,
+				"layout_length": req.body.layout_length,
+				"layout_width": req.body.layout_width
+			  };
 
 			  connection.query('INSERT INTO event SET ?',events, function (error, results, fields) {
 			  if (error) {
@@ -37,7 +39,7 @@ module.exports.addEvent = function(req,res) {
 									let groups = {
 										"name": "default",
 										"event_id": event_id
-									}
+									};
 									connection.query('INSERT INTO groups SET ?',groups, function (error, results, fields) {
 										if (error) {
 											res.status(400);
@@ -53,7 +55,7 @@ module.exports.addEvent = function(req,res) {
 			  });
 		}
 	});
-}
+};
 
 module.exports.getEvent = function(req,res) {
 

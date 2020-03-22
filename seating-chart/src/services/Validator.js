@@ -59,11 +59,13 @@ function callGuestList(curEventPin) {
   return [xhr.status, xhr.responseText];
 }
 
-function callEvent(state, curUser, pin) {
+function callEvent(state, curUser, pin, pixelLength, pixelWidth) {
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "http://35.243.169.229:5000/api/add-event", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send("planner="+curUser+"&pin="+pin+"&event_name="+state.name+"&event_time="+state.date+"&address="+state.address+"&max_people="+state.max);
+  xhr.send("planner="+curUser+"&pin="+pin+"&event_name="+state.name+"&event_time="
+      +state.date+"&address="+state.address+"&max_people="+state.max+"&layout_length="
+      +pixelLength+"&layout_width="+pixelWidth);
   return xhr.status;
 }
 
@@ -210,9 +212,13 @@ export function getGuestList(curEventPin) {
 
 export function addEvent(state, curUser) {
   let pin = randomize('Aa0', 5);
-  let addEventCode = callEvent(state, curUser, pin);
+  // Converts width and length from feet into pixels at a rate of 15 pixels per foot
+  let pixelLength = state.length * 15;
+  let pixelWidth = state.width * 15;
+  let addEventCode = callEvent(state, curUser, pin, pixelLength, pixelWidth);
   if (addEventCode === 200) { // event added successfully
-    let newEvent = new Event(state.name, pin, state.address, state.date, state.max);
+    let newEvent = new Event(state.name, pin, state.address,
+        state.date, state.max, state.length, state.width);
     return [true, newEvent];
   } else {
     return [false, 'Error has occurred'];
@@ -237,8 +243,11 @@ export function getEventList(curUser) {
     let data = JSON.parse(eventListCode[1]);
     let events = [];
       for (let i = 0; i < data.length; i++) {
-          events.push(new Event(data.results[i].event_name, data.results[i].event_pin,
-              data.results[i].address, data.results[i].event_time, data.results[i].max_people));
+          events.push(new Event(
+              data.results[i].event_name, data.results[i].event_pin,
+              data.results[i].address, data.results[i].event_time,
+              data.results[i].max_people, data.results[i].length,
+              data.results[i].width));
       }
 
     return [true, events];

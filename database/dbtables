@@ -21,6 +21,8 @@ CREATE TABLE event (
     max_people INT NOT NULL,
     planner_id INT NOT NULL,
     layout_id INT NOT NULL,
+    length int NOT NULL DEFAULT '900',
+    width int NOT NULL DEFAULT '700',
     date_added DATE NOT NULL,
     PRIMARY KEY ( event_id )
 );

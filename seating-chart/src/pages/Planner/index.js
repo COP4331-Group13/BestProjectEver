@@ -17,7 +17,10 @@ class CreateGuest extends React.Component {
 						phone: '',
 						address: '',
 						search: '',
-						curEvent:this.props.storage.getEvent()
+						curEvent:this.props.storage.getEvent(),
+					// Should be changed to take value from curEvent
+						layoutWidth: 900,
+						layoutHeight: 750
 				};
 
 				for (let i = 0; i < this.state.guestList.length; i++) {
@@ -44,7 +47,9 @@ class CreateGuest extends React.Component {
 						phone: '',
 						address: '',
 						search: '',
-						curEvent:this.props.storage.getEvent()
+						curEvent:this.props.storage.getEvent(),
+						layoutWidth: 900,
+						layoutHeight: 750
 				};
 		}
 
@@ -92,7 +97,6 @@ class CreateGuest extends React.Component {
 			let added = this.props.storage.addGuest(this.state);
 			if (added[0]) {
 				this.closeDialog();
-				alert("Guest was successfully added!");
 				let listLength = this.state.guestList.length;
 				this.setState({guestList: this.props.storage.getGuests()});
 				this.setState(prevState => ({
@@ -125,7 +129,7 @@ class CreateGuest extends React.Component {
 
 				<div id="chartPlanner">
 					<div id="seatingChart">
-						<h1>seating chart here</h1>
+						<Layout height={this.state.layoutHeight} width={this.state.layoutWidth}/>
 					</div>
 					<div id="chartItems">
 						<h1>items here</h1>
@@ -238,9 +242,9 @@ class GuestItem extends React.Component {
 			if (window.confirm("Are you sure you want to delete the guest: " + curGuest.guestId + " ?") === true) {
 					let deleted = this.props.storage.deleteGuest();
 					if (deleted) {
-				   	alert("Guest deleted!");
 						this.closeDialog();
 						window.location.reload(); // for now pages reload after deleting so that it updates the guest list.
+						alert("Guest deleted!");
 					} else {
 							alert("Error deleting guest");
 					}
@@ -258,15 +262,15 @@ class GuestItem extends React.Component {
 		}
 
 		disableForm() {
-			var inputForm = document.getElementsByClassName('textFormBox')
-			for (var i = 0; i < inputForm.length; i++) {
+			let inputForm = document.getElementsByClassName('textFormBox');
+			for (let i = 0; i < inputForm.length; i++) {
     		inputForm[i].disabled = true;
 			}
 		}
 
 		enableForm() {
-			var inputForm = document.getElementsByClassName('textFormBox')
-			for (var i = 0; i < inputForm.length; i++) {
+			let inputForm = document.getElementsByClassName('textFormBox');
+			for (let i = 0; i < inputForm.length; i++) {
     		inputForm[i].disabled = false;
 			}
 		}
@@ -277,9 +281,9 @@ class GuestItem extends React.Component {
 			if (window.confirm("Do you want to save changes?") === true) {
 					let updated = this.props.storage.updateGuest(this.state);
 					if (updated) {
-						alert("Guest info updated!");
 						this.closeDialog();
 						window.location.reload(); // for now page reloads to get the updated info.
+						alert("Guest info updated!");
 					}
 			} else {
 				// do nothing
@@ -328,7 +332,7 @@ class GuestItem extends React.Component {
 											<input type='submit' className='button' id='guestButtons' value='Save'/>
 										</form>
 										<input type='submit' className='button' id='guestButtons' value='Edit' onClick={() => this.enableForm()}/>
-										<input type='submit' className='button' id='guestButtons' value='Delete'onClick={() => this.deleteForm()}/>
+										<input type='submit' className='button' id='guestButtons' value='Delete' onClick={() => this.deleteForm()}/>
 										<input type='submit' className='button' id='guestButtons' value='Cancel' onClick={() => this.cancelForm()}/>
 									</div>
 
@@ -345,6 +349,43 @@ class GuestItem extends React.Component {
 				);
     }
 }
+
+class Layout extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			height: this.props.height / 50,
+			width: this.props.width / 50
+		};
+		this.createTable = this.createTable.bind(this);
+	}
+
+	createTable(height, width) {
+		let table = [];
+
+		// Outer loop to create parent
+		for (let i = 0; i < height; i++) {
+			let children = [];
+			//Inner loop to create children
+			for (let j = 0; j < width; j++) {
+				children.push(<td className="layoutSquare"/>);
+			}
+			//Create the parent and add the children
+			table.push(<tr className="layoutRow">{children}</tr>);
+		}
+		return table
+	}
+
+	render() {
+		return (
+			<table id="Layout" cellSpacing="0" style={{width: this.props.width, height:this.props.height}}>
+				{this.createTable(this.state.height, this.state.width)}
+			</table>
+		);
+	}
+}
+
+
 
 class ChartItem extends React.Component {
 	constructor(props) {
