@@ -10,7 +10,7 @@ module.exports.getEventList = function(req,res) {
 	  } else {
 				let planner_id = results[0].planner_id;
 
-				connection.query('SELECT event_pin, event_name, event_time, address, max_people, layout_length, layout_width FROM event WHERE planner_id = ?',[planner_id], function (error, results, rows) {
+				connection.query('SELECT event_pin, event_name, event_time, address, max_people, FROM event WHERE planner_id = ?',[planner_id], function (error, results, rows) {
 					if (error) {
 						res.status(400);
 				    res.send();
@@ -24,4 +24,4 @@ module.exports.getEventList = function(req,res) {
 				});
 		}
 	});
-}
+};
