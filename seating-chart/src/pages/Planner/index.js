@@ -22,6 +22,8 @@ class CreateGuest extends React.Component {
 						layoutWidth: 900,
 						layoutHeight: 750
 				};
+				this.state.layoutWidth = this.state.curEvent.layout_width;
+				this.state.layoutHeight = this.state.curEvent.layout_length;
 
 				for (let i = 0; i < this.state.guestList.length; i++) {
 						this.state.listItems.push(
@@ -51,6 +53,8 @@ class CreateGuest extends React.Component {
 						layoutWidth: 900,
 						layoutHeight: 750
 				};
+				this.state.layoutWidth = this.state.curEvent.layout_width;
+				this.state.layoutHeight = this.state.curEvent.layout_length;
 		}
 
 		this.props.storage.setGuest(undefined);
@@ -353,10 +357,7 @@ class GuestItem extends React.Component {
 class Layout extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			height: this.props.height / 50,
-			width: this.props.width / 50
-		};
+
 		this.createTable = this.createTable.bind(this);
 	}
 
@@ -364,14 +365,31 @@ class Layout extends React.Component {
 		let table = [];
 
 		// Outer loop to create parent
-		for (let i = 0; i < height; i++) {
+		for (let i = 0; i < Math.floor(height/50); i++) {
 			let children = [];
 			//Inner loop to create children
-			for (let j = 0; j < width; j++) {
+			for (let j = 0; j < Math.floor(width/50); j++) {
 				children.push(<td className="layoutSquare"/>);
+			}
+			if (width % 50 !== 0) {
+				children.push(<td className="layoutSquare lastCol"  style={{width:(width % 50)}}/>);
 			}
 			//Create the parent and add the children
 			table.push(<tr className="layoutRow">{children}</tr>);
+		}
+
+		if (height % 50 !== 0) {
+			let children = [];
+			//Inner loop to create children
+			for (let j = 0; j < Math.floor(width/50); j++) {
+				children.push(<td className="layoutSquare lastRow" style={{height:(height % 50)}} />);
+			}
+			if (width % 50 !== 0) {
+				children.push(<td className="layoutSquare lastRow lastCol"  style={
+					{width:(width % 50), height:(height % 50)}}/>);
+			}
+			//Create the parent and add the children
+			table.push(<tr className="layoutRow lastRow">{children}</tr>);
 		}
 		return table
 	}
@@ -379,7 +397,7 @@ class Layout extends React.Component {
 	render() {
 		return (
 			<table id="Layout" cellSpacing="0" style={{width: this.props.width, height:this.props.height}}>
-				{this.createTable(this.state.height, this.state.width)}
+				{this.createTable(this.props.height, this.props.width)}
 			</table>
 		);
 	}
