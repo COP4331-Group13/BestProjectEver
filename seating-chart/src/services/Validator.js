@@ -79,7 +79,7 @@ function callSingleEvent(eventPin) {
 
 function callEventList(curUser) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/get-event-list", true);
+  xhr.open("POST", "http://35.243.169.229:5000/api/get-event-list", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("planner="+curUser);
   return [xhr.status, xhr.responseText];
