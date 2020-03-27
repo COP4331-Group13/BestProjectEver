@@ -133,7 +133,7 @@ class CreateGuest extends React.Component {
 
 				<div id="chartPlanner">
 					<div id="seatingChart">
-						<Layout height={this.state.layoutHeight} width={this.state.layoutWidth}/>
+						<Layout height={this.state.layoutHeight} width={this.state.layoutWidth} storage={this.props.storage}/>
 					</div>
 					<div id="chartItems">
 						<h1>items here</h1>
@@ -357,11 +357,26 @@ class GuestItem extends React.Component {
 class Layout extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {itemList:[]};
+		// Just here for testing
+		this.state.itemList.push(
+			<Table
+				name="table1"
+				xCoordinate='20'
+				yCoordinate='20'
+				size="50"/>);
+		this.state.itemList.push(
+			<Table
+				name="table1"
+				xCoordinate='80'
+				yCoordinate='100'
+				size="50"/>);
 
-		this.createTable = this.createTable.bind(this);
+
+		this.createGrid = this.createGrid.bind(this);
 	}
 
-	createTable(height, width) {
+	createGrid(height, width) {
 		let table = [];
 
 		// Outer loop to create parent
@@ -396,9 +411,13 @@ class Layout extends React.Component {
 
 	render() {
 		return (
-			<table id="Layout" cellSpacing="0" style={{width: this.props.width, height:this.props.height}}>
-				{this.createTable(this.props.height, this.props.width)}
-			</table>
+		    <div id="layoutWrapper" style={{width: this.props.width, height:this.props.height}}>
+				{this.state.itemList}
+			    <table id="Layout" cellSpacing="0" >
+				    {this.createGrid(this.props.height, this.props.width)}
+			    </table>
+
+            </div>
 		);
 	}
 }
@@ -410,9 +429,9 @@ class ChartItem extends React.Component {
 		super(props);
 		this.state = {
 			name: this.props.name,
-			xCoordinate: this.props.xCoordinate,
-			yCoordinate: this.props.yCoordinate,
-			size: this.props.size
+			xCoordinate: parseInt(this.props.xCoordinate),
+			yCoordinate: parseInt(this.props.yCoordinate),
+			size: parseInt(this.props.size)
 		};
 
 		this.changeLocation = this.changeLocation.bind(this);
@@ -434,14 +453,25 @@ class Table extends ChartItem {
 	constructor(props) {
 		super(props);
 		this.state = {
-			seats: this.props.seats,
-			guests: this.props.guests
+			seats: parseInt(this.props.seats),
+			guests: this.props.guests,
 		};
 
 		this.seatGuest = this.seatGuest.bind(this);
 	}
 
 	seatGuest() {
+	}
+
+	render() {
+		return (
+			<div className="table" style={{
+				width:parseInt(this.props.size),
+				height:parseInt(this.props.size),
+				top:parseInt(this.props.yCoordinate),
+				left:parseInt(this.props.xCoordinate)
+				}}/>
+		);
 	}
 }
 

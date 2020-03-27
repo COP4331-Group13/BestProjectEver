@@ -266,3 +266,7 @@ export function getGuestGroup(guestPin) {
       return [false];
   }
 }
+
+export function getItemList(curUser) {
+    return [true, []];
+}

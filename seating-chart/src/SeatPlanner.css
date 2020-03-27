@@ -95,11 +95,11 @@ h3 {
 	width:30%;
 	margin-left: 18%;
 }
-#Layout {
-	margin-left:5%;
-	margin-top: 2%;
-	padding-right: 2%;
-	padding-bottom: 2%;
+#layoutWrapper {
+	margin-left: 3%;
+	margin-top: 3%;
+	padding-right:3%;
+	position: relative;
 }
 .layoutSquare {
 	margin: -1px;
@@ -110,6 +110,10 @@ h3 {
 }
 .layoutRow {
 	border:0;
+}
+.table {
+	position: absolute;
+	background: black;
 }
 #lengthHead {
 	float:left;
