@@ -7,7 +7,7 @@ export class Event {
         this.address = address;
         this.eventDate = eventDate;
         this.maxPeople = maxPeople;
-        this.length = length;
-        this.width = width;
+        this.layout_length = length;
+        this.layout_width = width;
     }
 }

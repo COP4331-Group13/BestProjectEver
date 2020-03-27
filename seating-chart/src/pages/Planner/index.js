@@ -362,15 +362,15 @@ class Layout extends React.Component {
 		this.state.itemList.push(
 			<Table
 				name="table1"
-				xCoordinate='20'
-				yCoordinate='20'
-				size="50"/>);
+				xCoordinate='50'
+				yCoordinate='50'
+				size="100"/>);
 		this.state.itemList.push(
 			<Table
 				name="table1"
-				xCoordinate='80'
-				yCoordinate='100'
-				size="50"/>);
+				xCoordinate='200'
+				yCoordinate='250'
+				size="100"/>);
 
 
 		this.createGrid = this.createGrid.bind(this);
@@ -412,12 +412,11 @@ class Layout extends React.Component {
 	render() {
 		return (
 		    <div id="layoutWrapper" style={{width: this.props.width, height:this.props.height}}>
-				{this.state.itemList}
 			    <table id="Layout" cellSpacing="0" >
 				    {this.createGrid(this.props.height, this.props.width)}
+						{this.state.itemList}
 			    </table>
-
-            </div>
+				</div>
 		);
 	}
 }

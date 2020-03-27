@@ -212,9 +212,9 @@ export function getGuestList(curEventPin) {
 
 export function addEvent(state, curUser) {
   let pin = randomize('Aa0', 5);
-  // Converts width and length from feet into pixels at a rate of 15 pixels per foot
-  let pixelLength = state.length * 15;
-  let pixelWidth = state.width * 15;
+  // Converts width and length from feet into pixels at a rate of 1.5 pixels per foot
+  let pixelLength = state.length * 1.5;
+  let pixelWidth = state.width * 1.5;
   let addEventCode = callEvent(state, curUser, pin, pixelLength, pixelWidth);
   if (addEventCode === 200) { // event added successfully
     let newEvent = new Event(state.name, pin, state.address,
@@ -230,7 +230,8 @@ export function getSingleEvent(eventPin) {
   if (eventCode[0] === 200) {
     let data = JSON.parse(eventCode[1]);
     let newEvent = new Event(data.results[0].event_name, data.results[0].event_pin,
-        data.results[0].address, data.results[0].event_time, data.results[0].max_people);
+        data.results[0].address, data.results[0].event_time, data.results[0].max_people,
+        data.results[0].layout_length, data.results[0].layout_width);
     return [true, newEvent];
   } else {
       return [false, 'Error has occurred'];
@@ -246,8 +247,8 @@ export function getEventList(curUser) {
           events.push(new Event(
               data.results[i].event_name, data.results[i].event_pin,
               data.results[i].address, data.results[i].event_time,
-              data.results[i].max_people, data.results[i].length,
-              data.results[i].width));
+              data.results[i].max_people, data.results[i].layout_length,
+              data.results[i].layout_width));
       }
 
     return [true, events];
