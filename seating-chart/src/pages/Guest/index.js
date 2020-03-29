@@ -115,7 +115,14 @@ export class GuestView extends React.Component {
                   <div className='box' id= 'preferencesBox'>
                     <h3>Preferences</h3>
                     <div id='guestPreferences'>
-                      <p> here goes guest preferences </p>
+                      <input type="text" className="textBox"
+                              id="Spouse" placeholder="Spouse"
+                              value ={this.state.spouse}
+                              onChange={this.changespouse} required />
+                      <input type="text" className="textBox"
+                             id="exception" placeholder="exception"
+                             value ={this.state.exception}
+                             onChange={this.changeException} required />
                     </div>
                   </div>
                   <div className='box' id= 'groupsBox'>
