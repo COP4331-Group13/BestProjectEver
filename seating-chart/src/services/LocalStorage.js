@@ -5,6 +5,7 @@ import {
     addGuest,
     deleteGuest,
     updateGuest,
+    deleteEvent,
     getEventList,
     getGuestList,
     getSingleEvent,
@@ -141,6 +142,20 @@ export class LocalStorage {
             ls('eventList', eventList);
         }
         return added;
+    }
+    deleteEvent() {
+      if (ls('curEvent') !== undefined) {
+        let events = ls('eventList');
+        let deleted = deleteEvent(ls('curEvent').pin);
+        if (deleted[0]) {
+          let filtered = events.filter(function(value, index, arr) {
+            return value.pin !== ls('curEvent').pin;
+          });
+          ls('eventList', filtered);
+          return true;
+        }
+      }
+      return false;
     }
     setEvent(newEvent) {
         ls('curEvent', newEvent);

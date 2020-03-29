@@ -60,6 +60,7 @@ class CreateGuest extends React.Component {
 		this.props.storage.setGuest(undefined);
 		this.openDialog = this.openDialog.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 		this.closeDialog = this.closeDialog.bind(this);
 		this.changeName = this.changeName.bind(this);
 		this.changeEmail = this.changeEmail.bind(this);
@@ -96,6 +97,20 @@ class CreateGuest extends React.Component {
 		this.setState({search: event.target.value});
 	}
 
+	handleDelete() {
+		if (window.confirm("Are you sure you want to delete the event: " + this.state.curEvent.name + " ?\nThis will delete its preferences and guests attached to this event.") === true) {
+				let deleted = this.props.storage.deleteEvent();
+				if (deleted) {
+					alert("Event deleted!");
+					this.props.history.push("/events");
+				} else {
+						alert("Error deleting event");
+				}
+		} else {
+			// do nothing
+		}
+	}
+
 	handleSubmit(event) {
 			event.preventDefault();
 			let added = this.props.storage.addGuest(this.state);
@@ -127,8 +142,11 @@ class CreateGuest extends React.Component {
 		return (
 			<div id="wrapperbox">
 				<div id = "welcome">
-				<Navigation history={this.props.history} towhere={"/events"} text={"Events"} />
-				<h1>{this.state.curEvent.name}</h1>
+					<Navigation history={this.props.history} towhere={"/events"} text={"Events"} />
+					<div className='button' id='deleteEvent' onClick={this.handleDelete}>
+							Delete Event
+					</div>
+					<h1>{this.state.curEvent.name}</h1>
 				</div>
 
 				<div id="chartPlanner">

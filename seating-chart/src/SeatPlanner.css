@@ -326,6 +326,15 @@ dialog {
 	height:10%;
 	position: relative;
 	margin: 1em;
+	margin-left: -10%;
+	padding:1% 1% 1% 1%;
+}
+#deleteEvent {
+	width:18%;
+	height:10%;
+	position: relative;
+	margin: 1em;
+	margin-left: -25%;
 	padding:1% 1% 1% 1%;
 }
 #sidebar {

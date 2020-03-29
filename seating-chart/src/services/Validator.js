@@ -69,6 +69,14 @@ function callEvent(state, curUser, pin, pixelLength, pixelWidth) {
   return xhr.status;
 }
 
+function callDeleteEvent(eventPin) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://35.243.169.229:5000/api/delete-event", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("event_pin="+eventPin);
+  return [xhr.status, xhr.responseText];
+}
+
 function callSingleEvent(eventPin) {
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "http://35.243.169.229:5000/api/get-event", false);
@@ -222,6 +230,15 @@ export function addEvent(state, curUser) {
     return [true, newEvent];
   } else {
     return [false, 'Error has occurred'];
+  }
+}
+
+export function deleteEvent(eventPin) {
+  let deleteEventCode = callDeleteEvent(eventPin);
+  if (deleteEventCode[0] === 200) { // event deleted successfully
+    return [true];
+  } else {
+      return [false, 'Error has occurred'];
   }
 }
 

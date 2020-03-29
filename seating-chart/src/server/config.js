@@ -8,6 +8,7 @@ const connection = mysql.createConnection({
   database : 'seatplanner'
 
 // when using on you own host, use these settings, and comment the ones above (which is only for the gcloud localhost)
+// also remember to change 35.243.169.229:5000 to localhost:5000 on the validator, for these setting to work:
 /*
     host     : '35.243.169.229',
     user     : 'test_user',
