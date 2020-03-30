@@ -172,8 +172,15 @@ class CreateGuest extends React.Component {
 						<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openDialog()}/>
 					</div>
 					<div id="properties">
-						<p><label>Item properties</label></p>
-						<p><label>Room properties</label></p>
+						<div id="itemProperties">
+							<p><label>Item properties</label></p>
+						</div>
+						<div id="roomProperties">
+							<p><label><b>Room properties:</b></label></p>
+							<p><label>Length: {Math.floor(parseInt(this.state.curEvent.layout_length) / 1.5)}in</label></p>
+							<p><label>Width: {Math.floor(parseInt(this.state.curEvent.layout_width) / 1.5)}in</label></p>
+						</div>
+
 					</div>
 				</div>
 

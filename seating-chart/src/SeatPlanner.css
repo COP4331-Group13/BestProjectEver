@@ -378,8 +378,14 @@ dialog {
 	border-radius: 0;
 }
 #sidebar #properties {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 0.9em;
 	height: 50%;
 	border-left: 1px solid black;
+}
+#roomProperties {
+	margin-top: 10%;
+	line-height: 0.5em;
 }
 #chartPlanner {
 	width: 78%;
