@@ -108,4 +108,4 @@ This product is for any individual or organization organizing an event who need 
 - [Design Documents](https://github.com/COP4331-Group13/BestProjectEver/blob/master/designdocs/README.md)
 - [Source Code](https://github.com/COP4331-Group13/BestProjectEver/tree/master/seating-chart)
 - [Tests](https://github.com/COP4331-Group13/BestProjectEver/tree/master/seating-chart/src/_tests_)
-- [Demonstration](https://www.youtube.com/watch?v=wCMV3KJZ0so)
+- [Demonstration](https://www.youtube.com/watch?v=pGpSD8Eq1pI)
