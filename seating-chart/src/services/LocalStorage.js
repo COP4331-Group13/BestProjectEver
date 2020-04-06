@@ -1,5 +1,6 @@
 import ls from 'local-storage';
 import {Guest, User} from "./User";
+import {ChartItem} from "../pages/Planner/index";
 import {
     addEvent,
     addGuest,
@@ -199,17 +200,20 @@ export class LocalStorage {
           return [false, "No Current User"];
       }
     }
+    addItem(state) {
+
+    }
     getItems() {
         if(ls('itemList').length !== 0) {
             return [true, ls('itemList')];
         } else {
             if (ls('curUser') !== undefined) {
 
-                let added = getItemList(ls('curUser'));
-                if (added[0]) {
-                    ls('itemList', added[1]);
+                let gotItems = getItemList(ls('curUser'));
+                if (gotItems[0]) {
+                    ls('itemList', gotItems[1]);
                 }
-                return added
+                return gotItems
             }
             return [false, "No Current User"];
         }

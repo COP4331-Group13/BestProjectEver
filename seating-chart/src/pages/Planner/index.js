@@ -12,13 +12,9 @@ class CreateGuest extends React.Component {
 						guestList: gotGuests[1],
 						listItems: [],
 						clicked: 'false',
-						name: '',
-						email: '',
-						phone: '',
-						address: '',
 						search: '',
 						curEvent:this.props.storage.getEvent(),
-					// Should be changed to take value from curEvent
+						// default values, almost immediately changed
 						layoutWidth: 900,
 						layoutHeight: 750
 				};
@@ -44,12 +40,9 @@ class CreateGuest extends React.Component {
 						guestList: [],
 						listItems: [],
 						clicked: 'false',
-						name: '',
-						email: '',
-						phone: '',
-						address: '',
-						search: '',
 						curEvent:this.props.storage.getEvent(),
+						search: '',
+						// default values, almost immediately changed
 						layoutWidth: 900,
 						layoutHeight: 750
 				};
@@ -58,39 +51,20 @@ class CreateGuest extends React.Component {
 		}
 
 		this.props.storage.setGuest(undefined);
-		this.openDialog = this.openDialog.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
+		this.openGuestDialog = this.openGuestDialog.bind(this);
+		this.openItemDialog = this.openItemDialog.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
-		this.closeDialog = this.closeDialog.bind(this);
-		this.changeName = this.changeName.bind(this);
-		this.changeEmail = this.changeEmail.bind(this);
-		this.changeAddress = this.changeAddress.bind(this);
-		this.changePhone = this.changePhone.bind(this);
 		this.changeSearch = this.changeSearch.bind(this);
 	}
 
-	openDialog() {
-		document.getElementById('dialogbox').style.display = 'block';
+	openItemDialog() {
+		let dialog = document.getElementsByClassName('itemDialog');
+		dialog[0].id="openDialog";
 	}
 
-	closeDialog() {
-		document.getElementById('dialogbox').style.display = 'none';
-	}
-
-	changeName(event) {
-		this.setState({name: event.target.value});
-	}
-
-	changeEmail(event) {
-		this.setState({email: event.target.value});
-	}
-
-	changeAddress(event) {
-		this.setState({address: event.target.value});
-	}
-
-	changePhone(event) {
-		this.setState({phone: event.target.value});
+	openGuestDialog() {
+		let dialog = document.getElementsByClassName('guestDialog');
+		dialog[0].id="openDialog";
 	}
 
 	changeSearch(event) {
@@ -111,33 +85,6 @@ class CreateGuest extends React.Component {
 		}
 	}
 
-	handleSubmit(event) {
-			event.preventDefault();
-			let added = this.props.storage.addGuest(this.state);
-			if (added[0]) {
-				this.closeDialog();
-				let listLength = this.state.guestList.length;
-				this.setState({guestList: this.props.storage.getGuests()});
-				this.setState(prevState => ({
-						listItems: [...prevState.listItems, <GuestItem
-							Key={added[1].guestId}
-							Guest={added[1]}
-							guestName={added[1].name}
-							guestEmail={added[1].userName}
-							guestPhone={added[1].phoneNumber}
-							guestAddress={added[1].address}
-							guestId={added[1].guestId}
-							storage={this.props.storage}
-							history={this.props.history}
-						/>]
-				}));
-
-			} else {
-					this.setState({error: 'guestError'});
-					this.setState({errorMessage: added[1]});
-			}
-	}
-
 	render() {
 		return (
 			<div id="wrapperbox">
@@ -154,7 +101,7 @@ class CreateGuest extends React.Component {
 						<Layout height={this.state.layoutHeight} width={this.state.layoutWidth} storage={this.props.storage}/>
 					</div>
 					<div id="chartItems">
-						<h1>items here</h1>
+						<input type='submit' className='button' id='add_table' value='Add Table' onClick={() => this.openItemDialog()}/>
 					</div>
 				</div>
 
@@ -169,7 +116,7 @@ class CreateGuest extends React.Component {
 						<ul id="guestList">{this.state.listItems}</ul>
 					</div>
 					<div id="add">
-						<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openDialog()}/>
+						<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openGuestDialog()}/>
 					</div>
 					<div id="properties">
 						<div id="itemProperties">
@@ -177,37 +124,14 @@ class CreateGuest extends React.Component {
 						</div>
 						<div id="roomProperties">
 							<p><label><b>Room properties:</b></label></p>
-							<p><label>Length: {Math.floor(parseInt(this.state.curEvent.layout_length) / 1.5)}in</label></p>
-							<p><label>Width: {Math.floor(parseInt(this.state.curEvent.layout_width) / 1.5)}in</label></p>
+							<p><label>Length: {Math.floor(parseInt(this.state.curEvent.layout_length) / 15)}ft.</label></p>
+							<p><label>Width: {Math.floor(parseInt(this.state.curEvent.layout_width) / 15)}ft.</label></p>
 						</div>
 
 					</div>
 				</div>
-
-				<div id="dialogbox">
-					<dialog open>
-						<div id="closeWindow">
-							<input type='submit' className="button2" id="closeButton" value='X' onClick={() => this.closeDialog()}/>
-						</div>
-						<h1>Add a Guest</h1>
-						<form onSubmit={this.handleSubmit}>
-							<input type="text" className="textBox" id="name"
-								placeholder="Name" value ={this.state.name} onChange={this.changeName} required/>
-							<input type="email" className="textBox" id="email"
-								placeholder="E-mail" value ={this.state.email} onChange={this.changeEmail} required/>
-							<input type="text" className="textBox" id="phone"
-								placeholder="Phone Number" value ={this.state.phone} onChange={this.changePhone} required/>
-							<input type="text" className="textBox" id="address"
-								placeholder="Address" value ={this.state.address} onChange={this.changeAddress} required/>
-							<div className='eventError' id={this.state.error} >
-								{this.state.errorMessage}
-							</div>
-							<div id="buttonbox">
-								<input type='submit' className='button' id='add_guest' value='Submit'/>
-							</div>
-						</form>
-					</dialog>
-				</div>
+				<GuestDialog />
+				<ItemDialog />
 			</div>
 		);
 
@@ -399,6 +323,11 @@ class Layout extends React.Component {
 
 
 		this.createGrid = this.createGrid.bind(this);
+		this.addTable = this.addTable.bind(this);
+	}
+
+	addTable(length, width) {
+
 	}
 
 	createGrid(height, width) {
@@ -446,9 +375,7 @@ class Layout extends React.Component {
 	}
 }
 
-
-
-class ChartItem extends React.Component {
+export class ChartItem extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -473,7 +400,7 @@ class ChartItem extends React.Component {
 	}
 }
 
-class Table extends ChartItem {
+export class Table extends ChartItem {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -494,9 +421,176 @@ class Table extends ChartItem {
 				height:parseInt(this.props.size),
 				top:parseInt(this.props.yCoordinate),
 				left:parseInt(this.props.xCoordinate)
-				}}/>
+			}}/>
 		);
 	}
 }
+
+class GuestDialog extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: '',
+			email: '',
+			phone: '',
+			address: '',
+		};
+
+		this.handleSubmitGuest = this.handleSubmitGuest.bind(this);
+		this.closeGuestDialog = this.closeGuestDialog.bind(this);
+		this.changeName = this.changeName.bind(this);
+		this.changeEmail = this.changeEmail.bind(this);
+		this.changeAddress = this.changeAddress.bind(this);
+		this.changePhone = this.changePhone.bind(this);
+	}
+
+	closeGuestDialog() {
+		let dialog = document.getElementsByClassName('guestDialog');
+		dialog[0].id="dialogbox";
+	}
+
+	changeName(event) {
+		this.setState({name: event.target.value});
+	}
+
+	changeEmail(event) {
+		this.setState({email: event.target.value});
+	}
+
+	changeAddress(event) {
+		this.setState({address: event.target.value});
+	}
+
+	changePhone(event) {
+		this.setState({phone: event.target.value});
+	}
+
+	handleSubmitGuest(event) {
+		event.preventDefault();
+		let added = this.props.storage.addGuest(this.state);
+		if (added[0]) {
+			this.closeGuestDialog();
+			let listLength = this.state.guestList.length;
+			this.setState({guestList: this.props.storage.getGuests()});
+			this.setState(prevState => ({
+				listItems: [...prevState.listItems, <GuestItem
+					Key={added[1].guestId}
+					Guest={added[1]}
+					guestName={added[1].name}
+					guestEmail={added[1].userName}
+					guestPhone={added[1].phoneNumber}
+					guestAddress={added[1].address}
+					guestId={added[1].guestId}
+					storage={this.props.storage}
+					history={this.props.history}
+				/>]
+			}));
+
+		} else {
+			this.setState({error: 'guestError'});
+			this.setState({errorMessage: added[1]});
+		}
+	}
+
+	render() {
+		return (
+			<div className="guestDialog" id="dialogbox">
+				<dialog open>
+					<div id="closeWindow">
+						<input type='submit' className="button2" id="closeButton" value='X' onClick={() => this.closeGuestDialog()}/>
+					</div>
+					<h1>Add a Guest</h1>
+					<form onSubmit={this.handleSubmitGuest}>
+						<input type="text" className="textBox" id="name"
+							   placeholder="Name" value ={this.state.name} onChange={this.changeName} required/>
+						<input type="email" className="textBox" id="email"
+							   placeholder="E-mail" value ={this.state.email} onChange={this.changeEmail} required/>
+						<input type="text" className="textBox" id="phone"
+							   placeholder="Phone Number" value ={this.state.phone} onChange={this.changePhone} required/>
+						<input type="text" className="textBox" id="address"
+							   placeholder="Address" value ={this.state.address} onChange={this.changeAddress} required/>
+						<div className='eventError' id={this.state.error} >
+							{this.state.errorMessage}
+						</div>
+						<div id="buttonbox">
+							<input type='submit' className='button' id='add_guest' value='Submit' />
+						</div>
+					</form>
+				</dialog>
+			</div>
+		);
+	}
+}
+
+class ItemDialog extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			length: '',
+			width: '',
+			numSeats: ''
+		};
+
+		this.handleSubmitItem = this.handleSubmitItem.bind(this);
+		this.closeItemDialog = this.closeItemDialog.bind(this);
+		this.changeLength = this.changeLength.bind(this);
+		this.changeWidth = this.changeWidth.bind(this);
+		this.changeNumSeats = this.changeNumSeats.bind(this);
+	}
+
+	changeLength(event) {
+		this.setState({length: event.target.value});
+	}
+
+	changeWidth(event) {
+		this.setState({width: event.target.value});
+	}
+
+	changeNumSeats(event) {
+		this.setState({numSeats: event.target.value});
+	}
+
+	closeItemDialog() {
+		let dialog = document.getElementsByClassName('itemDialog');
+		dialog[0].id="dialogbox";
+	}
+
+	handleSubmitItem(event) {
+		event.preventDefault();
+		let dialog = document.getElementsByClassName('itemDialog');
+		dialog[0].id="dialogbox";
+	}
+
+	render() {
+		return (
+			<div className="itemDialog" id="dialogbox">
+				<dialog open>
+					<div id="closeWindow">
+						<input type='submit' className="button2" id="closeButton" value='X' onClick={() => this.closeItemDialog()}/>
+					</div>
+					<h1>Add a Table</h1>
+					<form onSubmit={this.handleSubmitItem}>
+						<input type="number" className="textBox" id="length"
+							   placeholder="Length" value ={this.state.length} onChange={this.changeLength} required/>ft.
+						<input type="number" className="textBox" id="width"
+							   placeholder="Width" value ={this.state.email} onChange={this.changeWidth} required/>ft.
+						<input type="number" className="textBox" id="width"
+							   placeholder="Number of Seats" value ={this.state.email} onChange={this.changeNumSeats} required/>
+						<div className='eventError' id={this.state.error} >
+							{this.state.errorMessage}
+						</div>
+						<div id="buttonbox">
+							<input type='submit' className='button' id='add_table' value='Submit'/>
+						</div>
+					</form>
+				</dialog>
+			</div>
+		);
+	}
+}
+
 
 export default withRouter(CreateGuest);

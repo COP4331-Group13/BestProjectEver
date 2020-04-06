@@ -53,7 +53,7 @@ function callUpdateGuest(state, guestPin) {
 
 function callGuestList(curEventPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/get-guest-list", false);
+  xhr.open("POST", "http://35.243.169.229:5000/api/get-guest-list", true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("event_pin="+curEventPin);
   return [xhr.status, xhr.responseText];
