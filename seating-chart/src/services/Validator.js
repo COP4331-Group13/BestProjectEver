@@ -221,8 +221,8 @@ export function getGuestList(curEventPin) {
 export function addEvent(state, curUser) {
   let pin = randomize('Aa0', 5);
   // Converts width and length from feet into pixels at a rate of 1.5 pixels per foot
-  let pixelLength = state.length * 1.5;
-  let pixelWidth = state.width * 1.5;
+  let pixelLength = state.length * 10;
+  let pixelWidth = state.width * 10;
   let addEventCode = callEvent(state, curUser, pin, pixelLength, pixelWidth);
   if (addEventCode === 200) { // event added successfully
     let newEvent = new Event(state.name, pin, state.address,
