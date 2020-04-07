@@ -181,8 +181,8 @@ class CreateGuest extends React.Component {
 						</div>
 						<div id="roomProperties">
 							<p><label><b>Room properties:</b></label></p>
-							<p><label>Length: {Math.floor(parseInt(this.state.curEvent.layout_length) / 15)}ft.</label></p>
-							<p><label>Width: {Math.floor(parseInt(this.state.curEvent.layout_width) / 15)}ft.</label></p>
+							<p><label>Length: {Math.floor(parseInt(this.state.curEvent.layout_length) / 10)}ft.</label></p>
+							<p><label>Width: {Math.floor(parseInt(this.state.curEvent.layout_width) / 10)}ft.</label></p>
 						</div>
 
 					</div>

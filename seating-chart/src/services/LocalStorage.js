@@ -215,6 +215,8 @@ export class LocalStorage {
             return [false, "Table too large to fit in Layout"];
         } else if (tableWidth < 50 || tableHeight < 50) {
             return [false, "Table must be at least 5ft. by 5ft."];
+        } else if (parseInt(state.numSeats) > (tableHeight/25) + (tableWidth/25)) {
+            return [false, "Table not large enough to seat " + state.numSeats + " people."];
         }
         let table = new Table({name: "Table" + (items.length + 1),
             xCoordinate: 0, yCoordinate: 0, height:tableHeight, width:tableWidth,
