@@ -15,7 +15,8 @@ class CreateGuest extends React.Component {
 						listItems: [],
 
                         // List of Chart items
-                        itemList: this.props.storage.getItems(),
+                        itemList: this.props.storage.getItems()[1],
+						placedItemList: [],
 						clicked: 'false',
 						search: '',
 						curEvent:this.props.storage.getEvent(),
@@ -23,9 +24,6 @@ class CreateGuest extends React.Component {
 						layoutWidth: 900,
 						layoutHeight: 750
 				};
-				this.state.layoutWidth = this.state.curEvent.layout_width;
-				this.state.layoutHeight = this.state.curEvent.layout_length;
-
 				for (let i = 0; i < this.state.guestList.length; i++) {
 						this.state.listItems.push(
 								<GuestItem
@@ -48,7 +46,8 @@ class CreateGuest extends React.Component {
 						listItems: [],
 
                         // List of Chart Items
-                        itemList: this.props.storage.getItems(),
+                        itemList: this.props.storage.getItems()[1],
+						placedItemList: [],
 						clicked: 'false',
 						curEvent:this.props.storage.getEvent(),
 						search: '',
@@ -56,9 +55,19 @@ class CreateGuest extends React.Component {
 						layoutWidth: 900,
 						layoutHeight: 750
 				};
-				this.state.layoutWidth = this.state.curEvent.layout_width;
-				this.state.layoutHeight = this.state.curEvent.layout_length;
 		}
+
+		for (let i = 0; i < this.state.itemList.length; i++) {
+			let newItem;
+			if (this.state.itemList[i].name.includes("Table")) {
+				newItem = <Table item={this.state.itemList[i]}/>
+			} else {
+				newItem = <ChartItem item={this.state.itemList[i]} />
+			}
+			this.state.placedItemList.push(newItem);
+		}
+		this.state.layoutWidth = this.state.curEvent.layout_width;
+		this.state.layoutHeight = this.state.curEvent.layout_length;
 
 		this.props.storage.setGuest(undefined);
 		this.openGuestDialog = this.openGuestDialog.bind(this);
@@ -104,6 +113,14 @@ class CreateGuest extends React.Component {
     updateItems() {
         let listLength = this.state.itemList.length;
         this.setState({itemList: this.props.storage.getItems()});
+        let newItem;
+        if (this.state.itemList[listLength - 1].name.includes("Table")) {
+        	newItem = <Table item={this.state.itemList[listLength - 1]} />
+		} else {
+			newItem = <ChartItem item={this.state.itemList[listLength - 1]} />
+		}
+		this.setState(prevState => ({
+			listItems: [...prevState.listItems, newItem]}));
     }
 
 	handleDelete() {
@@ -134,7 +151,7 @@ class CreateGuest extends React.Component {
 				<div id="chartPlanner">
 					<div id="seatingChart">
 						<Layout height={this.state.layoutHeight} width={this.state.layoutWidth}
-                                storage={this.props.storage} itemList={this.state.itemList}/>
+                                storage={this.props.storage} itemList={this.state.placedItemList}/>
 					</div>
 					<div id="chartItems">
 						<input type='submit' className='button' id='add_table' value='Add Table' onClick={() => this.openItemDialog()}/>
@@ -397,10 +414,10 @@ export class ChartItem extends React.Component {
 		super(props);
 		this.state = {
 			name: this.props.name,
-			xCoordinate: parseInt(this.props.xCoordinate),
-			yCoordinate: parseInt(this.props.yCoordinate),
-			height: parseInt(this.props.height),
-            width: parseInt(this.props.width)
+			xCoordinate: parseInt(this.props.item.xCoordinate),
+			yCoordinate: parseInt(this.props.item.yCoordinate),
+			height: parseInt(this.props.item.height),
+            width: parseInt(this.props.item.width)
 		};
 
 		this.changeLocation = this.changeLocation.bind(this);
@@ -422,8 +439,8 @@ export class Table extends ChartItem {
 	constructor(props) {
 		super(props);
 		this.state = {
-			seats: parseInt(this.props.seats),
-			guests: this.props.guests,
+			seats: parseInt(this.props.item.seats),
+			guests: this.props.item.guests,
 		};
 
 		this.seatGuest = this.seatGuest.bind(this);
@@ -435,10 +452,10 @@ export class Table extends ChartItem {
 	render() {
 		return (
 			<div className="table" style={{
-				width:parseInt(this.props.width),
-				height:parseInt(this.props.height),
-				top:parseInt(this.props.yCoordinate),
-				left:parseInt(this.props.xCoordinate)
+				width:parseInt(this.props.item.width),
+				height:parseInt(this.props.item.height),
+				top:parseInt(this.props.item.yCoordinate),
+				left:parseInt(this.props.item.xCoordinate)
 			}}/>
 		);
 	}
