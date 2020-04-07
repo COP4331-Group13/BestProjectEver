@@ -206,13 +206,15 @@ export class LocalStorage {
     }
     addTable(state) {
         let items = ls('itemList');
-        let tableHeight = parseInt(state.height)*15;
-        let tableWidth = parseInt(state.width)*15;
+        let tableHeight = parseInt(state.height)*10;
+        let tableWidth = parseInt(state.width)*10;
         let curEvent = ls('curEvent');
 
         if (tableHeight >= curEvent.layout_length
             || tableWidth >= curEvent.layout_width) {
             return [false, "Table too large to fit in Layout"];
+        } else if (tableWidth < 50 || tableHeight < 50) {
+            return [false, "Table must be at least 5ft. by 5ft."];
         }
         let table = new Table({name: "Table" + (items.length + 1),
             xCoordinate: 0, yCoordinate: 0, height:tableHeight, width:tableWidth,
