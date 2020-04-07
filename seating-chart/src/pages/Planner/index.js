@@ -93,34 +93,38 @@ class CreateGuest extends React.Component {
 	}
 
 	updateGuests() {
-        let listLength = this.state.guestList.length;
-        this.setState({guestList: this.props.storage.getGuests()});
-        this.setState(prevState => ({
-            listItems: [...prevState.listItems, <GuestItem
-                Key={this.state.guestList[listLength - 1].guestId}
-                Guest={this.state.guestList[listLength - 1]}
-                guestName={this.state.guestList[listLength - 1].name}
-                guestEmail={this.state.guestList[listLength - 1].userName}
-                guestPhone={this.state.guestList[listLength - 1].phoneNumber}
-                guestAddress={this.state.guestList[listLength - 1].address}
-                guestId={this.state.guestList[listLength - 1].guestId}
-                storage={this.props.storage}
-                history={this.props.history}
-            />]
-        }));
+
+        this.setState({guestList: this.props.storage.getGuests()[1]}, () => {
+			let listLength = this.state.guestList.length;
+			this.setState(prevState => ({
+				listItems: [...prevState.listItems, <GuestItem
+					Key={this.state.guestList[listLength - 1].guestId}
+					Guest={this.state.guestList[listLength - 1]}
+					guestName={this.state.guestList[listLength - 1].name}
+					guestEmail={this.state.guestList[listLength - 1].userName}
+					guestPhone={this.state.guestList[listLength - 1].phoneNumber}
+					guestAddress={this.state.guestList[listLength - 1].address}
+					guestId={this.state.guestList[listLength - 1].guestId}
+					storage={this.props.storage}
+					history={this.props.history}
+				/>]
+			}));
+		});
     }
 
     updateItems() {
-        let listLength = this.state.itemList.length;
-        this.setState({itemList: this.props.storage.getItems()});
-        let newItem;
-        if (this.state.itemList[listLength - 1].name.includes("Table")) {
-        	newItem = <Table item={this.state.itemList[listLength - 1]} />
-		} else {
-			newItem = <ChartItem item={this.state.itemList[listLength - 1]} />
-		}
-		this.setState(prevState => ({
-			listItems: [...prevState.listItems, newItem]}));
+
+        this.setState({itemList: this.props.storage.getItems()[1]}, () => {
+			let listLength = this.state.itemList.length;
+			let newItem;
+			if (this.state.itemList[listLength - 1].name.includes("Table")) {
+				newItem = <Table item={this.state.itemList[listLength - 1]} />
+			} else {
+				newItem = <ChartItem item={this.state.itemList[listLength - 1]} />
+			}
+			this.setState(prevState => ({
+				placedItemList: [...prevState.placedItemList, newItem]}));
+		});
     }
 
 	handleDelete() {
@@ -584,8 +588,8 @@ class ItemDialog extends React.Component {
         event.preventDefault();
         let added = this.props.storage.addTable(this.state);
         if (added[0]) {
-            this.props.updateItems();
             this.closeItemDialog();
+			this.props.updateItems();
 
         } else {
             this.setState({error: 'guestError'});

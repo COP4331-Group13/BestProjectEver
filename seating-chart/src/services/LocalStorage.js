@@ -207,7 +207,7 @@ export class LocalStorage {
     addTable(state) {
         let items = ls('itemList');
         let table = new Table({name: "Table" + (items.length + 1),
-            xCoordinate: 0, yCoordinate: 0, height:state.height, width:state.width,
+            xCoordinate: 0, yCoordinate: 0, height:parseInt(state.height)*15, width:parseInt(state.width)*15,
             seats:state.numSeats, guests: [], availableSeats:state.numSeats});
         items.push(table);
         ls('itemList', items);
@@ -227,6 +227,9 @@ export class LocalStorage {
             }
             return [false, "No Current User"];
         }
+    }
+    resetItems() {
+        ls("itemList", []);
     }
     clear() {
         ls('curUser', undefined);

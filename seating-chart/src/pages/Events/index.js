@@ -7,6 +7,7 @@ export class EventList extends React.Component {
     constructor(props) {
         super(props);
         this.props.storage.resetGuests();
+        this.props.storage.resetItems();
         let gotEvents = this.props.storage.getEvents();
         if (gotEvents[0]) {
             this.state = {
