@@ -53,6 +53,9 @@ h3 {
 #guestError {
 	color:transparent;
 }
+#tableError {
+	color:red;
+}
 .infoBox {
 	margin: 5%;
 	color: #333333;

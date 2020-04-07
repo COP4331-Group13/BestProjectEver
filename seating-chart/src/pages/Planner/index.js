@@ -579,8 +579,10 @@ class ItemDialog extends React.Component {
 	}
 
 	closeItemDialog() {
-		let dialog = document.getElementsByClassName('itemDialog');
-		dialog[0].id="dialogbox";
+		this.setState({height:'', width:'', numSeats:''}, () => {
+			let dialog = document.getElementsByClassName('itemDialog');
+			dialog[0].id="dialogbox";
+		});
 	}
 
 	handleSubmitItem(event) {
@@ -592,7 +594,7 @@ class ItemDialog extends React.Component {
 			this.props.updateItems();
 
         } else {
-            this.setState({error: 'guestError'});
+            this.setState({error: 'tableError'});
             this.setState({errorMessage: added[1]});
         }
 	}
@@ -607,11 +609,11 @@ class ItemDialog extends React.Component {
 					<h1>Add a Table</h1>
 					<form onSubmit={this.handleSubmitItem}>
 						<input type="number" className="textBox" id="length"
-							   placeholder="Length" value ={this.state.length} onChange={this.changeLength} required/>ft.
+							   placeholder="Height" value ={this.state.height} onChange={this.changeLength} required/>ft.
 						<input type="number" className="textBox" id="width"
-							   placeholder="Width" value ={this.state.email} onChange={this.changeWidth} required/>ft.
+							   placeholder="Width" value ={this.state.width} onChange={this.changeWidth} required/>ft.
 						<input type="number" className="textBox" id="width"
-							   placeholder="Number of Seats" value ={this.state.email} onChange={this.changeNumSeats} required/>
+							   placeholder="Number of Seats" value ={this.state.numSeats} onChange={this.changeNumSeats} required/>
 						<div className='eventError' id={this.state.error} >
 							{this.state.errorMessage}
 						</div>
