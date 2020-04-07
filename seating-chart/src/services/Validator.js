@@ -226,7 +226,7 @@ export function addEvent(state, curUser) {
   let addEventCode = callEvent(state, curUser, pin, pixelLength, pixelWidth);
   if (addEventCode === 200) { // event added successfully
     let newEvent = new Event(state.name, pin, state.address,
-        state.date, state.max, state.length, state.width);
+        state.date, state.max, pixelLength, pixelWidth);
     return [true, newEvent];
   } else {
     return [false, 'Error has occurred'];
