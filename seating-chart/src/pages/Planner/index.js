@@ -10,7 +10,12 @@ class CreateGuest extends React.Component {
 		if (gotGuests[0]) {
 				this.state = {
 						guestList: gotGuests[1],
+
+                        // List of Guest items
 						listItems: [],
+
+                        // List of Chart items
+                        itemList: this.props.storage.getItems(),
 						clicked: 'false',
 						search: '',
 						curEvent:this.props.storage.getEvent(),
@@ -38,7 +43,12 @@ class CreateGuest extends React.Component {
 		} else {
 				this.state = {
 						guestList: [],
+
+                        // List of Guest Items
 						listItems: [],
+
+                        // List of Chart Items
+                        itemList: this.props.storage.getItems(),
 						clicked: 'false',
 						curEvent:this.props.storage.getEvent(),
 						search: '',
@@ -55,6 +65,8 @@ class CreateGuest extends React.Component {
 		this.openItemDialog = this.openItemDialog.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.changeSearch = this.changeSearch.bind(this);
+		this.updateGuests = this.updateGuests.bind(this);
+		this.updateItems = this.updateItems.bind(this);
 	}
 
 	openItemDialog() {
@@ -70,6 +82,29 @@ class CreateGuest extends React.Component {
 	changeSearch(event) {
 		this.setState({search: event.target.value});
 	}
+
+	updateGuests() {
+        let listLength = this.state.guestList.length;
+        this.setState({guestList: this.props.storage.getGuests()});
+        this.setState(prevState => ({
+            listItems: [...prevState.listItems, <GuestItem
+                Key={this.state.guestList[listLength - 1].guestId}
+                Guest={this.state.guestList[listLength - 1]}
+                guestName={this.state.guestList[listLength - 1].name}
+                guestEmail={this.state.guestList[listLength - 1].userName}
+                guestPhone={this.state.guestList[listLength - 1].phoneNumber}
+                guestAddress={this.state.guestList[listLength - 1].address}
+                guestId={this.state.guestList[listLength - 1].guestId}
+                storage={this.props.storage}
+                history={this.props.history}
+            />]
+        }));
+    }
+
+    updateItems() {
+        let listLength = this.state.itemList.length;
+        this.setState({itemList: this.props.storage.getItems()});
+    }
 
 	handleDelete() {
 		if (window.confirm("Are you sure you want to delete the event: " + this.state.curEvent.name + " ?\nThis will delete its preferences and guests attached to this event.") === true) {
@@ -98,7 +133,8 @@ class CreateGuest extends React.Component {
 
 				<div id="chartPlanner">
 					<div id="seatingChart">
-						<Layout height={this.state.layoutHeight} width={this.state.layoutWidth} storage={this.props.storage}/>
+						<Layout height={this.state.layoutHeight} width={this.state.layoutWidth}
+                                storage={this.props.storage} itemList={this.state.itemList}/>
 					</div>
 					<div id="chartItems">
 						<input type='submit' className='button' id='add_table' value='Add Table' onClick={() => this.openItemDialog()}/>
@@ -130,8 +166,8 @@ class CreateGuest extends React.Component {
 
 					</div>
 				</div>
-				<GuestDialog />
-				<ItemDialog />
+				<GuestDialog storage={this.props.storage} updateGuests={this.updateGuests} />
+				<ItemDialog storage={this.props.storage} updateItems={this.updateItems} />
 			</div>
 		);
 
@@ -306,28 +342,8 @@ class GuestItem extends React.Component {
 class Layout extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {itemList:[]};
-		// Just here for testing
-		this.state.itemList.push(
-			<Table
-				name="table1"
-				xCoordinate='50'
-				yCoordinate='50'
-				size="100"/>);
-		this.state.itemList.push(
-			<Table
-				name="table1"
-				xCoordinate='200'
-				yCoordinate='250'
-				size="100"/>);
-
 
 		this.createGrid = this.createGrid.bind(this);
-		this.addTable = this.addTable.bind(this);
-	}
-
-	addTable(length, width) {
-
 	}
 
 	createGrid(height, width) {
@@ -368,8 +384,9 @@ class Layout extends React.Component {
 		    <div id="layoutWrapper" style={{width: this.props.width, height:this.props.height}}>
 			    <table id="Layout" cellSpacing="0" >
 				    {this.createGrid(this.props.height, this.props.width)}
-						{this.state.itemList}
+                        {this.props.itemList}
 			    </table>
+
 				</div>
 		);
 	}
@@ -382,7 +399,8 @@ export class ChartItem extends React.Component {
 			name: this.props.name,
 			xCoordinate: parseInt(this.props.xCoordinate),
 			yCoordinate: parseInt(this.props.yCoordinate),
-			size: parseInt(this.props.size)
+			height: parseInt(this.props.height),
+            width: parseInt(this.props.width)
 		};
 
 		this.changeLocation = this.changeLocation.bind(this);
@@ -417,8 +435,8 @@ export class Table extends ChartItem {
 	render() {
 		return (
 			<div className="table" style={{
-				width:parseInt(this.props.size),
-				height:parseInt(this.props.size),
+				width:parseInt(this.props.width),
+				height:parseInt(this.props.height),
 				top:parseInt(this.props.yCoordinate),
 				left:parseInt(this.props.xCoordinate)
 			}}/>
@@ -470,22 +488,8 @@ class GuestDialog extends React.Component {
 		event.preventDefault();
 		let added = this.props.storage.addGuest(this.state);
 		if (added[0]) {
+            this.props.updateGuests();
 			this.closeGuestDialog();
-			let listLength = this.state.guestList.length;
-			this.setState({guestList: this.props.storage.getGuests()});
-			this.setState(prevState => ({
-				listItems: [...prevState.listItems, <GuestItem
-					Key={added[1].guestId}
-					Guest={added[1]}
-					guestName={added[1].name}
-					guestEmail={added[1].userName}
-					guestPhone={added[1].phoneNumber}
-					guestAddress={added[1].address}
-					guestId={added[1].guestId}
-					storage={this.props.storage}
-					history={this.props.history}
-				/>]
-			}));
 
 		} else {
 			this.setState({error: 'guestError'});
@@ -529,7 +533,7 @@ class ItemDialog extends React.Component {
 		super(props);
 
 		this.state = {
-			length: '',
+			height: '',
 			width: '',
 			numSeats: ''
 		};
@@ -542,7 +546,7 @@ class ItemDialog extends React.Component {
 	}
 
 	changeLength(event) {
-		this.setState({length: event.target.value});
+		this.setState({height: event.target.value});
 	}
 
 	changeWidth(event) {
@@ -560,8 +564,16 @@ class ItemDialog extends React.Component {
 
 	handleSubmitItem(event) {
 		event.preventDefault();
-		let dialog = document.getElementsByClassName('itemDialog');
-		dialog[0].id="dialogbox";
+        event.preventDefault();
+        let added = this.props.storage.addTable(this.state);
+        if (added[0]) {
+            this.props.updateItems();
+            this.closeItemDialog();
+
+        } else {
+            this.setState({error: 'guestError'});
+            this.setState({errorMessage: added[1]});
+        }
 	}
 
 	render() {

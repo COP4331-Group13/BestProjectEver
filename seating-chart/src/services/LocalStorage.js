@@ -1,6 +1,7 @@
 import ls from 'local-storage';
 import {Guest, User} from "./User";
-import {ChartItem} from "../pages/Planner/index";
+import React from "react";
+import {ChartItem, Table} from "./ChartItems"
 import {
     addEvent,
     addGuest,
@@ -202,6 +203,15 @@ export class LocalStorage {
     }
     addItem(state) {
 
+    }
+    addTable(state) {
+        let items = ls('itemList');
+        let table = new Table({name: "Table" + (items.length + 1),
+            xCoordinate: 0, yCoordinate: 0, height:state.height, width:state.width,
+            seats:state.numSeats, guests: [], availableSeats:state.numSeats});
+        items.push(table);
+        ls('itemList', items);
+        return [true];
     }
     getItems() {
         if(ls('itemList').length !== 0) {
