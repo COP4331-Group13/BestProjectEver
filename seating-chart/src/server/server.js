@@ -7,6 +7,7 @@ const getGuestListController = require('./controllers/get-guestList-controller')
 const eventController = require('./controllers/event-controller');
 const getEventListController = require('./controllers/get-eventList-controller');
 const groupController = require('./controllers/group-controller');
+const saveLayoutController = require('./controllers/save-layout-controller');
 
 const express = require('express');
 const app = express();
@@ -34,6 +35,7 @@ router.post('/api/delete-event', eventController.deleteEvent);
 router.post('/api/get-event', eventController.getEvent);
 router.post('/api/get-event-list', getEventListController.getEventList);
 router.post('/api/get-guest-group', groupController.getGuestGroup);
+router.post('/api/save-layout', saveLayoutController.saveLayout);
 
 const PORT = 5000;
 

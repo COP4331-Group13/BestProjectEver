@@ -12,7 +12,8 @@ import {
     getGuestList,
     getSingleEvent,
     getGuestGroup,
-    getItemList
+    getItemList,
+    pushLayout
 } from "./Validator";
 
 export class LocalStorage {
@@ -242,6 +243,16 @@ export class LocalStorage {
     }
     resetItems() {
         ls("itemList", []);
+    }
+    saveLayout() {
+      if(ls('itemList').length !== 0) {
+        let save = pushLayout(ls('itemList'));
+        if (save[0]) {
+          return [true];
+        }
+      } else {
+        return [false, "No Items Present On Layout"];
+      }
     }
     clear() {
         ls('curUser', undefined);

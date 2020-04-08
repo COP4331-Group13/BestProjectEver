@@ -53,7 +53,7 @@ function callUpdateGuest(state, guestPin) {
 
 function callGuestList(curEventPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/get-guest-list", true);
+  xhr.open("POST", "http://35.243.169.229:5000/api/get-guest-list", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("event_pin="+curEventPin);
   return [xhr.status, xhr.responseText];
@@ -100,6 +100,15 @@ function callGuestGroup(guestPin) {
   xhr.send("guest_pin="+guestPin);
   return [xhr.status, xhr.responseText];
 }
+
+function callSaveLayout(itemList) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://35.243.169.229:5000/api/save-layout", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("item_list="+itemList);
+  return [xhr.status, xhr.responseText];
+}
+
 
 // post calls ^^^^^^^^^^ --> for testing you need to change:
 // 35.243.169.229 to localhost in order to get from the test db (all calls)
@@ -287,4 +296,13 @@ export function getGuestGroup(guestPin) {
 
 export function getItemList(curUser) {
     return [true, []];
+}
+
+export function pushLayout(itemList) {
+  let pushCode = callSaveLayout(itemList);
+  if (pushCode[0] === 200) {
+    return [true];
+  } else {
+      return [false, 'Error has occurred'];
+  }
 }

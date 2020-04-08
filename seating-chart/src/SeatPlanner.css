@@ -411,7 +411,11 @@ dialog {
 	overflow: auto;
 	border-bottom:thin solid grey;
 }
+#chartItems #add_table, #save_layout {
+	height: 30%;
+}
 #chartItems {
+	display: flex;
 	height: 35%;
 	overflow-y: hidden;
 }

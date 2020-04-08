@@ -72,6 +72,7 @@ class CreateGuest extends React.Component {
 		this.props.storage.setGuest(undefined);
 		this.openGuestDialog = this.openGuestDialog.bind(this);
 		this.openItemDialog = this.openItemDialog.bind(this);
+		this.saveLayout = this.saveLayout.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.changeSearch = this.changeSearch.bind(this);
 		this.updateGuests = this.updateGuests.bind(this);
@@ -86,6 +87,18 @@ class CreateGuest extends React.Component {
 	openGuestDialog() {
 		let dialog = document.getElementsByClassName('guestDialog');
 		dialog[0].id="openDialog";
+	}
+
+	saveLayout(event) {
+		event.preventDefault();
+		if (window.confirm("Do you want to save changes?") === true) {
+				/* let save = this.props.storage.saveLayout();
+				if (save) {
+					alert("Layout was successfully saved!");
+				}*/
+		} else {
+			// do nothing
+		}
 	}
 
 	changeSearch(event) {
@@ -159,6 +172,7 @@ class CreateGuest extends React.Component {
 					</div>
 					<div id="chartItems">
 						<input type='submit' className='button' id='add_table' value='Add Table' onClick={() => this.openItemDialog()}/>
+						<input type='submit' className='button' id='save_layout' value='Save Layout' onClick={this.saveLayout}/>
 					</div>
 				</div>
 
