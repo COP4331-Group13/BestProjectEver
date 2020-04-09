@@ -1,5 +1,6 @@
 import {User, Guest} from "./User";
 import {Event} from "./event";
+import {Table} from "./ChartItems";
 
 const randomize = require("randomatic");
 
@@ -108,6 +109,14 @@ function callSaveLayout(itemList, event_pin) {
    xhr.send("name="+itemList.name+"&xCoordinate="+itemList.xCoordinate
        +"&yCoordinate="+itemList.yCoordinate+"&height="+itemList.height+"&width="+itemList.width
        +"&seats="+itemList.seats+"&availableSeats="+itemList.availableSeats+"&event_pin="+event_pin);
+  return [xhr.status, xhr.responseText];
+}
+
+function callItemList(curEventPin) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:5000/api/get-item-list", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("event_pin="+curEventPin);
   return [xhr.status, xhr.responseText];
 }
 
@@ -296,8 +305,21 @@ export function getGuestGroup(guestPin) {
   }
 }
 
-export function getItemList(curUser) {
-    return [true, []];
+export function getItemList(curEventPin) {
+    var itemCode = callItemList(curEventPin);
+    if (itemCode[0] === 200) {
+      let data = JSON.parse(itemCode[1]);
+      let tables = [];
+        for (let i = 0; i < data.length; i++) {
+            tables.push(new Table({name:data.results[i].name,
+                xCoordinate:data.results[i].xCoordinate, yCoordinate:data.results[i].yCoordinate,
+                height:data.results[i].height, width:data.results[i].width,
+                seats:data.results[i].seats, availableSeats: data.results[i].available_seats}));
+        }
+      return [true, tables];
+    } else {
+        return [false, 'Error has occurred'];
+    }
 }
 
 export function pushLayout(itemList, event_pin) {

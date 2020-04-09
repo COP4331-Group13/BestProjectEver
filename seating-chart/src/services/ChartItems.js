@@ -2,7 +2,6 @@ import React from "react";
 
 export class ChartItem  {
     constructor(props) {
-        console.log(props.height);
         this.name = props.name;
         this.xCoordinate= parseInt(props.xCoordinate);
         this.yCoordinate= parseInt(props.yCoordinate);

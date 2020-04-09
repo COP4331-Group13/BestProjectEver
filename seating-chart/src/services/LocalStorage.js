@@ -230,13 +230,13 @@ export class LocalStorage {
         if(ls('itemList').length !== 0) {
             return [true, ls('itemList')];
         } else {
-            if (ls('curUser') !== undefined) {
+            if (ls('curEvent') !== undefined) {
 
-                let gotItems = getItemList(ls('curUser'));
+                let gotItems = getItemList(ls('curEvent').pin);
                 if (gotItems[0]) {
                     ls('itemList', gotItems[1]);
                 }
-                return gotItems
+                return [true, gotItems[1]];
             }
             return [false, "No Current User"];
         }
