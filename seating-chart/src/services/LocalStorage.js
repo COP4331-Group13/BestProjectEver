@@ -246,7 +246,7 @@ export class LocalStorage {
     }
     saveLayout() {
       if(ls('itemList').length !== 0) {
-        let save = pushLayout(ls('itemList'));
+        let save = pushLayout(ls('itemList'), ls('curEvent').pin);
         if (save[0]) {
           return [true];
         }

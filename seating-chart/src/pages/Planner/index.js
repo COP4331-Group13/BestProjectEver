@@ -92,10 +92,10 @@ class CreateGuest extends React.Component {
 	saveLayout(event) {
 		event.preventDefault();
 		if (window.confirm("Do you want to save changes?") === true) {
-				/* let save = this.props.storage.saveLayout();
+			  let save = this.props.storage.saveLayout();
 				if (save) {
 					alert("Layout was successfully saved!");
-				}*/
+				}
 		} else {
 			// do nothing
 		}

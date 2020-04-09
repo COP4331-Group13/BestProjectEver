@@ -5,7 +5,7 @@ const randomize = require("randomatic");
 
 function callAuthenticate(state) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/login", false);
+  xhr.open("POST", "http://localhost:5000/api/login", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("email="+state.user+"&password="+state.pass);
   return xhr.status;
@@ -13,7 +13,7 @@ function callAuthenticate(state) {
 
 function callGuestAuthenticate(gID) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/guest-login", false);
+  xhr.open("POST", "http://localhost:5000/api/guest-login", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("guest_pin="+gID);
   return [xhr.status, xhr.responseText];
@@ -21,7 +21,7 @@ function callGuestAuthenticate(gID) {
 
 function callRegister(state) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/register", false);
+  xhr.open("POST", "http://localhost:5000/api/register", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("full_name="+state.name+"&email="+state.user+"&password="+state.pass);
   return xhr.status;
@@ -29,7 +29,7 @@ function callRegister(state) {
 
 function callGuest(state, curEventPin, guestPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/add-guest", false);
+  xhr.open("POST", "http://localhost:5000/api/add-guest", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("full_name="+state.name+"&email="+state.email+"&address="+state.address+"&phone_number="+state.phone+"&event_pin="+curEventPin+"&guest_pin="+guestPin);
   return xhr.status;
@@ -37,7 +37,7 @@ function callGuest(state, curEventPin, guestPin) {
 
 function callDeleteGuest(guestPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/delete-guest", false);
+  xhr.open("POST", "http://localhost:5000/api/delete-guest", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("guest_pin="+guestPin);
   return xhr.status;
@@ -45,7 +45,7 @@ function callDeleteGuest(guestPin) {
 
 function callUpdateGuest(state, guestPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/update-guest", false);
+  xhr.open("POST", "http://localhost:5000/api/update-guest", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("full_name="+state.name+"&email="+state.email+"&phone_number="+state.phone+"&address="+state.address+"&guest_pin="+guestPin);
   return xhr.status;
@@ -53,7 +53,7 @@ function callUpdateGuest(state, guestPin) {
 
 function callGuestList(curEventPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/get-guest-list", false);
+  xhr.open("POST", "http://localhost:5000/api/get-guest-list", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("event_pin="+curEventPin);
   return [xhr.status, xhr.responseText];
@@ -61,7 +61,7 @@ function callGuestList(curEventPin) {
 
 function callEvent(state, curUser, pin, pixelLength, pixelWidth) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/add-event", false);
+  xhr.open("POST", "http://localhost:5000/api/add-event", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("planner="+curUser+"&pin="+pin+"&event_name="+state.name+"&event_time="
       +state.date+"&address="+state.address+"&max_people="+state.max+"&layout_length="
@@ -71,7 +71,7 @@ function callEvent(state, curUser, pin, pixelLength, pixelWidth) {
 
 function callDeleteEvent(eventPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/delete-event", false);
+  xhr.open("POST", "http://localhost:5000/api/delete-event", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("event_pin="+eventPin);
   return [xhr.status, xhr.responseText];
@@ -79,7 +79,7 @@ function callDeleteEvent(eventPin) {
 
 function callSingleEvent(eventPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/get-event", false);
+  xhr.open("POST", "http://localhost:5000/api/get-event", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("event_pin="+eventPin);
   return [xhr.status, xhr.responseText];
@@ -87,7 +87,7 @@ function callSingleEvent(eventPin) {
 
 function callEventList(curUser) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/get-event-list", false);
+  xhr.open("POST", "http://localhost:5000/api/get-event-list", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("planner="+curUser);
   return [xhr.status, xhr.responseText];
@@ -95,17 +95,19 @@ function callEventList(curUser) {
 
 function callGuestGroup(guestPin) {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/get-guest-group", false);
+  xhr.open("POST", "http://localhost:5000/api/get-guest-group", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("guest_pin="+guestPin);
   return [xhr.status, xhr.responseText];
 }
 
-function callSaveLayout(itemList) {
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://35.243.169.229:5000/api/save-layout", false);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send("item_list="+itemList);
+function callSaveLayout(itemList, event_pin) {
+   const xhr = new XMLHttpRequest();
+   xhr.open("POST", "http://localhost:5000/api/save-layout", false);
+   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+   xhr.send("name="+itemList.name+"&xCoordinate="+itemList.xCoordinate
+       +"&yCoordinate="+itemList.yCoordinate+"&height="+itemList.height+"&width="+itemList.width
+       +"&seats="+itemList.seats+"&availableSeats="+itemList.availableSeats+"&event_pin="+event_pin);
   return [xhr.status, xhr.responseText];
 }
 
@@ -298,8 +300,14 @@ export function getItemList(curUser) {
     return [true, []];
 }
 
-export function pushLayout(itemList) {
-  let pushCode = callSaveLayout(itemList);
+export function pushLayout(itemList, event_pin) {
+  var pushCode;
+  for (let i = 0; i < itemList.length; i++) {
+    pushCode = callSaveLayout(itemList[i], event_pin);
+    console.log(pushCode[0]);
+    if (pushCode[0] !== 200)
+      break;
+  }
   if (pushCode[0] === 200) {
     return [true];
   } else {
