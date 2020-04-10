@@ -454,29 +454,33 @@ export class ChartItem extends React.Component {
 }
 
 export class Table extends ChartItem {
-	constructor(props) {
-		super(props);
-		this.state = {
-			seats: parseInt(this.props.item.seats),
-			guests: this.props.item.guests,
-		};
+        constructor(props) {
+                super(props);
+                this.state = {
+                        seats: parseInt(this.props.item.seats),
+                        guests: this.props.item.guests,
+                };
 
-		this.seatGuest = this.seatGuest.bind(this);
-	}
+                this.seatGuest = this.seatGuest.bind(this);
+        }
 
-	seatGuest() {
-	}
+        seatGuest() {
+                let dialog = document.getElementsByClassName('seatDialog');
+                dialog[0].id="openDialog";
+        }
 
-	render() {
-		return (
-			<div className="table" style={{
-				width:parseInt(this.props.item.width),
-				height:parseInt(this.props.item.height),
-				top:parseInt(this.props.item.yCoordinate),
-				left:parseInt(this.props.item.xCoordinate)
-			}}/>
-		);
-	}
+        render() {
+                return (
+                        <div className="table" style={{
+                                width:parseInt(this.props.item.width),
+                                height:parseInt(this.props.item.height),
+                                top:parseInt(this.props.item.yCoordinate),
+                                left:parseInt(this.props.item.xCoordinate)
+                        }}>
+                                <input id="seat_guest" class="button" type="submit" value="+" onClick={this.seatGuest}/>
+                        </div>
+                );
+        }
 }
 
 class GuestDialog extends React.Component {
@@ -641,5 +645,52 @@ class ItemDialog extends React.Component {
 	}
 }
 
+
+class SeatDialog extends React.Component {
+        constructor(props) {
+                super(props);
+
+                this.state = {
+                        numSeats: ''
+                };
+
+                this.handleSubmitSeats = this.handleSubmitSeats.bind(this);
+                this.closeSeatDialog = this.closeSeatDialog.bind(this);
+                this.selectGuest = this.selectGuest.bind(this);
+        }
+
+        selectGuest() {
+                // allow for selection of a guest to that seat
+                // assign table/seat number to guest data
+        }
+
+        closeSeatDialog() {
+                this.setState({}, () => {
+                        let dialog = document.getElementsByClassName('seatDialog');
+                        dialog[0].id="dialogbox";
+                });
+        }
+
+        handleSubmitSeats(event) {
+                event.preventDefault();
+        }
+
+
+        render() {
+                return (
+                        <div className="seatDialog" id="dialogbox">
+                                <dialog open>
+                                        <div id="closeWindow">
+                                                <input type='submit' className="button2" id="closeButton" value='X' onClick={() => this.closeItemDialog()}/>
+                                        </div>
+                                        <h1>Guests</h1>
+                                        // render lines corresponding to number of seats
+                                        // render button to choose a guest for that seat 
+                                </dialog>
+                        </div>
+                );
+        }
+
+}
 
 export default withRouter(CreateGuest);
