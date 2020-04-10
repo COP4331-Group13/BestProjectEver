@@ -310,12 +310,21 @@ export function getItemList(curEventPin) {
     if (itemCode[0] === 200) {
       let data = JSON.parse(itemCode[1]);
       let tables = [];
-        for (let i = 0; i < data.length; i++) {
-            tables.push(new Table({name:data.results[i].name,
-                xCoordinate:data.results[i].xCoordinate, yCoordinate:data.results[i].yCoordinate,
-                height:data.results[i].height, width:data.results[i].width,
-                seats:data.results[i].seats, availableSeats: data.results[i].available_seats}));
-        }
+      var guests = [];
+      for (var i = 0; i < data.results.length; i++) {
+          var available = data.results[i].available_seats;
+          guests[i] = [];
+          for (let j = 0; j < data.guests.length; j++) {
+              if (data.guests[j].table_item === data.results[i].item_id) {
+                guests[i].push(data.guests[j].full_name);
+                available--;
+              }
+          }
+          tables.push(new Table({name:data.results[i].name,
+              xCoordinate:data.results[i].xCoordinate, yCoordinate:data.results[i].yCoordinate,
+              height:data.results[i].height, width:data.results[i].width,
+              seats:data.results[i].seats, guests:guests[i], availableSeats: available}));
+      }
       return [true, tables];
     } else {
         return [false, 'Error has occurred'];

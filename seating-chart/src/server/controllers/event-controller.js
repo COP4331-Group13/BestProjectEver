@@ -98,36 +98,43 @@ module.exports.deleteEvent = function(req,res) {
 							res.send();
 						} else {
 								var event_id = results[0].event_id;
-								connection.query('DELETE FROM guest WHERE event_pin = ?', [req.body.event_pin], function (error, results, fields) {
+								connection.query('DELETE FROM chart_items WHERE event_pin = ?', [req.body.event_pin], function (error, results) {
 									if (error) {
 										res.status(400);
 										res.send();
 									} else {
-											connection.query('DELETE FROM preferences WHERE event_id = ?', [event_id], function (error, results, fields) {
-												if (error) {
-													res.status(400);
-													res.send();
-												} else {
-														connection.query('DELETE FROM groups WHERE event_id = ?', [event_id], function (error, results, fields) {
-															if (error) {
-																res.status(400);
-																res.send();
-															} else {
-																connection.query('DELETE FROM event WHERE event_pin = ?', [req.body.event_pin], function (error, results, fields) {
+										connection.query('DELETE FROM guest WHERE event_pin = ?', [req.body.event_pin], function (error, results, fields) {
+											if (error) {
+												res.status(400);
+												res.send();
+											} else {
+													connection.query('DELETE FROM preferences WHERE event_id = ?', [event_id], function (error, results, fields) {
+														if (error) {
+															res.status(400);
+															res.send();
+														} else {
+																connection.query('DELETE FROM groups WHERE event_id = ?', [event_id], function (error, results, fields) {
 																	if (error) {
 																		res.status(400);
 																		res.send();
 																	} else {
-																			res.status(200);
-																		 	res.send();
+																		connection.query('DELETE FROM event WHERE event_pin = ?', [req.body.event_pin], function (error, results, fields) {
+																			if (error) {
+																				res.status(400);
+																				res.send();
+																			} else {
+																					res.status(200);
+																					res.send();
+																			}
+																		});
 																	}
 																});
-															}
-														});
-												}
-											});
+														}
+													});
+											}
+										});
 									}
-								});
+								})
 						}
 					});
 		}
