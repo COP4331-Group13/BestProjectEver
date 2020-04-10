@@ -108,7 +108,7 @@ function callSaveLayout(itemList, event_pin) {
    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
    xhr.send("name="+itemList.name+"&xCoordinate="+itemList.xCoordinate
        +"&yCoordinate="+itemList.yCoordinate+"&height="+itemList.height+"&width="+itemList.width
-       +"&seats="+itemList.seats+"&availableSeats="+itemList.availableSeats+"&event_pin="+event_pin);
+       +"&seats="+itemList.seats+"&guests="+itemList.guests+"&availableSeats="+itemList.availableSeats+"&event_pin="+event_pin);
   return [xhr.status, xhr.responseText];
 }
 
@@ -335,7 +335,6 @@ export function pushLayout(itemList, event_pin) {
   var pushCode;
   for (let i = 0; i < itemList.length; i++) {
     pushCode = callSaveLayout(itemList[i], event_pin);
-    console.log(pushCode[0]);
     if (pushCode[0] !== 200)
       break;
   }
