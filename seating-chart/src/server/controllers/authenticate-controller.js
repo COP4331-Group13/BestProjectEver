@@ -15,7 +15,7 @@ module.exports.authenticate = function(req,res) {
     if(results.length > 0) {
       if(bcrypt.compareSync(password, results[0].password)) {
         res.status(200); // login successful
-        res.send();
+        res.send({results:results[0].full_name});
       } else {
           res.status(204); // wrong password
           res.send();
