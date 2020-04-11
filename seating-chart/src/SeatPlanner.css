@@ -411,6 +411,10 @@ dialog {
 	overflow: auto;
 	border-bottom:thin solid grey;
 }
+#seatingChartGuest {
+	height: 90%;
+	overflow: auto;
+}
 #chartItems #add_table, #save_layout {
 	height: 30%;
 }

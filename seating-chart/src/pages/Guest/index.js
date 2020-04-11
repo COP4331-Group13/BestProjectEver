@@ -18,9 +18,24 @@ export class GuestView extends React.Component {
         curUser: this.props.storage.getUser(),
         curEvent: this.props.storage.getEvent(),
         curGroup: this.props.storage.getGuestGroup(),
+        itemList: this.props.storage.getItems()[1],
+        placedItemList: [],
         layoutWidth: 900,
         layoutHeight: 750
       };
+
+      for (let i = 0; i < this.state.itemList.length; i++) {
+  			let newItem;
+  			if (this.state.itemList[i].name.includes("Table")) {
+  				newItem = <Table item={this.state.itemList[i]}/>
+  			} else {
+  				newItem = <ChartItem item={this.state.itemList[i]} />
+  			}
+  			this.state.placedItemList.push(newItem);
+  		}
+
+      this.state.layoutWidth = this.state.curEvent.layout_width;
+  		this.state.layoutHeight = this.state.curEvent.layout_length;
 
       this.handleLogout = this.handleLogout.bind(this);
       this.changeName = this.changeName.bind(this);
@@ -93,8 +108,9 @@ export class GuestView extends React.Component {
                 </div>
 
                 <div id= 'chartGuest'>
-                  <div id="seatingChart">
-        						<Layout height={this.state.layoutHeight} width={this.state.layoutWidth}/>
+                  <div id="seatingChartGuest">
+                  <Layout height={this.state.layoutHeight} width={this.state.layoutWidth}
+                                      storage={this.props.storage} itemList={this.state.placedItemList}/>
         					</div>
                 </div>
 
@@ -181,36 +197,109 @@ export class GuestView extends React.Component {
 class Layout extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			height: this.props.height / 50,
-			width: this.props.width / 50
-		};
-		this.createTable = this.createTable.bind(this);
+
+		this.createGrid = this.createGrid.bind(this);
 	}
 
-	createTable(height, width) {
+	createGrid(height, width) {
 		let table = [];
 
 		// Outer loop to create parent
-		for (let i = 0; i < height; i++) {
+		for (let i = 0; i < Math.floor(height/50); i++) {
 			let children = [];
 			//Inner loop to create children
-			for (let j = 0; j < width; j++) {
+			for (let j = 0; j < Math.floor(width/50); j++) {
 				children.push(<td className="layoutSquare"/>);
+			}
+			if (width % 50 !== 0) {
+				children.push(<td className="layoutSquare lastCol"  style={{width:(width % 50)}}/>);
 			}
 			//Create the parent and add the children
 			table.push(<tr className="layoutRow">{children}</tr>);
+		}
+
+		if (height % 50 !== 0) {
+			let children = [];
+			//Inner loop to create children
+			for (let j = 0; j < Math.floor(width/50); j++) {
+				children.push(<td className="layoutSquare lastRow" style={{height:(height % 50)}} />);
+			}
+			if (width % 50 !== 0) {
+				children.push(<td className="layoutSquare lastRow lastCol"  style={
+					{width:(width % 50), height:(height % 50)}}/>);
+			}
+			//Create the parent and add the children
+			table.push(<tr className="layoutRow lastRow">{children}</tr>);
 		}
 		return table
 	}
 
 	render() {
 		return (
-			<table id="Layout" cellSpacing="0" style={{width: this.props.width, height:this.props.height}}>
-				{this.createTable(this.state.height, this.state.width)}
-			</table>
+		    <div id="layoutWrapper" style={{width: this.props.width, height:this.props.height}}>
+			    <table id="Layout" cellSpacing="0" >
+				    {this.createGrid(this.props.height, this.props.width)}
+                        {this.props.itemList}
+			    </table>
+
+				</div>
 		);
 	}
+}
+
+class ChartItem extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: this.props.name,
+			xCoordinate: parseInt(this.props.item.xCoordinate),
+			yCoordinate: parseInt(this.props.item.yCoordinate),
+			height: parseInt(this.props.item.height),
+      width: parseInt(this.props.item.width)
+		};
+	}
+}
+
+class Table extends ChartItem {
+        constructor(props) {
+                super(props);
+                this.state = {
+                        seats: parseInt(this.props.item.seats),
+                        guests: this.props.item.guests,
+                };
+                this.openDialog = this.openDialog.bind(this);
+        				this.closeDialog = this.closeDialog.bind(this);
+        }
+
+        openDialog() {
+    			document.getElementById("seatDialogBox").style.display = 'block';
+    		}
+
+        closeDialog() {
+    			document.getElementById("seatDialogBox").style.display = 'none';
+    		}
+
+        render() {
+                return (
+                        <div className="table" style={{
+                                width:parseInt(this.props.item.width),
+                                height:parseInt(this.props.item.height),
+                                top:parseInt(this.props.item.yCoordinate),
+                                left:parseInt(this.props.item.xCoordinate)
+                        }}>
+                         <input id="seat_guest" class="button" type="submit" value="+" onClick={() => this.openDialog()}/>
+                          <div className="dialogbox2" id="seatDialogBox">
+                                  <dialog open>
+                                          <div id="closeWindow">
+                                                  <input type='submit' className="button2" id="closeButton" value='X' onClick={() => this.closeDialog()}/>
+                                          </div>
+                                          <h1>Guests</h1>
+                                          {this.state.guests}
+                                  </dialog>
+                          </div>
+                        </div>
+                );
+        }
 }
 
 export default withRouter(GuestView);

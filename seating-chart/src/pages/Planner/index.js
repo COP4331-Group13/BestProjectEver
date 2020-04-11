@@ -685,7 +685,7 @@ class SeatDialog extends React.Component {
                                         </div>
                                         <h1>Guests</h1>
                                         // render lines corresponding to number of seats
-                                        // render button to choose a guest for that seat 
+                                        // render button to choose a guest for that seat
                                 </dialog>
                         </div>
                 );
