@@ -467,3 +467,7 @@ dialog {
 	font-weight: bold;
 	background-color: lightgrey;
 }
+#move {
+	position: absolute;
+	cursor: move;
+}

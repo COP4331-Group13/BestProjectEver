@@ -491,18 +491,88 @@ export class Table extends ChartItem {
 
         render() {
                 return (
-                        <div className="table" style={{
-                                width:parseInt(this.props.item.width),
-                                height:parseInt(this.props.item.height),
-                                top:parseInt(this.props.item.yCoordinate),
-                                left:parseInt(this.props.item.xCoordinate)
-                        }}>
-                                <input id="seat_guest" className="button" type="submit" value="+" onClick={this.seatGuest}/>
+                        <div id="move">
+														<div id="moveTable">
+															<div className="table" style={{
+	                                width:parseInt(this.props.item.width),
+	                                height:parseInt(this.props.item.height),
+	                                top:parseInt(this.props.item.yCoordinate),
+	                                left:parseInt(this.props.item.xCoordinate)
+	                        		}}>
+															</div>
+														</div>
+                        <input id="seat_guest" className="button" type="submit" value="+" onClick={this.seatGuest}/>
                         </div>
                 );
         }
 }
+/*
+// ------ Start Levi trying to figure out how to do a simple task ------ //
+		var dragItem = document.querySelector("#moveTable");
+    var move = document.querySelector("#move");
 
+    var active = false;
+    var currentX;
+    var currentY;
+    var initialX;
+    var initialY;
+    var xOffset = 0;
+    var yOffset = 0;
+
+    move.addEventListener("touchstart", dragStart, false);
+    move.addEventListener("touchend", dragEnd, false);
+    move.addEventListener("touchmove", drag, false);
+
+    move.addEventListener("mousedown", dragStart, false);
+    move.addEventListener("mouseup", dragEnd, false);
+    move.addEventListener("mousemove", drag, false);
+
+    function dragStart(e) {
+      if (e.type === "touchstart") {
+        initialX = e.touches[0].clientX - xOffset;
+        initialY = e.touches[0].clientY - yOffset;
+      } else {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+      }
+
+      if (e.target === dragItem) {
+        active = true;
+      }
+    }
+
+    function dragEnd(e) {
+      initialX = currentX;
+      initialY = currentY;
+
+      active = false;
+    }
+
+    function drag(e) {
+      if (active) {
+
+        e.preventDefault();
+
+        if (e.type === "touchmove") {
+          currentX = e.touches[0].clientX - initialX;
+          currentY = e.touches[0].clientY - initialY;
+        } else {
+          currentX = e.clientX - initialX;
+          currentY = e.clientY - initialY;
+        }
+
+        xOffset = currentX;
+        yOffset = currentY;
+
+        setTranslate(currentX, currentY, dragItem);
+      }
+    }
+
+    function setTranslate(xPos, yPos, el) {
+      el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+    }
+// ------- End Levi trying to figure out how to do a simple task ------- //
+*/
 class GuestDialog extends React.Component {
 
 	constructor(props) {
