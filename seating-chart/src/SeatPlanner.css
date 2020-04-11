@@ -458,3 +458,12 @@ dialog {
 	padding: 0;
 	line-height: 0.8em;
 }
+#disabled {
+	color:gray;
+	font-weight: bold;
+}
+#enabled {
+	color: black;
+	font-weight: bold;
+	background-color: lightgrey;
+}

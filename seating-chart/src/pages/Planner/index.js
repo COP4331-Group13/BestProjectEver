@@ -36,6 +36,7 @@ class CreateGuest extends React.Component {
 										guestId={this.state.guestList[i].guestId}
 										storage={this.props.storage}
 										history={this.props.history}
+                                        removeGuest={this.removeGuest}
 								/>);
 				}
 		} else {
@@ -76,6 +77,7 @@ class CreateGuest extends React.Component {
 		this.handleDelete = this.handleDelete.bind(this);
 		this.changeSearch = this.changeSearch.bind(this);
 		this.updateGuests = this.updateGuests.bind(this);
+		this.removeGuest = this.removeGuest.bind(this);
 		this.updateItems = this.updateItems.bind(this);
 	}
 
@@ -120,9 +122,24 @@ class CreateGuest extends React.Component {
 					guestId={this.state.guestList[listLength - 1].guestId}
 					storage={this.props.storage}
 					history={this.props.history}
+                    removeGuest={this.removeGuest}
 				/>]
 			}));
 		});
+    }
+
+    removeGuest(removedGuestKey) {
+        this.setState({guestList: this.props.storage.getGuests()[1]}, () => {
+            let filtered = this.state.listItems;
+            for (let i = 0; i < filtered.length; i++) {
+            	if (filtered[i].props.Key === removedGuestKey) {
+            		filtered.splice(i, 1);
+            		break;
+				}
+			}
+
+            this.setState({listItems: filtered});
+        })
     }
 
     updateItems() {
@@ -217,7 +234,8 @@ class GuestItem extends React.Component {
 						name: this.props.guestName,
 						email: this.props.guestEmail,
 						phone: this.props.guestPhone,
-						address: this.props.guestAddress
+						address: this.props.guestAddress,
+                        guestId: this.props.Guest.guestId
 				};
 
 				this.changeName = this.changeName.bind(this);
@@ -267,7 +285,7 @@ class GuestItem extends React.Component {
 					let deleted = this.props.storage.deleteGuest();
 					if (deleted) {
 						this.closeDialog();
-						window.location.reload(); // for now pages reload after deleting so that it updates the guest list.
+						this.props.removeGuest(this.state.guestId);
 						alert("Guest deleted!");
 					} else {
 							alert("Error deleting guest");
@@ -289,6 +307,7 @@ class GuestItem extends React.Component {
 			let inputForm = document.getElementsByClassName('textFormBox');
 			for (let i = 0; i < inputForm.length; i++) {
     		inputForm[i].disabled = true;
+				inputForm[i].id = "disabled";
 			}
 		}
 
@@ -296,6 +315,7 @@ class GuestItem extends React.Component {
 			let inputForm = document.getElementsByClassName('textFormBox');
 			for (let i = 0; i < inputForm.length; i++) {
     		inputForm[i].disabled = false;
+    		inputForm[i].id = "enabled";
 			}
 		}
 
@@ -318,9 +338,9 @@ class GuestItem extends React.Component {
         return (
 					<div>
 						<div id="guestListItem">
-            	<li
-								key={this.props.Key} className='guestItem' value={this.props.guestName}>{this.props.guestName}
-							</li>
+                            <li key={this.props.Key} className='guestItem' value={this.props.guestName}>
+                                {this.props.guestName}
+            	            </li>
 							<input type='submit' id='guestItemOpen' value='+' onClick={() => this.openDialog()}/>
 						</div>
 
@@ -335,22 +355,22 @@ class GuestItem extends React.Component {
 										<form id="formGuest" onSubmit={this.handleSubmit}>
 											<p>
 												<label>Name</label>
-												<input type="text" className="textFormBox"
+												<input type="text" className="textFormBox" id="disabled"
 													value={this.state.name} onChange={this.changeName} disabled/>
 											</p>
 											<p>
 												<label>Email</label>
-												<input type="email" className="textFormBox"
+												<input type="email" className="textFormBox" id="disabled"
 													value={this.state.email} onChange={this.changeEmail} disabled/>
 											</p>
 											<p>
 												<label>Phone</label>
-												<input type="text" className="textFormBox"
+												<input type="text" className="textFormBox" id="disabled"
 													value={this.state.phone} onChange={this.changePhone} disabled/>
 											</p>
 											<p>
 												<label>Address</label>
-												<input type="text" className="textFormBox"
+												<input type="text" className="textFormBox" id="disabled"
 													value={this.state.address} onChange={this.changeAddress} disabled/>
 											</p>
 											<input type='submit' className='button' id='guestButtons' value='Save'/>
@@ -477,7 +497,7 @@ export class Table extends ChartItem {
                                 top:parseInt(this.props.item.yCoordinate),
                                 left:parseInt(this.props.item.xCoordinate)
                         }}>
-                                <input id="seat_guest" class="button" type="submit" value="+" onClick={this.seatGuest}/>
+                                <input id="seat_guest" className="button" type="submit" value="+" onClick={this.seatGuest}/>
                         </div>
                 );
         }
