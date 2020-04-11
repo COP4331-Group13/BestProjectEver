@@ -9,8 +9,7 @@ function callAuthenticate(state) {
   xhr.open("POST", "http://localhost:5000/api/login", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("email="+state.user+"&password="+state.pass);
-  console.log(xhr.results);
-  return xhr.status;
+  return [xhr.status, xhr.responseText];
 }
 
 function callGuestAuthenticate(gID) {
@@ -131,8 +130,9 @@ function callItemList(curEventPin) {
 export function validatePlanner(state, storage) {
     if (state.user !== "" && state.pass !== "") {
         let authCode = callAuthenticate(state);
-        if (authCode === 200) { // account exists
-          let newUser = new User(state.user);
+        let data = JSON.parse(authCode[1]);
+        if (authCode[0] === 200) { // account exists
+          let newUser = new User(state.user, data.results);
           storage.setUser(newUser);
           return [true];
         } else if (authCode === 204 || authCode === 205) { // email or password are wrong

@@ -1,7 +1,8 @@
 export class User {
 
-    constructor(userName) {
+    constructor(userName, name) {
         this.userName = userName;
+        this.name = name;
     }
 }
 
