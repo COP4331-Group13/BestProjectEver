@@ -561,12 +561,24 @@ export class Table extends ChartItem {
 				// stop moving when mouse button is released:
 				document.onmouseup = null;
 				document.onmousemove = null;
-				this.setState({xCoordinate: newX, yCoordinate: newY}, () => {
-					this.props.item.xCoordinate = this.state.xCoordinate;
-					this.props.item.yCoordinate = this.state.yCoordinate;
-					this.props.storage.updateTableLocation(this.state.tableId, newX, newY);
-				});
-			};
+				if (posX1 !== this.state.xCoordinate && posY1 !== this.state.yCoordinate) {
+					this.setState({xCoordinate: newX, yCoordinate: newY}, () => {
+						this.props.item.xCoordinate = this.state.xCoordinate;
+						this.props.item.yCoordinate = this.state.yCoordinate;
+						this.props.storage.updateTableLocation(this.state.tableId, newX, newY);
+					});
+				} else if (posX1 === this.state.xCoordinate && posY1 !== this.state.yCoordinate) {
+					this.setState({yCoordinate: newY}, () => {
+						this.props.item.yCoordinate = this.state.yCoordinate;
+						this.props.storage.updateTableLocation(this.state.tableId, this.state.xCoordinate, newY);
+					});
+				} else if (posX1 !== this.state.xCoordinate && posY1 === this.state.yCoordinate) {
+					this.setState({xCoordinate: newX}, () => {
+						this.props.item.xCoordinate = this.state.xCoordinate;
+						this.props.storage.updateTableLocation(this.state.tableId, newX, this.state.yCoordinate);
+					});
+				}
+			}
 
 		}
 
