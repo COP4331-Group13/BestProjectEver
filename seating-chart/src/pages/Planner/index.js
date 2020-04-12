@@ -24,7 +24,7 @@ class CreateGuest extends React.Component {
 
                         // List of Guest items
 						listItems: [],
-
+						displayedListItems: [],
                         // List of Chart items
                         itemList: this.props.storage.getItems()[1],
 						placedItemList: [],
@@ -56,7 +56,7 @@ class CreateGuest extends React.Component {
 
                         // List of Guest Items
 						listItems: [],
-
+					displayedListItems: [],
                         // List of Chart Items
                         itemList: this.props.storage.getItems()[1],
 						placedItemList: [],
@@ -78,6 +78,7 @@ class CreateGuest extends React.Component {
 			}
 			this.state.placedItemList.push(newItem);
 		}
+		this.state.displayedListItems = this.state.listItems;
 		this.state.layoutWidth = this.state.curEvent.layout_width;
 		this.state.layoutHeight = this.state.curEvent.layout_length;
 
@@ -106,27 +107,39 @@ class CreateGuest extends React.Component {
 	}
 
 	changeSearch(event) {
-		this.setState({search: event.target.value});
+		this.setState({search: event.target.value}, () => {
+			let filtered = this.state.listItems.filter(
+				guest => guest.props.Guest.name.toLowerCase().includes(this.state.search.toLowerCase())
+			);
+			this.setState({displayedListItems: filtered});
+		});
 	}
 
 	updateGuests() {
 
         this.setState({guestList: this.props.storage.getGuests()[1]}, () => {
-			let listLength = this.state.guestList.length;
+			let guest = this.props.storage.lastAddedGuest;
 			this.setState(prevState => ({
 				listItems: [...prevState.listItems, <GuestItem
-					Key={this.state.guestList[listLength - 1].guestId}
-					Guest={this.state.guestList[listLength - 1]}
-					guestName={this.state.guestList[listLength - 1].name}
-					guestEmail={this.state.guestList[listLength - 1].userName}
-					guestPhone={this.state.guestList[listLength - 1].phoneNumber}
-					guestAddress={this.state.guestList[listLength - 1].address}
-					guestId={this.state.guestList[listLength - 1].guestId}
+					Key={guest.guestId}
+					Guest={guest}
+					guestName={guest.name}
+					guestEmail={guest.userName}
+					guestPhone={guest.phoneNumber}
+					guestAddress={guest.address}
+					guestId={guest.guestId}
 					storage={this.props.storage}
 					history={this.props.history}
                     removeGuest={this.removeGuest}
-				/>]
-			}));
+				/>].sort(function (guest1, guest2) {
+					return guest1.props.Guest.name.localeCompare(guest2.props.Guest.name);
+				})
+			}), () => {
+				let filtered = this.state.listItems.filter(
+					guest => guest.props.Guest.name.toLowerCase().includes(this.state.search.toLowerCase())
+				);
+				this.setState({displayedListItems: filtered});
+			});
 		});
     }
 
@@ -141,7 +154,12 @@ class CreateGuest extends React.Component {
 				}
 			}
 
-            this.setState({listItems: filtered});
+            this.setState({listItems: filtered}, () => {
+				let displayFiltered = this.state.listItems.filter(
+					guest => guest.props.Guest.name.toLowerCase().includes(this.state.search.toLowerCase())
+				);
+				this.setState({displayedListItems: displayFiltered});
+			});
         })
     }
 
@@ -204,7 +222,7 @@ class CreateGuest extends React.Component {
 						</form>
 					</div>
 					<div id="list">
-						<ul id="guestList">{this.state.listItems}</ul>
+						<ul id="guestList">{this.state.displayedListItems}</ul>
 					</div>
 					<div id="add">
 						<input type='submit' className='button' id='add_guest' value='Add Guest' onClick={() => this.openGuestDialog()}/>

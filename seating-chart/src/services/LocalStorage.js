@@ -34,6 +34,7 @@ export class LocalStorage {
             ls('curGroup', undefined);
         if (ls('signed') === null)
             ls('signed', false);
+        this.lastAddedGuest="";
     }
 
     setUser(newUser) {
@@ -58,7 +59,10 @@ export class LocalStorage {
             let added = addGuest(state, ls('curEvent').pin);
             if (added[0]) {
                 guests.push(added[1]);
-                ls('guestList', guests);
+                this.lastAddedGuest = added[1];
+                ls('guestList', guests.sort(function (guest1, guest2) {
+                    return guest1.name.localeCompare(guest2.name);
+                }));
                 return added;
             } else {
                 return added;
@@ -97,7 +101,9 @@ export class LocalStorage {
               break; // found it
             }
           }
-          ls('guestList', guests);
+          ls('guestList', guests.sort(function (guest1, guest2) {
+              return guest1.name.localeCompare(guest2.name);
+          }));
           return true;
         }
       }
@@ -124,9 +130,13 @@ export class LocalStorage {
            if (ls('curEvent') !== undefined) {
               let added = getGuestList(ls('curEvent').pin);
               if (added[0]) {
-                  ls('guestList', added[1]);
+                  ls('guestList', added[1].sort(function (guest1, guest2) {
+                      return guest1.name.localeCompare(guest2.name);
+                  }));
               }
-              return added
+              return [added[0], added[1].sort(function (guest1, guest2) {
+                  return guest1.name.localeCompare(guest2.name);
+              })]
           }
           return [false, "No Current Event"];
       }
