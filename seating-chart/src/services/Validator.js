@@ -334,7 +334,7 @@ export function getItemList(curEventPin) {
           guests[i] = [];
           for (let j = 0; j < data.guests.length; j++) {
               if (data.guests[j].table_id === data.results[i].table_id) {
-                guests[i].push(data.guests[j].full_name, data.guests[j].guest_pin);
+                guests[i].push({full_name: data.guests[j].full_name, guest_pin: data.guests[j].guest_pin});
               }
           }
           tables.push(new Table({name:data.results[i].name,
