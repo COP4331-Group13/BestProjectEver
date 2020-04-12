@@ -108,8 +108,16 @@ function callSaveLayout(itemList, event_pin) {
    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
    xhr.send("name="+itemList.name+"&xCoordinate="+itemList.xCoordinate
        +"&yCoordinate="+itemList.yCoordinate+"&height="+itemList.height+"&width="+itemList.width
-       +"&seats="+itemList.seats+"&guests="+itemList.guests+"&availableSeats="+itemList.availableSeats
+       +"&seats="+itemList.seats+"&availableSeats="+itemList.availableSeats
        +"&event_pin="+event_pin+"&table_id="+itemList.tableId);
+  return [xhr.status, xhr.responseText];
+}
+
+function callSaveGuestLayout(table_id, guest_pin) {
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:5000/api/save-guest-layout", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("table_id="+table_id+"&guest_pin="+guest_pin);
   return [xhr.status, xhr.responseText];
 }
 
@@ -343,8 +351,14 @@ export function getItemList(curEventPin) {
 
 export function pushLayout(itemList, event_pin) {
   var pushCode;
+  var guestCode;
   for (let i = 0; i < itemList.length; i++) {
     pushCode = callSaveLayout(itemList[i], event_pin);
+    for (let j = 0; j < itemList[i].guests.length; j++) {
+       guestCode = callSaveGuestLayout(itemList[i].tableId, itemList[i].guests[j].guest_pin);
+       if (guestCode[0] !== 200)
+        break;
+    }
     if (pushCode[0] !== 200)
       break;
   }

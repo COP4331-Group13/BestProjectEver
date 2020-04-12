@@ -14,7 +14,6 @@ module.exports.saveLayout = function(req,res) {
 			"table_id":req.body.table_id,
 			"event_pin":req.body.event_pin
 		}
-		var guests = req.body.guests;
 		connection.query('SELECT * FROM chart_items WHERE table_id = ?', [itemList.table_id], function (error, results){
 			if (error) {
 				res.status(400);
@@ -26,16 +25,8 @@ module.exports.saveLayout = function(req,res) {
 								res.status(400);
 								res.send(error);
 							} else {
-									for (let i = 0; i < guests.length; i++) {
-										connection.query('UPDATE guest SET table_id = ? WHERE guest_pin = ? LIMIT 1', [itemList.table_id, guests[i].guest_pin], function (error, results) {
-											if (error) {
-												res.status(400);
-												res.send(error);
-											}
-										});
-									}
-									res.status(200);
-									res.send();
+								 res.status(200);
+								 res.send();
 							}
 						});
 					} else {
@@ -44,15 +35,6 @@ module.exports.saveLayout = function(req,res) {
 									res.status(400);
 									res.send(error);
 								} else {
-										for (let i = 0; i < guests.length; i++) {
-											connection.query('UPDATE guest SET table_id = ? WHERE guest_pin = ? LIMIT 1', [itemList.table_id, guests[i].guest_pin], function (error, results) {
-												if (error) {
-													res.status(400);
-													res.send(error);
-													break;
-												}
-											});
-										}
 										res.status(200);
 										res.send();
 								}
@@ -60,4 +42,16 @@ module.exports.saveLayout = function(req,res) {
 				}
 		}
 	});
+}
+
+module.exports.saveGuestLayout = function(req,res) {
+		connection.query('UPDATE guest SET table_id = ? WHERE guest_pin = ? LIMIT 1', [req.body.table_id, req.body.guest_pin], function (error, results) {
+			if (error) {
+				res.status(400);
+				res.send(error);
+			} else {
+					res.status(200);
+					res.send();
+			}
+		});
 }

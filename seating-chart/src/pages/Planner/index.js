@@ -521,7 +521,7 @@ export class Table extends ChartItem {
 
         seatGuest() {
 								this.props.storage.setCurTable(this.state.tableId);
-								this.state.curTable = this.props.storage.getCurTable();
+								this.setState({curTable:this.props.storage.getCurTable()})
                 let dialog = document.getElementsByClassName('seatDialog');
                 dialog[0].id="openDialog";
         }
@@ -777,7 +777,6 @@ class SeatDialog extends React.Component {
 
                 this.state = {
                         numSeats: '',
-												curTable: this.props.storage.getCurTable(),
 												guestList: this.props.storage.getGuestList(),
 												selectedGuest: '' // guest_pin
                 };
@@ -794,12 +793,12 @@ class SeatDialog extends React.Component {
 
 			 	handleAddGuest(event) {
 						event.preventDefault();
-						console.log(this.props.curTable, this.state.selectedGuest)
 						if (this.state.selectedGuest === '') {
 							alert("Please select a guest");
 							return;
 						}
-						this.props.storage.addGuestTable(this.state.curTable, this.state.selectedGuest);
+						console.log(this.props.curTable)
+						this.props.storage.addGuestTable(this.props.curTable, this.state.selectedGuest);
 				    alert("Guest successfully added to this table!");
 				}
 

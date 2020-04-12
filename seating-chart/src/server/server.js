@@ -38,6 +38,7 @@ router.post('/api/get-event', eventController.getEvent);
 router.post('/api/get-event-list', getEventListController.getEventList);
 router.post('/api/get-guest-group', groupController.getGuestGroup);
 router.post('/api/save-layout', saveLayoutController.saveLayout);
+router.post('/api/save-guest-layout', saveLayoutController.saveGuestLayout);
 router.post('/api/get-item-list', getItemListController.getItemList);
 router.post('/api/add-guest-table', addGuestTableController.addGuestTable);
 
