@@ -545,13 +545,14 @@ export class Table extends ChartItem {
 
 
 				newY = elmnt.offsetTop - posY1;
-				console.log((this.state.curEvent.layout_length - this.state.height));
 				if (newY < 0) {
 					newY = 0;
 				} else if (newY > (this.state.curEvent.layout_length - this.state.height)) {
 					newY = this.state.curEvent.layout_length - this.state.height;
 				}
 				elmnt.style.top = newY + "px";
+
+				elmnt.scrollIntoView({block:"nearest", inline:"nearest"});
 
 			};
 
@@ -583,73 +584,7 @@ export class Table extends ChartItem {
                 );
         }
 }
-/*
-// ------ Start Levi trying to figure out how to do a simple task ------ //
-		var dragItem = document.querySelector("#moveTable");
-    var move = document.querySelector("#move");
 
-    var active = false;
-    var currentX;
-    var currentY;
-    var initialX;
-    var initialY;
-    var xOffset = 0;
-    var yOffset = 0;
-
-    move.addEventListener("touchstart", dragStart, false);
-    move.addEventListener("touchend", dragEnd, false);
-    move.addEventListener("touchmove", drag, false);
-
-    move.addEventListener("mousedown", dragStart, false);
-    move.addEventListener("mouseup", dragEnd, false);
-    move.addEventListener("mousemove", drag, false);
-
-    function dragStart(e) {
-      if (e.type === "touchstart") {
-        initialX = e.touches[0].clientX - xOffset;
-        initialY = e.touches[0].clientY - yOffset;
-      } else {
-        initialX = e.clientX - xOffset;
-        initialY = e.clientY - yOffset;
-      }
-
-      if (e.target === dragItem) {
-        active = true;
-      }
-    }
-
-    function dragEnd(e) {
-      initialX = currentX;
-      initialY = currentY;
-
-      active = false;
-    }
-
-    function drag(e) {
-      if (active) {
-
-        e.preventDefault();
-
-        if (e.type === "touchmove") {
-          currentX = e.touches[0].clientX - initialX;
-          currentY = e.touches[0].clientY - initialY;
-        } else {
-          currentX = e.clientX - initialX;
-          currentY = e.clientY - initialY;
-        }
-
-        xOffset = currentX;
-        yOffset = currentY;
-
-        setTranslate(currentX, currentY, dragItem);
-      }
-    }
-
-    function setTranslate(xPos, yPos, el) {
-      el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
-    }
-// ------- End Levi trying to figure out how to do a simple task ------- //
-*/
 class GuestDialog extends React.Component {
 
 	constructor(props) {
