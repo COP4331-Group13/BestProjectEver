@@ -777,16 +777,16 @@ class SeatDialog extends React.Component {
                 super(props);
 
                 this.state = {
-                    numSeats: '',
+                    numSeats: this.props.curTable.numSeats,
 					guestList: this.props.storage.getGuestList(),
 					curTable: this.props.curTable,
 					selectedGuest: '', // guest_pin
-					usableGuests: '',
-					seatedGuests: ''
+					usableGuests: [],
+					seatedGuests: [],
+					seatedGuestItems: []
                 };
                 this.state.seatedGuests = this.props.curTable.guests;
-			console.log("The Table for this dialog is: " + this.props.curTable.name);
-			let list = this.state.guestList.length > 0
+				let list = this.state.guestList.length > 0
 				&& this.state.guestList.map((item) => {
 					return (
 						<option value={item.guestId}>{item.name}</option>
@@ -806,12 +806,21 @@ class SeatDialog extends React.Component {
 
 			 	handleAddGuest(event) {
 						event.preventDefault();
-						console.log(this.state.selectedGuest)
-						if (this.state.selectedGuest === '') {
+						console.log(this.state.selectedGuest);
+						if (this.state.selectedGuest === ''||
+							this.state.selectedGuest === 'Choose a Guest') {
 							alert("Please select a guest");
 							return;
 						}
-						this.props.storage.addGuestTable(this.state.curTable, this.state.selectedGuest);
+						let added = this.props.storage.addGuestTable(this.props.curTable, this.state.selectedGuest);
+						if (added[0]) {
+							console.log(added[1]);
+							this.setState({seatedGuests:added[1]}, () => {
+
+							})
+						} else {
+							alert(added[1]);
+						}
 				}
 
         closeSeatDialog(event) {
@@ -825,16 +834,13 @@ class SeatDialog extends React.Component {
         updateUsableGuests() {
 
 			let list = this.props.storage.getGuests()[1];
-			console.log(this.props.curTable);
 			if (list.length !== this.state.guestList.length) {
-				console.log("needs update");
 				this.setState({guestList: list}, () => {
 					let newList = this.state.guestList.map((item) => {
 						return (
 							<option value={item.guestId}>{item.name}</option>
 						)
 					}, this);
-					console.log("newList");
 					this.setState({usableGuests: newList});
 				});
 			}

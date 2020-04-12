@@ -40,6 +40,7 @@ export class LocalStorage {
         if (ls('signed') === null)
             ls('signed', false);
         this.lastAddedGuest="";
+        this.removeGuestTable = this.removeGuestTable.bind(this);
     }
 
     setUser(newUser) {
@@ -258,16 +259,58 @@ export class LocalStorage {
     }
     addGuestTable(table, guest_pin) {
         let itemList = ls('itemList');
-        let guestist = ls('guestList');
+        let guestList = ls('guestList');
+        let guestIndex = -1;
+        let curGuest = '';
         for (let item in itemList) {
             if (itemList[item].tableId === table.tableId) {
-                itemList[item].guests.push({guest_pin:guest_pin});
-
+                for (let i = 0; i < guestList.length; i++) {
+                    if (guestList[i].guestId === guest_pin) {
+                        curGuest = guestList[i];
+                        guestIndex = i;
+                        break;
+                    }
+                }
+                if (curGuest === '') {
+                    return [false, "No such Guest Found"];
+                } else if (curGuest.tableSeated === table.tableId) {
+                    return [false, "Guest Already Seated at Current Table"]
+                } else if (curGuest.tableSeated !== '') {
+                    this.removeGuestTable(curGuest.tableSeated, guest_pin);
+                }
+                itemList[item].guests.push({full_name:curGuest.name, guest_pin:guest_pin});
+                guestList[guestIndex].tableSeated = table.tableId;
                 itemList[item].availableSeats--;
                 ls('itemList', itemList);
+                ls('guestList', guestList);
+                return [true, itemList[item]];
+                //no need to break because return ends the function
+            }
+        }
+    }
+    removeGuestTable(tableId, guestId) {
+        let tableList = ls('itemList');
+        let guestList = ls('guestList');
+        for (let i = 0; i < tableList.length; i++) {
+            if (tableList[i].tableId === tableId) {
+                for (let j = 0; j < tableList[i].guests.length; j++) {
+                    if (tableList[i].guests[j].guestId === guestId) {
+                        tableList[i].guests.splice(j, 1);
+                        tableList[i].availableSeats++;
+                        break;
+                    }
+                }
+                for (let j = 0; j < guestList.length; j++) {
+                    if (guestList[j].guestId === guestId) {
+                        guestList[j].tableSeated = '';
+                        break;
+                    }
+                }
                 break;
             }
         }
+        ls('itemList', tableList);
+        ls('guestList', guestList);
     }
     setCurTable(tableId) {
       let itemList = ls('itemList');
