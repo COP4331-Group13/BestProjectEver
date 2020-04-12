@@ -108,7 +108,8 @@ function callSaveLayout(itemList, event_pin) {
    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
    xhr.send("name="+itemList.name+"&xCoordinate="+itemList.xCoordinate
        +"&yCoordinate="+itemList.yCoordinate+"&height="+itemList.height+"&width="+itemList.width
-       +"&seats="+itemList.seats+"&guests="+itemList.guests+"&availableSeats="+itemList.availableSeats+"&event_pin="+event_pin);
+       +"&seats="+itemList.seats+"&guests="+itemList.guests+"&availableSeats="+itemList.availableSeats
+       +"&event_pin="+event_pin+"&table_id="+itemList.tableId);
   return [xhr.status, xhr.responseText];
 }
 
@@ -318,14 +319,15 @@ export function getItemList(curEventPin) {
       for (var i = 0; i < data.results.length; i++) {
           guests[i] = [];
           for (let j = 0; j < data.guests.length; j++) {
-              if (data.guests[j].table_item === data.results[i].item_id) {
-                guests[i].push(data.guests[j].full_name);
+              if (data.guests[j].table_id === data.results[i].table_id) {
+                guests[i].push(data.guests[j].full_name, data.guests[j].guest_pin);
               }
           }
           tables.push(new Table({name:data.results[i].name,
               xCoordinate:data.results[i].xCoordinate, yCoordinate:data.results[i].yCoordinate,
               height:data.results[i].height, width:data.results[i].width,
-              seats:data.results[i].seats, guests:guests[i], availableSeats: data.results[i].available_seats}));
+              seats:data.results[i].seats, guests:guests[i], availableSeats: data.results[i].available_seats,
+              tableId:data.results[i].table_id}));
       }
       return [true, tables];
     } else {

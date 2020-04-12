@@ -255,7 +255,6 @@ export class LocalStorage {
             return [true, ls('itemList')];
         } else {
             if (ls('curEvent') !== undefined) {
-
                 let gotItems = getItemList(ls('curEvent').pin);
                 if (gotItems[0]) {
                     ls('itemList', gotItems[1]);
