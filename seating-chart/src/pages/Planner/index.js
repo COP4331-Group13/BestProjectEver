@@ -26,7 +26,7 @@ class CreateGuest extends React.Component {
 						listItems: [],
 						displayedListItems: [],
                         // List of Chart items
-                        itemList: this.props.storage.getItems()[1],
+						itemList: [],
 						placedItemList: [],
 						clicked: 'false',
 						search: '',
@@ -56,9 +56,9 @@ class CreateGuest extends React.Component {
 
                         // List of Guest Items
 						listItems: [],
-					displayedListItems: [],
+						displayedListItems: [],
                         // List of Chart Items
-                        itemList: this.props.storage.getItems()[1],
+						itemList: [],
 						placedItemList: [],
 						clicked: 'false',
 						curEvent:this.props.storage.getEvent(),
@@ -69,8 +69,15 @@ class CreateGuest extends React.Component {
 				};
 		}
 
+		let gotItems = this.props.storage.getItems();
+		if (gotItems[0]) {
+			console.log(gotItems[0]);
+			this.state.itemList = gotItems[1];
+		}
+
 		for (let i = 0; i < this.state.itemList.length; i++) {
 			let newItem;
+			console.log(this.state.itemList.length);
 			if (this.state.itemList[i].name.includes("Table")) {
 				newItem = <Table item={this.state.itemList[i]} storage={this.props.storage} />
 			} else {

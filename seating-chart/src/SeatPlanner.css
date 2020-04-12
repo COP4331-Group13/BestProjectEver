@@ -120,7 +120,8 @@ h3 {
 }
 .table {
 	position: absolute;
-	background: black;
+	background: gray;
+	border: 1px black solid;
 	cursor: move;
 }
 #lengthHead {

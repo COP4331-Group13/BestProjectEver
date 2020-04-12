@@ -136,9 +136,7 @@ export class LocalStorage {
                       return guest1.name.localeCompare(guest2.name);
                   }));
               }
-              return [added[0], added[1].sort(function (guest1, guest2) {
-                  return guest1.name.localeCompare(guest2.name);
-              })]
+              return [added[0], ls('guestList')];
           }
           return [false, "No Current Event"];
       }
@@ -262,7 +260,8 @@ export class LocalStorage {
                 if (gotItems[0]) {
                     ls('itemList', gotItems[1]);
                 }
-                return [true, gotItems[1]];
+                console.log(gotItems);
+                return gotItems;
             }
             return [false, "No Current User"];
         }
