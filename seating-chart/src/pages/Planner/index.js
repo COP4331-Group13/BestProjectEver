@@ -498,9 +498,14 @@ export class Table extends ChartItem {
         constructor(props) {
                 super(props);
                 this.state = {
+					xCoordinate: parseInt(this.props.item.xCoordinate),
+					yCoordinate: parseInt(this.props.item.yCoordinate),
                     seats: parseInt(this.props.item.seats),
                     guests: this.props.item.guests,
-                    tableId: this.props.item.tableId
+					height: parseInt(this.props.item.height),
+					width: parseInt(this.props.item.width),
+                    tableId: this.props.item.tableId,
+					curEvent:this.props.storage.getEvent()
                 };
 
                 this.seatGuest = this.seatGuest.bind(this);
@@ -533,12 +538,18 @@ export class Table extends ChartItem {
 				newX = elmnt.offsetLeft - posX1;
 				if (newX < 0) {
 					newX = 0;
+				} else if (newX > (this.state.curEvent.layout_width - this.state.width)) {
+						newX = this.state.curEvent.layout_width - this.state.width;
 				}
 				elmnt.style.left = newX + "px";
 
+
 				newY = elmnt.offsetTop - posY1;
+				console.log((this.state.curEvent.layout_length - this.state.height));
 				if (newY < 0) {
 					newY = 0;
+				} else if (newY > (this.state.curEvent.layout_length - this.state.height)) {
+					newY = this.state.curEvent.layout_length - this.state.height;
 				}
 				elmnt.style.top = newY + "px";
 
@@ -550,6 +561,8 @@ export class Table extends ChartItem {
 				document.onmouseup = null;
 				document.onmousemove = null;
 				this.setState({xCoordinate: newX, yCoordinate: newY}, () => {
+					this.props.item.xCoordinate = this.state.xCoordinate;
+					this.props.item.yCoordinate = this.state.yCoordinate;
 					this.props.storage.updateTableLocation(this.state.tableId, newX, newY);
 				});
 			};
@@ -562,8 +575,8 @@ export class Table extends ChartItem {
                     <div className="table" id = {this.state.tableId} style={{
                         width:parseInt(this.props.item.width),
                         height:parseInt(this.props.item.height),
-                        top:parseInt(this.props.item.yCoordinate),
-                        left:parseInt(this.props.item.xCoordinate)
+                        top:parseInt(this.state.yCoordinate) + "px",
+                        left:parseInt(this.state.xCoordinate) + "px"
                     }} onMouseDown={this.dragMouseDown}>
                         <input id="seat_guest" type="submit" value="+" onClick={this.seatGuest}/>
                     </div>

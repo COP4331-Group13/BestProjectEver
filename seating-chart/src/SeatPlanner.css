@@ -105,6 +105,9 @@ h3 {
 	margin-bottom: 3%;
 	position: relative;
 }
+#Layout {
+	height: 100%;
+}
 .layoutSquare {
 	margin: -1px;
 	padding: 0;
