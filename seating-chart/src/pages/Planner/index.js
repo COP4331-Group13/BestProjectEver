@@ -6,6 +6,17 @@ import {Navigation} from '../../services/navigation.js';
 class CreateGuest extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.props.storage.setGuest(undefined);
+		this.openGuestDialog = this.openGuestDialog.bind(this);
+		this.openItemDialog = this.openItemDialog.bind(this);
+		this.saveLayout = this.saveLayout.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
+		this.changeSearch = this.changeSearch.bind(this);
+		this.updateGuests = this.updateGuests.bind(this);
+		this.removeGuest = this.removeGuest.bind(this);
+		this.updateItems = this.updateItems.bind(this);
+
 		let gotGuests = this.props.storage.getGuests();
 		if (gotGuests[0]) {
 				this.state = {
@@ -70,15 +81,6 @@ class CreateGuest extends React.Component {
 		this.state.layoutWidth = this.state.curEvent.layout_width;
 		this.state.layoutHeight = this.state.curEvent.layout_length;
 
-		this.props.storage.setGuest(undefined);
-		this.openGuestDialog = this.openGuestDialog.bind(this);
-		this.openItemDialog = this.openItemDialog.bind(this);
-		this.saveLayout = this.saveLayout.bind(this);
-		this.handleDelete = this.handleDelete.bind(this);
-		this.changeSearch = this.changeSearch.bind(this);
-		this.updateGuests = this.updateGuests.bind(this);
-		this.removeGuest = this.removeGuest.bind(this);
-		this.updateItems = this.updateItems.bind(this);
 	}
 
 	openItemDialog() {
@@ -130,6 +132,7 @@ class CreateGuest extends React.Component {
 
     removeGuest(removedGuestKey) {
         this.setState({guestList: this.props.storage.getGuests()[1]}, () => {
+
             let filtered = this.state.listItems;
             for (let i = 0; i < filtered.length; i++) {
             	if (filtered[i].props.Key === removedGuestKey) {

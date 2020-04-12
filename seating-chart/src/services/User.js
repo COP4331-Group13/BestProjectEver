@@ -8,8 +8,7 @@ export class User {
 
 export class Guest extends User {
     constructor(username, name, address, phoneNumber, guestId, eventPin) {
-        super(username);
-        this.name = name;
+        super(username, name);
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.guestId = guestId;
