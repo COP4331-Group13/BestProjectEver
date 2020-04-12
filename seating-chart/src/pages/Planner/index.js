@@ -856,7 +856,7 @@ class SeatDialog extends React.Component {
 										<input type='submit' className="button2" id="closeButton" value='X' onClick={this.closeSeatDialog}/>
 									</div>
 									<h1>{this.props.curTable.name}</h1>
-									<p>Guests Seated Here: </p>
+									<p>Guests Seated Here: </p>					
 									<label>Select guest to add to this table: </label>
 									<select id="selectGuest" onClick={this.updateUsableGuests} onChange={this.selectGuest}>
 										<option> Choose a Guest </option>
