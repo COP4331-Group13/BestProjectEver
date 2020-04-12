@@ -776,30 +776,42 @@ class SeatDialog extends React.Component {
                 super(props);
 
                 this.state = {
-                        numSeats: '',
-												guestList: this.props.storage.getGuestList(),
-												selectedGuest: '' // guest_pin
+                    numSeats: '',
+					curTable: this.props.storage.getCurTable(),
+					guestList: this.props.storage.getGuestList(),
+					selectedGuest: '', // guest_pin
+					usableGuests: '',
+					seatedGuests: ''
                 };
+                this.state.seatedGuests = this.state.curTable.guests;
+
+			let list = this.state.guestList.length > 0
+				&& this.state.guestList.map((item) => {
+					return (
+						<option value={item}>{item.name}</option>
+					)
+				}, this);
+				this.state.usableGuests = list;
                 this.handleSubmitSeats = this.handleSubmitSeats.bind(this);
                 this.closeSeatDialog = this.closeSeatDialog.bind(this);
                 this.selectGuest = this.selectGuest.bind(this);
-								this.handleAddGuest = this.handleAddGuest.bind(this);
+                this.handleAddGuest = this.handleAddGuest.bind(this);
+                this.updateUsableGuests = this.updateUsableGuests.bind(this);
         }
 
 				selectGuest = (e) => {
 					let selected = document.getElementById("selectGuest").value;
-					this.state.selectedGuest = selected;
-				}
+					this.setState({selectedGuest: selected});
+				};
 
 			 	handleAddGuest(event) {
 						event.preventDefault();
+						console.log(this.props.curTable, this.state.selectedGuest); // this.props.curTable is only getting the first opened
 						if (this.state.selectedGuest === '') {
 							alert("Please select a guest");
 							return;
 						}
-						console.log(this.props.curTable)
-						this.props.storage.addGuestTable(this.props.curTable, this.state.selectedGuest);
-				    alert("Guest successfully added to this table!");
+						this.props.storage.addGuestTable(this.state.curTable, this.state.selectedGuest);
 				}
 
         closeSeatDialog(event) {
@@ -812,35 +824,49 @@ class SeatDialog extends React.Component {
 					//  });
         }
 
+        updateUsableGuests() {
+
+			let list = this.props.storage.getGuests()[1];
+			if (list.length !== this.state.guestList.length) {
+				console.log("needs update");
+				this.setState({guestList: list}, () => {
+					let newList = this.state.guestList.map((item) => {
+						return (
+							<option value={item}>{item.name}</option>
+						)
+					}, this);
+					console.log("newList");
+					this.setState({usableGuests: newList});
+				});
+			}
+		}
+
+
         handleSubmitSeats(event) {
                 event.preventDefault();
         }
 
 
         render() {
-								let list = this.state.guestList.length > 0
-								&& this.state.guestList.map((item) => {
-									return (
-										<option value={item.guestId}>{item.name}</option>
-									)
-								}, this);
+
 
                 return (
                         <div className="seatDialog" id="dialogbox">
                                 <dialog open>
-                                        <div id="closeWindow">
-                                                <input type='submit' className="button2" id="closeButton" value='X' onClick={this.closeSeatDialog}/>
-                                        </div>
-                                        <h1>Guests In Table</h1>
-																				<p>guests go here</p>
-																				<label>Select guest to add to this table: </label>
-																				<select id="selectGuest" onChange={this.selectGuest}>
-																					<option> Choose a Guest </option>
-    																			{list}
-																				</select>
-																				<div id="buttonbox">
-																					<input type='submit' className='button' id='add_guest_table' value='Add Guest' onClick={this.handleAddGuest}/>
-																				</div>
+									<div id="closeWindow">
+										<input type='submit' className="button2" id="closeButton" value='X' onClick={this.closeSeatDialog}/>
+									</div>
+									<h1>{this.state.curTable.name}</h1>
+									<p>Guests Seated Here: </p>
+									<label>Select guest to add to this table: </label>
+									<select id="selectGuest" onClick={this.updateUsableGuests}
+											onChange={this.selectGuest}>
+										<option> Choose a Guest </option>
+										{this.state.usableGuests}
+									</select>
+									<div id="buttonbox">
+										<input type='submit' className='button' id='add_guest_table' value='Add Guest' onClick={this.handleAddGuest}/>
+									</div>
                                 </dialog>
                         </div>
                 );
