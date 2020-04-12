@@ -572,14 +572,16 @@ export class Table extends ChartItem {
 
         render() {
                 return (
-
-                    <div className="table" id = {this.state.tableId} style={{
-                        width:parseInt(this.props.item.width),
-                        height:parseInt(this.props.item.height),
-                        top:parseInt(this.state.yCoordinate) + "px",
-                        left:parseInt(this.state.xCoordinate) + "px"
-                    }} onMouseDown={this.dragMouseDown}>
-                        <input id="seat_guest" type="submit" value="+" onClick={this.seatGuest}/>
+					<div >
+                    	<div className="table" id = {this.state.tableId} style={{
+                        	width:parseInt(this.props.item.width),
+                        	height:parseInt(this.props.item.height),
+                        	top:parseInt(this.state.yCoordinate) + "px",
+                        	left:parseInt(this.state.xCoordinate) + "px"
+                    	}} onMouseDown={this.dragMouseDown}>
+                        	<input id="seat_guest" type="submit" value="+" onClick={this.seatGuest}/>
+						</div>
+                        <SeatDialog />
                     </div>
                 );
         }
@@ -766,11 +768,15 @@ class SeatDialog extends React.Component {
                 // assign table/seat number to guest data
         }
 
-        closeSeatDialog() {
-                this.setState({}, () => {
-                        let dialog = document.getElementsByClassName('seatDialog');
-                        dialog[0].id="dialogbox";
-                });
+        closeSeatDialog(event) {
+        	event.preventDefault();
+        	// To go in callback once setState does something
+			let dialog = document.getElementsByClassName('seatDialog');
+			dialog[0].id="dialogbox";
+
+            //    this.setState({}, () => {
+
+			//  });
         }
 
         handleSubmitSeats(event) {
@@ -783,7 +789,7 @@ class SeatDialog extends React.Component {
                         <div className="seatDialog" id="dialogbox">
                                 <dialog open>
                                         <div id="closeWindow">
-                                                <input type='submit' className="button2" id="closeButton" value='X' onClick={() => this.closeItemDialog()}/>
+                                                <input type='submit' className="button2" id="closeButton" value='X' onClick={this.closeSeatDialog}/>
                                         </div>
                                         <h1>Guests</h1>
                                         // render lines corresponding to number of seats
