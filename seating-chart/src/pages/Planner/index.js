@@ -519,10 +519,11 @@ export class Table extends ChartItem {
         }
 
         seatGuest() {
+								this.props.storage.setCurTable(this.state.tableId);
                 let dialog = document.getElementsByClassName('seatDialog');
                 dialog[0].id="openDialog";
         }
-        
+
         dragMouseDown(event) {
         	event.preventDefault();
         	let elmnt = document.getElementById(this.state.tableId);
@@ -599,7 +600,7 @@ export class Table extends ChartItem {
                     	}} onMouseDown={this.dragMouseDown}>
                         	<input id="seat_guest" type="submit" value="+" onClick={this.seatGuest}/>
 						</div>
-                        <SeatDialog />
+                        <SeatDialog storage={this.props.storage}/>
                     </div>
                 );
         }
@@ -773,28 +774,40 @@ class SeatDialog extends React.Component {
                 super(props);
 
                 this.state = {
-                        numSeats: ''
+                        numSeats: '',
+												curTable: this.props.storage.getCurTable(),
+												selectedGuest: '' // guest_pin
                 };
-
                 this.handleSubmitSeats = this.handleSubmitSeats.bind(this);
                 this.closeSeatDialog = this.closeSeatDialog.bind(this);
                 this.selectGuest = this.selectGuest.bind(this);
+								this.handleAddGuest = this.handleAddGuest.bind(this);
         }
 
         selectGuest() {
                 // allow for selection of a guest to that seat
                 // assign table/seat number to guest data
-        }
+				}
+
+			 	handleAddGuest(event) {
+						event.preventDefault();
+						let added = this.props.storage.addGuestTable(this.state.curTable, this.state.selectedGuest);
+						if (added[0]) {
+				        alert("Guest successfully added to this table!");
+						} else {
+								this.setState({error: 'guestError'});
+								this.setState({errorMessage: added[1]});
+						}
+				}
 
         closeSeatDialog(event) {
         	event.preventDefault();
+					this.props.storage.resetCurTable();
         	// To go in callback once setState does something
-			let dialog = document.getElementsByClassName('seatDialog');
-			dialog[0].id="dialogbox";
-
-            //    this.setState({}, () => {
-
-			//  });
+					let dialog = document.getElementsByClassName('seatDialog');
+					dialog[0].id="dialogbox";
+          //    this.setState({}, () => {
+					//  });
         }
 
         handleSubmitSeats(event) {
@@ -809,7 +822,7 @@ class SeatDialog extends React.Component {
                                         <div id="closeWindow">
                                                 <input type='submit' className="button2" id="closeButton" value='X' onClick={this.closeSeatDialog}/>
                                         </div>
-                                        <h1>Guests</h1>
+                                        <h1>Guests In {this.state.curTable.name}</h1>
                                         // render lines corresponding to number of seats
                                         // render button to choose a guest for that seat
                                 </dialog>

@@ -13,7 +13,8 @@ import {
     getSingleEvent,
     getGuestGroup,
     getItemList,
-    pushLayout
+    pushLayout,
+    addGuestTable
 } from "./Validator";
 
 const randomize = require("randomatic");
@@ -34,6 +35,8 @@ export class LocalStorage {
             ls('curEvent', undefined);
         if (ls('curGroup') == null)
             ls('curGroup', undefined);
+        if (ls('curTable') == null)
+            ls('curTable', undefined);
         if (ls('signed') === null)
             ls('signed', false);
         this.lastAddedGuest="";
@@ -249,6 +252,28 @@ export class LocalStorage {
                 break;
             }
         }
+    }
+    addGuestTable(table, guest_pin) {
+        let added = addGuestTable(table.tableId, guest_pin);
+        if (added[0]) {
+          return [true];
+        } else {
+          return [false, "No Items Present On Layout"];
+        }
+    }
+    setCurTable(tableId) {
+      let itemList = ls('itemList');
+      for (let item in itemList) {
+          if (itemList[item].tableId === tableId) {
+             ls('curTable', itemList[item])
+          }
+       }
+    }
+    getCurTable() {
+      return ls('curTable');
+    }
+    resetCurTable() {
+      ls('curTable', undefined);
     }
     getItems() {
         if(ls('itemList').length !== 0) {

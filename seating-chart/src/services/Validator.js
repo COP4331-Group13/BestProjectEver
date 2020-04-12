@@ -121,7 +121,13 @@ function callItemList(curEventPin) {
   return [xhr.status, xhr.responseText];
 }
 
-
+function callAddGuestTable(tableId, guest_pin) {
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:5000/api/add-guest-table", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("table_id="+tableId+"&guest_pin="+guest_pin);
+  return [xhr.status, xhr.responseText];
+}
 // post calls ^^^^^^^^^^ --> for testing you need to change:
 // 35.243.169.229 to localhost in order to get from the test db (all calls)
 // remember to change it back when pushing
@@ -343,6 +349,16 @@ export function pushLayout(itemList, event_pin) {
       break;
   }
   if (pushCode[0] === 200) {
+    return [true];
+  } else {
+      return [false, 'Error has occurred'];
+  }
+}
+
+export function addGuestTable(tableId, guest_pin) {
+  var addCode;
+  addCode = callAddGuestTable(tableId, guest_pin);
+  if (addCode[0] === 200) {
     return [true];
   } else {
       return [false, 'Error has occurred'];
