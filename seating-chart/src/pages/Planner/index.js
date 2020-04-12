@@ -789,7 +789,7 @@ class SeatDialog extends React.Component {
 			let list = this.state.guestList.length > 0
 				&& this.state.guestList.map((item) => {
 					return (
-						<option value={item}>{item.name}</option>
+						<option value={item.guestId}>{item.name}</option>
 					)
 				}, this);
 				this.state.usableGuests = list;
@@ -800,14 +800,13 @@ class SeatDialog extends React.Component {
                 this.updateUsableGuests = this.updateUsableGuests.bind(this);
         }
 
-				selectGuest = (e) => {
-					let selected = document.getElementById("selectGuest").value;
-					this.setState({selectedGuest: selected});
-				};
+				selectGuest(event) {
+					this.setState({selectedGuest: event.currentTarget.value});
+				}
 
 			 	handleAddGuest(event) {
 						event.preventDefault();
-						console.log(this.props.curTable, this.state.selectedGuest); // this.props.curTable is only getting the first opened
+						console.log(this.state.selectedGuest)
 						if (this.state.selectedGuest === '') {
 							alert("Please select a guest");
 							return;
@@ -832,7 +831,7 @@ class SeatDialog extends React.Component {
 				this.setState({guestList: list}, () => {
 					let newList = this.state.guestList.map((item) => {
 						return (
-							<option value={item}>{item.name}</option>
+							<option value={item.guestId}>{item.name}</option>
 						)
 					}, this);
 					console.log("newList");
@@ -859,8 +858,7 @@ class SeatDialog extends React.Component {
 									<h1>{this.props.curTable.name}</h1>
 									<p>Guests Seated Here: </p>
 									<label>Select guest to add to this table: </label>
-									<select id="selectGuest" onClick={this.updateUsableGuests}
-											onChange={this.selectGuest}>
+									<select id="selectGuest" onClick={this.updateUsableGuests} onChange={this.selectGuest}>
 										<option> Choose a Guest </option>
 										{this.state.usableGuests}
 									</select>
