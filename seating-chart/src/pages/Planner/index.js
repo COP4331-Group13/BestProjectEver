@@ -512,7 +512,6 @@ export class Table extends ChartItem {
 					width: parseInt(this.props.item.width),
                     tableId: this.props.item.tableId,
 					curEvent:this.props.storage.getEvent(),
-					curTable:''
                 };
 
                 this.seatGuest = this.seatGuest.bind(this);
@@ -520,10 +519,11 @@ export class Table extends ChartItem {
         }
 
         seatGuest() {
-								this.props.storage.setCurTable(this.state.tableId);
-								this.setState({curTable:this.props.storage.getCurTable()})
-                let dialog = document.getElementsByClassName('seatDialog');
-                dialog[0].id="openDialog";
+        	this.props.storage.setCurTable(this.state.tableId);
+			this.setState({curTable:this.props.storage.getCurTable()});
+			let div = document.getElementsByClassName(this.state.tableId)[0];
+            let dialog = div.getElementsByClassName('seatDialog');
+            dialog[0].id="openDialog";
         }
 
         dragMouseDown(event) {
@@ -593,7 +593,7 @@ export class Table extends ChartItem {
 
         render() {
                 return (
-					<div >
+					<div className={this.state.tableId}>
                     	<div className="table" id = {this.state.tableId} style={{
                         	width:parseInt(this.props.item.width),
                         	height:parseInt(this.props.item.height),
@@ -601,8 +601,9 @@ export class Table extends ChartItem {
                         	left:parseInt(this.state.xCoordinate) + "px"
                     	}} onMouseDown={this.dragMouseDown}>
                         	<input id="seat_guest" type="submit" value="+" onClick={this.seatGuest}/>
+
 						</div>
-                        <SeatDialog storage={this.props.storage} curTable={this.state.curTable}/>
+						<SeatDialog storage={this.props.storage} curTable={this.props.item}/>
                     </div>
                 );
         }
@@ -777,14 +778,14 @@ class SeatDialog extends React.Component {
 
                 this.state = {
                     numSeats: '',
-					curTable: this.props.storage.getCurTable(),
 					guestList: this.props.storage.getGuestList(),
+					curTable: this.props.curTable,
 					selectedGuest: '', // guest_pin
 					usableGuests: '',
 					seatedGuests: ''
                 };
-                this.state.seatedGuests = this.state.curTable.guests;
-
+                this.state.seatedGuests = this.props.curTable.guests;
+			console.log("The Table for this dialog is: " + this.props.curTable.name);
 			let list = this.state.guestList.length > 0
 				&& this.state.guestList.map((item) => {
 					return (
@@ -816,17 +817,16 @@ class SeatDialog extends React.Component {
 
         closeSeatDialog(event) {
         	event.preventDefault();
-					this.props.storage.resetCurTable();
-        	// To go in callback once setState does something
-					let dialog = document.getElementsByClassName('seatDialog');
-					dialog[0].id="dialogbox";
-          //    this.setState({}, () => {
-					//  });
+        	this.props.storage.resetCurTable();
+			let div = document.getElementsByClassName(this.props.curTable.tableId)[0];
+			let dialog = div.getElementsByClassName('seatDialog');
+			dialog[0].id="dialogbox";
         }
 
         updateUsableGuests() {
 
 			let list = this.props.storage.getGuests()[1];
+			console.log(this.props.curTable);
 			if (list.length !== this.state.guestList.length) {
 				console.log("needs update");
 				this.setState({guestList: list}, () => {
@@ -856,7 +856,7 @@ class SeatDialog extends React.Component {
 									<div id="closeWindow">
 										<input type='submit' className="button2" id="closeButton" value='X' onClick={this.closeSeatDialog}/>
 									</div>
-									<h1>{this.state.curTable.name}</h1>
+									<h1>{this.props.curTable.name}</h1>
 									<p>Guests Seated Here: </p>
 									<label>Select guest to add to this table: </label>
 									<select id="selectGuest" onClick={this.updateUsableGuests}
