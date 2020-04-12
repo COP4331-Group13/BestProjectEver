@@ -72,9 +72,9 @@ class CreateGuest extends React.Component {
 		for (let i = 0; i < this.state.itemList.length; i++) {
 			let newItem;
 			if (this.state.itemList[i].name.includes("Table")) {
-				newItem = <Table item={this.state.itemList[i]}/>
+				newItem = <Table item={this.state.itemList[i]} storage={this.props.storage} />
 			} else {
-				newItem = <ChartItem item={this.state.itemList[i]} />
+				newItem = <ChartItem item={this.state.itemList[i]} storage={this.props.storage} />
 			}
 			this.state.placedItemList.push(newItem);
 		}
@@ -169,9 +169,9 @@ class CreateGuest extends React.Component {
 			let listLength = this.state.itemList.length;
 			let newItem;
 			if (this.state.itemList[listLength - 1].name.includes("Table")) {
-				newItem = <Table item={this.state.itemList[listLength - 1]} />
+				newItem = <Table item={this.state.itemList[listLength - 1]} storage = {this.props.storage} />
 			} else {
-				newItem = <ChartItem item={this.state.itemList[listLength - 1]} />
+				newItem = <ChartItem item={this.state.itemList[listLength - 1]} storage = {this.props.storage}/>
 			}
 			this.setState(prevState => ({
 				placedItemList: [...prevState.placedItemList, newItem]}));
@@ -498,32 +498,75 @@ export class Table extends ChartItem {
         constructor(props) {
                 super(props);
                 this.state = {
-                        seats: parseInt(this.props.item.seats),
-                        guests: this.props.item.guests,
+                    seats: parseInt(this.props.item.seats),
+                    guests: this.props.item.guests,
+                    tableId: this.props.item.tableId
                 };
 
                 this.seatGuest = this.seatGuest.bind(this);
+                this.dragMouseDown = this.dragMouseDown.bind(this);
         }
 
         seatGuest() {
                 let dialog = document.getElementsByClassName('seatDialog');
                 dialog[0].id="openDialog";
         }
+        
+        dragMouseDown(event) {
+        	event.preventDefault();
+        	let elmnt = document.getElementById(this.state.tableId);
+        	let posX1 = this.state.xCoordinate,
+				posY1 = this.state.yCoordinate,
+				posX = event.clientX, posY = event.clientY;
+
+			let newX = elmnt.offsetLeft - posX1,
+				newY = elmnt.offsetTop - posY1;
+
+			document.onmousemove = (event) => {
+
+				event.preventDefault();
+				posX1 = posX - event.clientX;
+				posY1 = posY - event.clientY;
+				posX = event.clientX;
+				posY = event.clientY;
+
+				newX = elmnt.offsetLeft - posX1;
+				if (newX < 0) {
+					newX = 0;
+				}
+				elmnt.style.left = newX + "px";
+
+				newY = elmnt.offsetTop - posY1;
+				if (newY < 0) {
+					newY = 0;
+				}
+				elmnt.style.top = newY + "px";
+
+			};
+
+			document.onmouseup = () => {
+
+				// stop moving when mouse button is released:
+				document.onmouseup = null;
+				document.onmousemove = null;
+				this.setState({xCoordinate: newX, yCoordinate: newY}, () => {
+					this.props.storage.updateTableLocation(this.state.tableId, newX, newY);
+				});
+			};
+
+		}
 
         render() {
                 return (
-                        <div id="move">
-														<div id="moveTable">
-															<div className="table" style={{
-	                                width:parseInt(this.props.item.width),
-	                                height:parseInt(this.props.item.height),
-	                                top:parseInt(this.props.item.yCoordinate),
-	                                left:parseInt(this.props.item.xCoordinate)
-	                        		}}>
-															</div>
-														</div>
-                        <input id="seat_guest" className="button" type="submit" value="+" onClick={this.seatGuest}/>
-                        </div>
+
+                    <div className="table" id = {this.state.tableId} style={{
+                        width:parseInt(this.props.item.width),
+                        height:parseInt(this.props.item.height),
+                        top:parseInt(this.props.item.yCoordinate),
+                        left:parseInt(this.props.item.xCoordinate)
+                    }} onMouseDown={this.dragMouseDown}>
+                        <input id="seat_guest" type="submit" value="+" onClick={this.seatGuest}/>
+                    </div>
                 );
         }
 }

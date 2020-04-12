@@ -118,6 +118,7 @@ h3 {
 .table {
 	position: absolute;
 	background: black;
+	cursor: move;
 }
 #lengthHead {
 	float:left;
@@ -470,4 +471,20 @@ dialog {
 #move {
 	position: absolute;
 	cursor: move;
+}
+#seat_guest {
+	font-size: 100%;
+	margin-right: 7%;
+	float: bottom;
+	border: none;
+	cursor: pointer;
+	margin-top: 3%;
+	margin-bottom: 3%;
+}
+#seat_guest:hover {
+	font-weight: bold;
+}
+#seat_guest:focus {
+	font-weight: bold;
+	outline: none;
 }

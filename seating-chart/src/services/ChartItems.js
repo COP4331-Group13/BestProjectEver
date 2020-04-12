@@ -13,7 +13,9 @@ export class ChartItem  {
         this.chooseSize = this.chooseSize.bind(this);
     }
 
-    changeLocation() {
+    changeLocation(xCoordinate, yCoordinate) {
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
     }
 
     chooseItem() {
@@ -29,6 +31,7 @@ export class Table extends ChartItem {
         this.seats = parseInt(props.seats);
         this.guests = props.guests;
         this.availableSeats = parseInt(props.availableSeats);
+        this.tableId = props.tableId;
         this.seatGuest = this.seatGuest.bind(this);
     }
 

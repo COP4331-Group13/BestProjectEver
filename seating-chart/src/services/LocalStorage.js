@@ -16,6 +16,8 @@ import {
     pushLayout
 } from "./Validator";
 
+const randomize = require("randomatic");
+
 export class LocalStorage {
     constructor() {
         if (ls('guestList') === null)
@@ -229,12 +231,26 @@ export class LocalStorage {
         } else if (parseInt(state.numSeats) > (tableHeight/25) + (tableWidth/25)) {
             return [false, "Table not large enough to seat " + state.numSeats + " people."];
         }
+
+        let pin = randomize('Aa0', 5);
         let table = new Table({name: "Table" + (items.length + 1),
             xCoordinate: 0, yCoordinate: 0, height:tableHeight, width:tableWidth,
-            seats:state.numSeats, guests: [], availableSeats:state.numSeats});
+            seats:state.numSeats, guests: [], availableSeats:state.numSeats, tableId: pin});
         items.push(table);
         ls('itemList', items);
         return [true];
+    }
+    updateTableLocation(tableId, newX, newY) {
+        let itemList = ls('itemList');
+        for (let item in itemList) {
+            if (itemList[item].tableId === tableId) {
+                // we found the table, and we've updated its location
+                itemList[item].xCoordinate = newX;
+                itemList[item].yCoordinate = newY;
+                ls('itemList', itemList);
+                break;
+            }
+        }
     }
     getItems() {
         if(ls('itemList').length !== 0) {
