@@ -511,7 +511,8 @@ export class Table extends ChartItem {
 					height: parseInt(this.props.item.height),
 					width: parseInt(this.props.item.width),
                     tableId: this.props.item.tableId,
-					curEvent:this.props.storage.getEvent()
+					curEvent:this.props.storage.getEvent(),
+					curTable:''
                 };
 
                 this.seatGuest = this.seatGuest.bind(this);
@@ -520,6 +521,7 @@ export class Table extends ChartItem {
 
         seatGuest() {
 								this.props.storage.setCurTable(this.state.tableId);
+								this.state.curTable = this.props.storage.getCurTable();
                 let dialog = document.getElementsByClassName('seatDialog');
                 dialog[0].id="openDialog";
         }
@@ -600,7 +602,7 @@ export class Table extends ChartItem {
                     	}} onMouseDown={this.dragMouseDown}>
                         	<input id="seat_guest" type="submit" value="+" onClick={this.seatGuest}/>
 						</div>
-                        <SeatDialog storage={this.props.storage}/>
+                        <SeatDialog storage={this.props.storage} curTable={this.state.curTable}/>
                     </div>
                 );
         }
@@ -776,6 +778,7 @@ class SeatDialog extends React.Component {
                 this.state = {
                         numSeats: '',
 												curTable: this.props.storage.getCurTable(),
+												guestList: this.props.storage.getGuestList(),
 												selectedGuest: '' // guest_pin
                 };
                 this.handleSubmitSeats = this.handleSubmitSeats.bind(this);
@@ -784,20 +787,20 @@ class SeatDialog extends React.Component {
 								this.handleAddGuest = this.handleAddGuest.bind(this);
         }
 
-        selectGuest() {
-                // allow for selection of a guest to that seat
-                // assign table/seat number to guest data
+				selectGuest = (e) => {
+					let selected = document.getElementById("selectGuest").value;
+					this.state.selectedGuest = selected;
 				}
 
 			 	handleAddGuest(event) {
 						event.preventDefault();
-						let added = this.props.storage.addGuestTable(this.state.curTable, this.state.selectedGuest);
-						if (added[0]) {
-				        alert("Guest successfully added to this table!");
-						} else {
-								this.setState({error: 'guestError'});
-								this.setState({errorMessage: added[1]});
+						console.log(this.props.curTable, this.state.selectedGuest)
+						if (this.state.selectedGuest === '') {
+							alert("Please select a guest");
+							return;
 						}
+						this.props.storage.addGuestTable(this.state.curTable, this.state.selectedGuest);
+				    alert("Guest successfully added to this table!");
 				}
 
         closeSeatDialog(event) {
@@ -816,15 +819,29 @@ class SeatDialog extends React.Component {
 
 
         render() {
+								let list = this.state.guestList.length > 0
+								&& this.state.guestList.map((item) => {
+									return (
+										<option value={item.guestId}>{item.name}</option>
+									)
+								}, this);
+
                 return (
                         <div className="seatDialog" id="dialogbox">
                                 <dialog open>
                                         <div id="closeWindow">
                                                 <input type='submit' className="button2" id="closeButton" value='X' onClick={this.closeSeatDialog}/>
                                         </div>
-                                        <h1>Guests In {this.state.curTable.name}</h1>
-                                        // render lines corresponding to number of seats
-                                        // render button to choose a guest for that seat
+                                        <h1>Guests In Table</h1>
+																				<p>guests go here</p>
+																				<label>Select guest to add to this table: </label>
+																				<select id="selectGuest" onChange={this.selectGuest}>
+																					<option> Choose a Guest </option>
+    																			{list}
+																				</select>
+																				<div id="buttonbox">
+																					<input type='submit' className='button' id='add_guest_table' value='Add Guest' onClick={this.handleAddGuest}/>
+																				</div>
                                 </dialog>
                         </div>
                 );

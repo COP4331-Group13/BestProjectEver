@@ -128,6 +128,9 @@ export class LocalStorage {
     getGuest() {
       return ls('curGuest');
     }
+    getGuestList() {
+      return ls('guestList');
+    }
     getGuests() {
       if (ls('guestList').length !== 0) {
           return [true, ls('guestList')];
@@ -254,11 +257,14 @@ export class LocalStorage {
         }
     }
     addGuestTable(table, guest_pin) {
-        let added = addGuestTable(table.tableId, guest_pin);
-        if (added[0]) {
-          return [true];
-        } else {
-          return [false, "No Items Present On Layout"];
+        let itemList = ls('itemList');
+        for (let item in itemList) {
+            if (itemList[item].tableId === table.tableId) {
+                itemList[item].guests.push({guest_pin:guest_pin})
+                itemList[item].availableSeats--;
+                ls('itemList', itemList);
+                break;
+            }
         }
     }
     setCurTable(tableId) {
