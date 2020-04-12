@@ -7,12 +7,13 @@ export class User {
 }
 
 export class Guest extends User {
-    constructor(username, name, address, phoneNumber, guestId, eventPin) {
+    constructor(username, name, address, phoneNumber, guestId, eventPin, tableSeated) {
         super(username, name);
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.guestId = guestId;
         this.eventPin = eventPin;
+        this.tableSeated = tableSeated;
     }
 
 }
