@@ -71,7 +71,6 @@ class CreateGuest extends React.Component {
 
 		let gotItems = this.props.storage.getItems();
 		if (gotItems[0]) {
-			console.log(gotItems[0]);
 			this.state.itemList = gotItems[1];
 		}
 

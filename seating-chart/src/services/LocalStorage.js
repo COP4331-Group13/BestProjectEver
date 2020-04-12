@@ -260,7 +260,6 @@ export class LocalStorage {
                 if (gotItems[0]) {
                     ls('itemList', gotItems[1]);
                 }
-                console.log(gotItems);
                 return gotItems;
             }
             return [false, "No Current User"];
