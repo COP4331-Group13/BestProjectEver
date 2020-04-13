@@ -373,15 +373,6 @@ export class LocalStorage {
           ls('curNotes', value);
       }
     }
-    getNotes(guestId) {
-      if (ls('curGuest') !== undefined) {
-          let get = getNotes(guestId);
-          if (get[0]) {
-              return [true, get[1]];
-          }
-      }
-      return [false, "No Current User"];
-    }
     resetNotes() {
       ls('curNotes', undefined);
     }

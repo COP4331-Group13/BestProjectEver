@@ -45,6 +45,7 @@ class CreateGuest extends React.Component {
 										guestPhone={this.state.guestList[i].phoneNumber}
 										guestAddress={this.state.guestList[i].address}
 										guestId={this.state.guestList[i].guestId}
+										notes={this.state.guestList[i].notes}
 										storage={this.props.storage}
 										history={this.props.history}
                                         removeGuest={this.removeGuest}
@@ -134,6 +135,7 @@ class CreateGuest extends React.Component {
 					guestPhone={guest.phoneNumber}
 					guestAddress={guest.address}
 					guestId={guest.guestId}
+					notes={guest.notes}
 					storage={this.props.storage}
 					history={this.props.history}
                     removeGuest={this.removeGuest}
@@ -408,7 +410,7 @@ class GuestItem extends React.Component {
 									</div>
 
 									<div id='guestBoxPreferences'>
-										<Notes storage={this.props.storage}/>
+										<Notes storage={this.props.storage} notes={this.props.notes}/>
 									</div>
 							</dialog>
 						</div>
@@ -421,7 +423,7 @@ class Notes extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			value: ''
+			value: this.props.notes
 		};
 
 		this.handleNoteChange = this.handleNoteChange.bind(this);
