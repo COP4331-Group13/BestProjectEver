@@ -277,6 +277,7 @@ export class LocalStorage {
                     return [false, "Guest Already Seated at Current Table"]
                 } else if (curGuest.tableSeated !== '') {
                     this.removeGuestTable(curGuest.tableSeated, guest_pin);
+                    itemList = ls('itemList');
                 }
                 itemList[item].guests.push({full_name:curGuest.name, guest_pin:guest_pin});
                 guestList[guestIndex].tableSeated = table.tableId;
@@ -294,7 +295,7 @@ export class LocalStorage {
         for (let i = 0; i < tableList.length; i++) {
             if (tableList[i].tableId === tableId) {
                 for (let j = 0; j < tableList[i].guests.length; j++) {
-                    if (tableList[i].guests[j].guestId === guestId) {
+                    if (tableList[i].guests[j].guest_pin === guestId) {
                         tableList[i].guests.splice(j, 1);
                         tableList[i].availableSeats++;
                         break;
