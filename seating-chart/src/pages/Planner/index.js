@@ -45,6 +45,7 @@ class CreateGuest extends React.Component {
 										guestPhone={this.state.guestList[i].phoneNumber}
 										guestAddress={this.state.guestList[i].address}
 										guestId={this.state.guestList[i].guestId}
+										notes={this.state.guestList[i].notes}
 										storage={this.props.storage}
 										history={this.props.history}
                                         removeGuest={this.removeGuest}
@@ -134,6 +135,7 @@ class CreateGuest extends React.Component {
 					guestPhone={guest.phoneNumber}
 					guestAddress={guest.address}
 					guestId={guest.guestId}
+					notes={guest.notes}
 					storage={this.props.storage}
 					history={this.props.history}
                     removeGuest={this.removeGuest}
@@ -408,17 +410,49 @@ class GuestItem extends React.Component {
 									</div>
 
 									<div id='guestBoxPreferences'>
-										<h1>Preferences</h1>
-									</div>
-
-									<div id='guestBoxGroups'>
-										<h1>Groups</h1>
+										<Notes storage={this.props.storage} notes={this.props.notes}/>
 									</div>
 							</dialog>
 						</div>
 					</div>
 				);
     }
+}
+
+class Notes extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			value: this.props.notes
+		};
+
+		this.handleNoteChange = this.handleNoteChange.bind(this);
+		this.handleNoteSave = this.handleNoteSave.bind(this);
+	}
+
+	handleNoteChange(event) {
+		event.preventDefault();
+		this.setState({value: event.target.value});
+		this.props.storage.setNotes(this.state.value);
+	}
+
+	handleNoteSave(event) {
+		event.preventDefault();
+		if(this.props.storage.saveNotes()) {
+			alert('Note saved!')
+		}
+	}
+
+	render(){
+		return (
+			<div>
+				<h1>Notes</h1>
+				<textarea id="guestNotes" rows="30" cols="40" value={this.state.value} onChange={this.handleNoteChange}>
+				</textarea>
+				<p><input type="submit" value="Save" onClick={this.handleNoteSave}/></p>
+			</div>
+		)
+	}
 }
 
 class Layout extends React.Component {

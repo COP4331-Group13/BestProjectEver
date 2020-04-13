@@ -10,6 +10,7 @@ const groupController = require('./controllers/group-controller');
 const saveLayoutController = require('./controllers/save-layout-controller');
 const getItemListController = require('./controllers/get-itemList-controller');
 const addGuestTableController = require('./controllers/add-guest-table-controller');
+const notesController = require('./controllers/notes-controller');
 
 const express = require('express');
 const app = express();
@@ -41,6 +42,8 @@ router.post('/api/save-layout', saveLayoutController.saveLayout);
 router.post('/api/save-guest-layout', saveLayoutController.saveGuestLayout);
 router.post('/api/get-item-list', getItemListController.getItemList);
 router.post('/api/add-guest-table', addGuestTableController.addGuestTable);
+router.post('/api/save-notes', notesController.saveNotes);
+router.post('/api/get-notes', notesController.getNotes);
 
 const PORT = 5000;
 

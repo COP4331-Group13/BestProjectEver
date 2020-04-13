@@ -14,7 +14,9 @@ import {
     getGuestGroup,
     getItemList,
     pushLayout,
-    addGuestTable
+    addGuestTable,
+    saveNotes,
+    getNotes
 } from "./Validator";
 
 const randomize = require("randomatic");
@@ -37,6 +39,8 @@ export class LocalStorage {
             ls('curGroup', undefined);
         if (ls('curTable') == null)
             ls('curTable', undefined);
+        if (ls('curNotes') == null)
+            ls('curNotes', undefined);
         if (ls('signed') === null)
             ls('signed', false);
         this.lastAddedGuest="";
@@ -358,6 +362,24 @@ export class LocalStorage {
         return [false, "No Items Present On Layout"];
       }
     }
+    saveNotes() {
+        if (ls('curGuest') !== undefined) {
+            let saved = saveNotes(ls('curNotes'), ls('curGuest').guestId);
+            if (saved[0]) {
+                return [true];
+            }
+        }
+        return [false, "No Current User"];
+    }
+    setNotes(value) {
+      if (ls('curGuest') !== undefined) {
+          ls('curNotes', value);
+      }
+    }
+    resetNotes() {
+      ls('curNotes', undefined);
+    }
+
     clear() {
         ls('curUser', undefined);
         ls('curGuest', undefined);
