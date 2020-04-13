@@ -136,6 +136,23 @@ function callAddGuestTable(tableId, guest_pin) {
   xhr.send("table_id="+tableId+"&guest_pin="+guest_pin);
   return [xhr.status, xhr.responseText];
 }
+
+function callSaveNotes(value, guest_pin) {
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:5000/api/save-notes", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("value="+value+"&guest_pin="+guest_pin);
+  return xhr.status;
+}
+
+function callGetNotes(guest_pin) {
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:5000/api/get-notes", false);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("guest_pin="+guest_pin);
+  return [xhr.status, xhr.responseText];
+}
+
 // post calls ^^^^^^^^^^ --> for testing you need to change:
 // 35.243.169.229 to localhost in order to get from the test db (all calls)
 // remember to change it back when pushing
@@ -374,6 +391,26 @@ export function addGuestTable(tableId, guest_pin) {
   addCode = callAddGuestTable(tableId, guest_pin);
   if (addCode[0] === 200) {
     return [true];
+  } else {
+      return [false, 'Error has occurred'];
+  }
+}
+
+export function saveNotes(value, guest_pin) {
+  console.log(value, guest_pin)
+  var saveCode = callSaveNotes(value, guest_pin);
+  if (saveCode === 200) {
+    return [true];
+  } else {
+      return [false, 'Error has occurred'];
+  }
+}
+
+export function getNotes(guest_pin) {
+  var getCode = callGetNotes(guest_pin);
+  if (getCode[0] === 200) {
+    let data = JSON.parse(getCode[1]);
+    return [true, data.notes];
   } else {
       return [false, 'Error has occurred'];
   }

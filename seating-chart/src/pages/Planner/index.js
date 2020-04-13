@@ -408,17 +408,49 @@ class GuestItem extends React.Component {
 									</div>
 
 									<div id='guestBoxPreferences'>
-										<h1>Preferences</h1>
-									</div>
-
-									<div id='guestBoxGroups'>
-										<h1>Groups</h1>
+										<Notes storage={this.props.storage}/>
 									</div>
 							</dialog>
 						</div>
 					</div>
 				);
     }
+}
+
+class Notes extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			value: ''
+		};
+
+		this.handleNoteChange = this.handleNoteChange.bind(this);
+		this.handleNoteSave = this.handleNoteSave.bind(this);
+	}
+
+	handleNoteChange(event) {
+		event.preventDefault();
+		this.setState({value: event.target.value});
+		this.props.storage.setNotes(this.state.value);
+	}
+
+	handleNoteSave(event) {
+		event.preventDefault();
+		if(this.props.storage.saveNotes()) {
+			alert('Note saved!')
+		}
+	}
+
+	render(){
+		return (
+			<div>
+				<h1>Notes</h1>
+				<textarea id="guestNotes" rows="30" cols="40" value={this.state.value} onChange={this.handleNoteChange}>
+				</textarea>
+				<p><input type="submit" value="Save" onClick={this.handleNoteSave}/></p>
+			</div>
+		)
+	}
 }
 
 class Layout extends React.Component {
@@ -856,7 +888,7 @@ class SeatDialog extends React.Component {
 										<input type='submit' className="button2" id="closeButton" value='X' onClick={this.closeSeatDialog}/>
 									</div>
 									<h1>{this.props.curTable.name}</h1>
-									<p>Guests Seated Here: </p>					
+									<p>Guests Seated Here: </p>
 									<label>Select guest to add to this table: </label>
 									<select id="selectGuest" onClick={this.updateUsableGuests} onChange={this.selectGuest}>
 										<option> Choose a Guest </option>
