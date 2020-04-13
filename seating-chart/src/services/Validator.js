@@ -13,7 +13,7 @@ function callAuthenticate(state) {
 }
 
 function callGuestAuthenticate(gID) {
-  let xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest(); 
   xhr.open("POST", "http://35.243.169.229:5000/api/guest-login", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("guest_pin="+gID);
