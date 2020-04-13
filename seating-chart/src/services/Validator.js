@@ -234,7 +234,7 @@ export function addGuest(state, curEventPin) {
   let guestPin = curEventPin + randomize('Aa0', 5);
   let addGuestCode = callGuest(state, curEventPin, guestPin);
   if (addGuestCode === 200) { // event added successfully
-    let newGuest = new Guest(state.email, state.name, state.address, state.phone, guestPin, curEventPin);
+    let newGuest = new Guest(state.email, state.name, state.address, state.phone, guestPin, curEventPin, '');
     return [true, newGuest];
   } else {
     return [false, 'Error has occurred'];
@@ -266,7 +266,7 @@ export function getGuestList(curEventPin) {
     let guests = [];
     for (let i = 0; i < data.length; i++) {
       guests.push(new Guest(data.results[i].email, data.results[i].full_name, data.results[i].address,
-        data.results[i].phone_number, data.results[i].guest_pin, data.results[i].event_pin));
+        data.results[i].phone_number, data.results[i].guest_pin, data.results[i].event_pin, data.results[i].table_id));
     }
     return [true, guests];
   } else {

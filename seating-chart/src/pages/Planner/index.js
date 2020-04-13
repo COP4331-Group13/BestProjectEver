@@ -535,6 +535,9 @@ export class ChartItem extends React.Component {
 export class Table extends ChartItem {
         constructor(props) {
                 super(props);
+			this.seatGuest = this.seatGuest.bind(this);
+			this.dragMouseDown = this.dragMouseDown.bind(this);
+			this.updateGuests = this.updateGuests.bind(this);
                 this.state = {
 					xCoordinate: parseInt(this.props.item.xCoordinate),
 					yCoordinate: parseInt(this.props.item.yCoordinate),
@@ -544,18 +547,25 @@ export class Table extends ChartItem {
 					width: parseInt(this.props.item.width),
                     tableId: this.props.item.tableId,
 					curEvent:this.props.storage.getEvent(),
+					curTable: this.props.item
                 };
-
-                this.seatGuest = this.seatGuest.bind(this);
-                this.dragMouseDown = this.dragMouseDown.bind(this);
         }
+
+        updateGuests(guests) {
+        	this.setState({guests: guests}, () => {
+				this.props.storage.setCurTable(this.state.tableId);
+				this.setState({curTable:this.props.storage.getCurTable()});
+			});
+
+		}
 
         seatGuest() {
         	this.props.storage.setCurTable(this.state.tableId);
-			this.setState({curTable:this.props.storage.getCurTable()});
-			let div = document.getElementsByClassName(this.state.tableId)[0];
-            let dialog = div.getElementsByClassName('seatDialog');
-            dialog[0].id="openDialog";
+			this.setState({curTable:this.props.storage.getCurTable()}, () => {
+				let div = document.getElementsByClassName(this.state.tableId)[0];
+				let dialog = div.getElementsByClassName('seatDialog');
+				dialog[0].id="openDialog";
+			});
         }
 
         dragMouseDown(event) {
@@ -635,7 +645,9 @@ export class Table extends ChartItem {
                         	<input id="seat_guest" type="submit" value="+" onClick={this.seatGuest}/>
 
 						</div>
-						<SeatDialog storage={this.props.storage} curTable={this.props.item}/>
+						<SeatDialog storage={this.props.storage}
+									curTable={this.state.curTable}
+									updateGuests={this.updateGuests} />
                     </div>
                 );
         }
@@ -807,24 +819,34 @@ class ItemDialog extends React.Component {
 class SeatDialog extends React.Component {
         constructor(props) {
                 super(props);
-
+				console.log(this.props.curTable);
                 this.state = {
-                    numSeats: '',
+                    numSeats: this.props.curTable.numSeats,
 					guestList: this.props.storage.getGuestList(),
 					curTable: this.props.curTable,
 					selectedGuest: '', // guest_pin
-					usableGuests: '',
-					seatedGuests: ''
+					usableGuests: [],
+					seatedGuests: [],
+					seatedGuestItems: []
                 };
                 this.state.seatedGuests = this.props.curTable.guests;
-			console.log("The Table for this dialog is: " + this.props.curTable.name);
-			let list = this.state.guestList.length > 0
-				&& this.state.guestList.map((item) => {
-					return (
-						<option value={item.guestId}>{item.name}</option>
-					)
-				}, this);
-				this.state.usableGuests = list;
+                console.log(this.state.seatedGuests);
+                let list = this.state.seatedGuests.length > 0
+					&& this.state.seatedGuests.map((item) => {
+						console.log(item);
+						return (
+							<SeatedGuestItem name={item.full_name} guestId={item.guest_pin}/>
+						)
+					}, this);
+				console.log(list);
+				this.state.seatedGuestItems = list;
+				console.log(this.state.seatedGuestItems);
+				this.state.usableGuests = this.state.guestList.length > 0
+					&& this.state.guestList.map((item) => {
+						return (
+							<option value={item.guestId}>{item.name}</option>
+						)
+					}, this);
                 this.handleSubmitSeats = this.handleSubmitSeats.bind(this);
                 this.closeSeatDialog = this.closeSeatDialog.bind(this);
                 this.selectGuest = this.selectGuest.bind(this);
@@ -838,12 +860,36 @@ class SeatDialog extends React.Component {
 
 			 	handleAddGuest(event) {
 						event.preventDefault();
-						console.log(this.state.selectedGuest)
-						if (this.state.selectedGuest === '') {
+
+						if (this.state.selectedGuest === ''||
+							this.state.selectedGuest === 'Choose a Guest') {
 							alert("Please select a guest");
 							return;
+						} else if (this.state.seatedGuests.length === this.state.numSeats) {
+							alert("Table Already Full");
+							return;
 						}
-						this.props.storage.addGuestTable(this.state.curTable, this.state.selectedGuest);
+						let added = this.props.storage.addGuestTable(this.props.curTable, this.state.selectedGuest);
+						if (added[0]) {
+							console.log(added[1]);
+							this.setState({seatedGuests:added[1].guests.sort(
+								function (guest1, guest2) {
+									return guest1.full_name.localeCompare(guest2.full_name);
+								})}, () => {
+								this.props.updateGuests(this.state.seatedGuests);
+								let list = this.state.seatedGuests.length > 0
+									&& this.state.seatedGuests.map((item) => {
+										return (
+											<SeatedGuestItem name={item.full_name} guestId={item.guest_pin}/>
+										)
+									}, this);
+								this.setState({seatedGuestItems: list});
+								console.log(this.state.seatedGuests);
+							});
+
+						} else {
+							alert(added[1]);
+						}
 				}
 
         closeSeatDialog(event) {
@@ -857,16 +903,13 @@ class SeatDialog extends React.Component {
         updateUsableGuests() {
 
 			let list = this.props.storage.getGuests()[1];
-			console.log(this.props.curTable);
 			if (list.length !== this.state.guestList.length) {
-				console.log("needs update");
 				this.setState({guestList: list}, () => {
 					let newList = this.state.guestList.map((item) => {
 						return (
 							<option value={item.guestId}>{item.name}</option>
 						)
 					}, this);
-					console.log("newList");
 					this.setState({usableGuests: newList});
 				});
 			}
@@ -889,6 +932,7 @@ class SeatDialog extends React.Component {
 									</div>
 									<h1>{this.props.curTable.name}</h1>
 									<p>Guests Seated Here: </p>
+									<ul>{this.state.seatedGuestItems}</ul>
 									<label>Select guest to add to this table: </label>
 									<select id="selectGuest" onClick={this.updateUsableGuests} onChange={this.selectGuest}>
 										<option> Choose a Guest </option>
@@ -901,6 +945,21 @@ class SeatDialog extends React.Component {
                         </div>
                 );
         }
+
+}
+
+class SeatedGuestItem extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return (
+			<li id = {'S' + this.props.guestId}>
+				{this.props.name}
+			</li>
+		);
+	}
 
 }
 
