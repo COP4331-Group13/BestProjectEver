@@ -43,7 +43,6 @@ class RegisterBox extends React.Component {
 			this.setState({error: 'loginError'});
 			this.setState({errorMessage: registered[1]});
 		}
-		console.log(registered[0]);
 	}
 
 	render() {

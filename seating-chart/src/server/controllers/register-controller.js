@@ -16,7 +16,7 @@ module.exports.register = function(req,res) {
   connection.query('INSERT INTO planner SET ?',users, function (error, results, fields) {
   if (error) {
 		res.status(400);
-    res.send();
+    res.send(error);
   } else {
 			res.status(200);
 	    res.send();

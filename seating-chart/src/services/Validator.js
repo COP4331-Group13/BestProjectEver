@@ -13,7 +13,7 @@ function callAuthenticate(state) {
 }
 
 function callGuestAuthenticate(gID) {
-  let xhr = new XMLHttpRequest(); 
+  let xhr = new XMLHttpRequest();
   xhr.open("POST", "http://35.243.169.229:5000/api/guest-login", false);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send("guest_pin="+gID);
@@ -211,12 +211,12 @@ export function registerPlanner(state, storage) {
         return [false, 'Passwords must be at least 8 characters long; contain at least 1 lower case letter [a-z]; at least 1 upper case letter [A-Z]; at least 1 number [0-9]']
     } else if (state.name !== "" && state.user !== "" && state.pass !== "" && state.repass !== ""){
         let authCode = callAuthenticate(state);
-        if (authCode === 200 || authCode === 204) { // email with password already exists
-          return [false, `An account already exists for ${state.user}`]
-        } else if (authCode === 205) { // email does not exist
+        if (authCode[0] === 200 || authCode[0] === 204) { // email with password already exists
+          return [false, `An account already exists for ${state.name}`]
+        } else if (authCode[0] === 205) { // email does not exist
             let registerCode = callRegister(state);
             if (registerCode === 200) {
-              let newUser = new User(state.user);
+              let newUser = new User(state.user, state.name);
               storage.setUser(newUser);
               return [true];
             } else { // error sending query 400
