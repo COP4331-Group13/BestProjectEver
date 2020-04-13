@@ -275,13 +275,14 @@ export class LocalStorage {
                     return [false, "No such Guest Found"];
                 } else if (curGuest.tableSeated === table.tableId) {
                     return [false, "Guest Already Seated at Current Table"]
+                } else if (itemList[item].availableSeats < itemList[item].guests.length + 1) {
+                    return [false, "No Seats Left at Table"];
                 } else if (curGuest.tableSeated !== '') {
                     this.removeGuestTable(curGuest.tableSeated, guest_pin);
                     itemList = ls('itemList');
                 }
                 itemList[item].guests.push({full_name:curGuest.name, guest_pin:guest_pin});
                 guestList[guestIndex].tableSeated = table.tableId;
-                itemList[item].availableSeats--;
                 ls('itemList', itemList);
                 ls('guestList', guestList);
                 return [true, itemList[item]];
@@ -292,12 +293,13 @@ export class LocalStorage {
     removeGuestTable(tableId, guestId) {
         let tableList = ls('itemList');
         let guestList = ls('guestList');
+        let newGuests = [];
         for (let i = 0; i < tableList.length; i++) {
             if (tableList[i].tableId === tableId) {
                 for (let j = 0; j < tableList[i].guests.length; j++) {
                     if (tableList[i].guests[j].guest_pin === guestId) {
                         tableList[i].guests.splice(j, 1);
-                        tableList[i].availableSeats++;
+                        newGuests = tableList[i].guests;
                         break;
                     }
                 }
@@ -312,6 +314,7 @@ export class LocalStorage {
         }
         ls('itemList', tableList);
         ls('guestList', guestList);
+        return newGuests;
     }
     setCurTable(tableId) {
       let itemList = ls('itemList');

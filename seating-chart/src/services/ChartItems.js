@@ -32,10 +32,5 @@ export class Table extends ChartItem {
         this.guests = props.guests;
         this.availableSeats = parseInt(props.availableSeats);
         this.tableId = props.tableId;
-        this.seatGuest = this.seatGuest.bind(this);
-    }
-
-    seatGuest() {
-        this.setState({availableSeats: this.state.availableSeats - 1});
     }
 }
