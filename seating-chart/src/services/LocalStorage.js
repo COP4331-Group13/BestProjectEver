@@ -318,6 +318,7 @@ export class LocalStorage {
       for (let item in itemList) {
           if (itemList[item].tableId === tableId) {
              ls('curTable', itemList[item])
+              break;
           }
        }
     }
