@@ -11,6 +11,9 @@ This product is for any individual or organization organizing an event who need 
 - Kaylee Hoyt
 - Levi Masters
 
+# Live Website
+[bestfitseating.brunoebihara.com](http://bestfitseating.brunoebihara.com/)
+
 # Sprint 1
 
 - [Product Backlog](https://docs.google.com/spreadsheets/d/1phNVsPp6_2vt1iv2tq8hrPWR2HE3d7rJuQ6jDu9qWuk/edit#gid=1828902938)
